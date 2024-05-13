@@ -1,0 +1,18 @@
+{
+    "Belgium":{
+        "Id":1,
+        "Title": "Belgium",
+        "Marketing_axis": ["Fire safety", "NextCable"],
+        "Cultural_recommendations": "",
+        "Languages":["Franch", "Dutch"],
+        "SEO_keywords":""	
+    },
+    "Spain":{
+        "Id":2,
+        "Title": "Spain",
+        "Marketing_axis": ["Fire safety"],
+        "Cultural_recommendations": "",
+        "Languages":["Spanish"],
+        "SEO_keywords":""
+    }
+}

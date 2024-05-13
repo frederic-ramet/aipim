@@ -8,19 +8,19 @@ from fastapi_mail import ConnectionConfig
 
 
 class Settings(BaseSettings):
-    # PROJECT_NAME: str = "ForgeAI Backend"
-    # API_VERSION_STR: str = "/api/v1"
-    # PROJECT_DESCRIPTION: str = (
-    #     "ForgeAI is an innovative experimentation platform built with Python, "
-    #     "designed to facilitate the rapid setup of development environments "
-    #     "for generative AI applications."
-    # )
-    # PROJECT_VERSION: str = "V2"
-    # ALLOWED_HOSTS: List[str] = [
-    #     "http://localhost",
-    #     "http://localhost:8000",
-    #     "https://your.production.domain",
-    # ]
+    PROJECT_NAME: str = "ForgeAI Backend"
+    API_VERSION_STR: str = "/api/v1"
+    PROJECT_DESCRIPTION: str = (
+        "ForgeAI is an innovative experimentation platform built with Python, "
+        "designed to facilitate the rapid setup of development environments "
+        "for generative AI applications."
+    )
+    PROJECT_VERSION: str = "V2"
+    ALLOWED_HOSTS: List[str] = [
+        "http://localhost",
+        "http://localhost:8000",
+        "https://your.production.domain",
+    ]
     SQLITE_DB_URL: str
     # JWT_ACCESS_SECRET_KEY: str = secrets.token_urlsafe(32)
     # JWT_REFRESH_SECRET_KEY: str = secrets.token_urlsafe(32)
