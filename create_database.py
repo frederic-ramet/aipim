@@ -8,7 +8,7 @@ def upgrade():
     # Create 'masterProduct' table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS masterProduct (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             title VARCHAR(100),
             url VARCHAR(100),
             description VARCHAR(100),
@@ -72,6 +72,7 @@ def upgrade():
             id INTEGER PRIMARY KEY,
             title VARCHAR(100),
             defaultSettings VARCHAR(100),
+            marketFeatures VARCHAR(100),
             defaultAxis VARCHAR(100),
             languages VARCHAR(100),
             culturalTrends VARCHAR(100),
@@ -100,8 +101,8 @@ def add_market_record():
         
         # SQL command for inserting a new record
         sql = '''
-            INSERT INTO market (title, defaultSettings, defaultAxis, languages, culturalTrends, seoKeywords, created_at, id)
-            VALUES (?, ?, ?, ?, ?, ?, datetime('now'), ?)
+            INSERT INTO market (title, defaultSettings, defaultAxis, languages, culturalTrends, seoKeywords, created_at, id, marketFeatures)
+            VALUES (?, ?, ?, ?, ?, ?, datetime('now'), ?, ?)
         '''
         
         # Execute the SQL command
@@ -113,6 +114,7 @@ def add_market_record():
             record['Cultural_recommendations'],
             record['SEO_keywords'],
             record['Id'],
+            str(record['Market_features'])
         ))
         
         # Commit the changes

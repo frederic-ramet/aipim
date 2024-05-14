@@ -40,7 +40,7 @@ class Settings(BaseSettings):
     # JWT_REFRESH_TOKEN_EXPIRES: timedelta = timedelta(minutes=600)
     # JWT_FORGET_PASSWORD_TOKEN_EXPIRES: timedelta = timedelta(minutes=10)
     REDIS_HOST: str
-
+    OPENAI_API_KEY: str
     # ORG_BRANCH_NAME: str
     # ORG_GIT_USER_NAME: str
     # ORG_GIT_TOKEN: str
