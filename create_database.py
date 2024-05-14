@@ -21,7 +21,7 @@ def upgrade():
     # Create 'localMaster' table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS localMaster (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             title VARCHAR(100),
             marketName VARCHAR(100),
             marketId INTEGER NOT NULL,
@@ -94,7 +94,6 @@ def add_market_record():
 
     for key in data:
         record = data[key]
-        print(record)
         # Connect to the SQLite database
         conn = sqlite3.connect('ai-pim.db')
         cursor = conn.cursor()
@@ -132,7 +131,6 @@ def add_distributor_record():
 
     for key in data:
         record = data[key]
-        print(record)
          # Connect to the SQLite database
         conn = sqlite3.connect('ai-pim.db')
         cursor = conn.cursor()

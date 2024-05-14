@@ -5,25 +5,37 @@ from openai import OpenAI
 from core.config import settings
 client = OpenAI(api_key = settings.OPENAI_API_KEY)
 
-def generate_prompt_local(scraped_data:str, selected_market:str):
-    scraped_data_dict = json.loads(scraped_data)
+def generate_prompt_local(master_product_id:int, selected_market:str):
+    get_scrapped_data = utils.get_scrapped_data_from_database(master_product_id)
+
     market_data = utils.get_market_info(selected_market)
-    generated_content_using_LLM = utils.generate_prompt_based_on_market_data(scraped_data_dict, market_data)
+    generated_content_using_LLM = utils.generate_prompt_based_on_market_data(get_scrapped_data, market_data, master_product_id)
     return generated_content_using_LLM
 
-def generate_content_local(prompt):
+def generate_content_local(local_master_id):
+    
+    prompt_obj = utils.get_prompt_from_database(local_master_id)
+    
+    prompt= prompt_obj["prompt"]
+    
+    
+    # prompt = response["prompt"]
     try:
-        response = client.chat.completions.create(
+        response_obj = client.chat.completions.create(
             model="gpt-3.5-turbo",  # You can choose other engines as well
             # messages=[{"role": "system", "content":prompt}],
             messages=[
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": "Generate content based on the given details."}
             ]
-
         )
-        print(response.choices[0].message.content)
-        return response.choices[0].message.content
+        response = response_obj.choices[0].message.content
+        utils.insert_generated_content_database(response, local_master_id)
+
+        return response
     except Exception as e:
         print("Error:", e)
         return None    
+
+def get_list_of_local_products(master_product_id):
+    return utils.local_products_list(master_product_id)

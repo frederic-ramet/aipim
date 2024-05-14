@@ -12,6 +12,5 @@ def list_master_products():
 
 def scrap_content_form_url(product_url:str):
     response = utils.get_product_from_nexans_website(product_url)
-    print(response)
     utils.app_product_to_database(eval(response))
     return response
