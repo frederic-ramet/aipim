@@ -5,13 +5,6 @@ from openai import OpenAI
 from core.config import settings
 client = OpenAI(api_key = settings.OPENAI_API_KEY)
 
-
-def scrap_content_form_url(product_url:str):
-    response = utils.get_product_from_nexans_website(product_url)
-    print(response)
-    utils.app_product_to_database(eval(response))
-    return response
-
 def generate_prompt_local(scraped_data:str, selected_market:str):
     scraped_data_dict = json.loads(scraped_data)
     market_data = utils.get_market_info(selected_market)
