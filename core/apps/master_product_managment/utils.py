@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-
 def extract_description_details(soup):
     description_details = {}
     accordion_content = soup.find("div", class_="accordion__content js-accordion-content")
@@ -150,7 +149,7 @@ def app_product_to_database(scrap_content):
     conn.close()
     
 
-def get_master_product_info():
+def get_all_master_product_info():
     conn = sqlite3.connect('ai-pim.db')
     conn.row_factory = sqlite3.Row
     db = conn.cursor()
@@ -171,3 +170,25 @@ def get_master_product_info():
     conn.close()
         
     return row
+
+def get_specific_master_product_info(id):
+    conn = sqlite3.connect('ai-pim.db')
+    conn.row_factory = sqlite3.Row
+    db = conn.cursor()
+
+    # SQL command to fetch the first row where the title is 'XYZ'
+    db.execute("SELECT * FROM masterProduct WHERE id = ?", (id,))
+
+    # Fetch the first matching row
+    row = db.fetchall()
+
+    # Check if any rows were fetched
+    if row:
+        print(row)
+    else:
+        print("No data found with id:", id)
+
+    # Close the connection
+    conn.close()
+        
+    return row[0]

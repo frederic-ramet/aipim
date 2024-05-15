@@ -8,6 +8,10 @@ mp_router = APIRouter(
     tags=["Master Product Managment"]
 )
 
+@mp_router.get('/get_one_master_product')
+def get_one_master_product(id):
+    return services.get_one_master_product(id)
+
 @mp_router.get('/list_master_products')
 def list_master_products():
     return services.list_master_products()
