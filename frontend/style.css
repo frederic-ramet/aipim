@@ -45,7 +45,7 @@ body {
 /* Sidebar Styles */
 [data-testid="stSidebar"] {
   width: 200px !important;
-  border: 1px solid #9A9A9A;
+  border-right: 1px solid #FF171120;
   padding: 1px;
   background-color: #FFF5F5;
 }
@@ -58,6 +58,7 @@ body {
 [data-testid="stSidebarUserContent"] {
   padding: 1.5rem 1rem !important;
 }
+
 
 /* Button Styles within Sidebar */
 [data-testid="stSidebar"] .stButton > button {
@@ -102,4 +103,8 @@ table.dataframe thead{
 
 table.dataframe thead th{
     text-align: center;
+}
+
+.narrow-input {
+  width: 50%;  /* Adjust width as desired */
 }

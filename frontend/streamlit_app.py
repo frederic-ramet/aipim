@@ -1,16 +1,19 @@
 import streamlit as st
 import pandas as pd
-from components.dfTable import build_table
-from fake import fake_data
+from components.dfTable import build_table_html  # Modified import
+from components.products import display_products
+from fake import masterProducts
+
 
 # Function to generate a styled clickable link
 def generate_clickable_text(text):
-  return f'<a href="#" title="view more">{text}</a>'  # Replace "#" with actual URL if needed
+    return f'<a href="{text}" title="view more">view more</a>'  # Replace "#" with actual URL if needed
+
 
 st.set_page_config(page_title="AI PIM Backoffice", layout="wide")
 
 from components import sidebar
-from utils.style import generate_main_container, generate_top_container, centered_text, generate_main_card
+from utils.style import generate_main_container, generate_top_container, generate_main_card  # Modified import
 
 sidebar.show_sidebar()
 generate_top_container("Welcome to AI PIM")
@@ -24,13 +27,13 @@ with home_container:
         "type": "primary",  # "secondary" or "primary"
     }]
     main_card = generate_main_card("Products", right_actions)
-    fake_data_df = pd.DataFrame(fake_data)
-    # Add a new column named "View More" with clickable text
-    fake_data_df["View More"] = fake_data_df["url"].apply(
-        generate_clickable_text)  # Replace "url" with actual column name if different
+
+    # Selecting specific columns from masterProducts
+    selected_columns = ["title", "url", "description", "created_at", "id"]
+    fake_data_df = pd.DataFrame(masterProducts)[selected_columns]
 
     with main_card:
         st.text('Here is a list of already optimized products (MASTER PRODUCT):')
 
-        # Call build_table with the modified DataFrame
-        build_table(fake_data_df, {}, True)
+        # Call build_table_html with the modified DataFrame
+        display_products(fake_data_df, True)
