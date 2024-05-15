@@ -1,0 +1,18 @@
+{
+    "SONEPAR":{
+        "Id":1,
+        "Label": "SONEPAR",
+        "Title": "avg 70",
+        "Description":"avg. 1500 characters, 4 sections: general, product, collection, brand",
+        "Main target": "B2B",
+        "Tone": "Compose a detailed and professional product description focusing on electrical components for an industrial audience. Highlight the technical specifications, durability, and efficiency of the products. Emphasize Sonepar’s commitment to providing reliable solutions and superior service. Include information about the global reach and local expertise that Sonepar offers its clients, underscoring the company’s leadership in the electrical distribution market."
+    },
+    "ManoMano":{
+        "Id":2,
+        "Label":"ManoMano",
+        "Title": "avg 70",
+        "Description":"avg. 1000 characters, 1 section: general, product, collection, brand",
+        "Main target": "B2B, B2C",
+        "Tone": "Craft a friendly and engaging product description for a DIY home improvement tool. Focus on how easy and enjoyable the product makes the home improvement process. Include practical tips and creative ideas for use, appealing to both beginners and seasoned DIY enthusiasts. Emphasize the supportive community and expert advice available through ManoMano, making DIY accessible and fun for everyone."
+    }
+}
