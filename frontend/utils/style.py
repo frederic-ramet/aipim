@@ -55,7 +55,7 @@ def generate_top_container(title):
                                         background: white;
                                         overflow: hidden;
                                         margin-top: 10px;
-                                        width: 100%
+                                        width: 100%;
                                     }
                                 """)
     with top_container:
@@ -81,7 +81,7 @@ def generate_main_container():
                                 """)
 
 
-def centered_text(text, color='black', direction='left', size=18, bold='bold'):
+def centered_text(text, color='black', direction='left', size=20, bold='bold'):
     return st.markdown(
         f"<div style='text-align: {direction}; color: {color}; font-size:{size}px; font-weight: {bold};'>{text}</div>",
         unsafe_allow_html=True)
@@ -101,7 +101,7 @@ def generate_main_card(title='', right_actions=None):
                                             background: white;
                                             padding: 20px;                                                                              
                                             overflow: hidden;
-                                            margin-top: 30px;
+                                            margin-top: 5px;
                                             border-radius: 15px;
                                         }
                                     """)
@@ -109,7 +109,7 @@ def generate_main_card(title='', right_actions=None):
     with main_card_container:
         title_col, actions_col = st.columns([3, 2])
         with title_col:
-            centered_text(title, '#C94B32', 'left', 18, 'bold')
+            centered_text(title, '#8D8D8D', 'left', 18, 'bold')
         with actions_col:
             if len(right_actions) > 0:
                 colns = st.columns(len(right_actions))
