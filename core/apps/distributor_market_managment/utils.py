@@ -49,15 +49,15 @@ def get_specific_info_from_database(query, parameter):
         
     return row[0]
 
-def insert_generated_prompt_database(prompt, distributor_info, localMaster_info):
+def insert_generated_prompt_database(prompt:str, distributor_info_from_database:dict, localMaster_info_from_database:dict, distributor_settings:str):
 
-    distributorVersion_title =  f"{distributor_info['label']}_{distributor_info['format']}"
-    distributorVersion_distributor = f"{distributor_info['label']}"
-    distributorVersion_distributorId = f"{distributor_info['id']}"
-    distributorVersion_settings = f""
+    distributorVersion_title =  f"{distributor_info_from_database['label']}_{distributor_info_from_database['format']}"
+    distributorVersion_distributor = f"{distributor_info_from_database['label']}"
+    distributorVersion_distributorId = f"{distributor_info_from_database['id']}"
+    distributorVersion_settings = distributor_settings
     distributorVersion_prompt = prompt
     distributorVersion_content = ""
-    distributorVersion_localMasterId = f"{localMaster_info['id']}"
+    distributorVersion_localMasterId = f"{localMaster_info_from_database['id']}"
 
     conn = sqlite3.connect('ai-pim.db')
     cursor = conn.cursor()
@@ -86,23 +86,14 @@ def insert_generated_prompt_database(prompt, distributor_info, localMaster_info)
     conn.close()
 
 
-def distributor_prompt_generator(distributor_info, localMaster_info):
-    generated_content = localMaster_info["content"]
+def distributor_prompt_generator(distributor_info_from_database:dict, localMaster_info_from_database:dict, distributor_settings:str):
 
-    
+    generated_content = localMaster_info_from_database["content"]
     prompt = f""" product_details: {generated_content}
-
-                distributor_title: {distributor_info["title"]}
-                distributor_label: {distributor_info["label"]}
-                distributor_description: {distributor_info["description"]}
-                distributor_tone: {distributor_info["tone"]}
-                distributor_defaultSettings: {distributor_info["defaultSettings"]}
-                distributor_Format: {distributor_info["Format"]}
-                distributor_seoKeywords: {distributor_info["seoKeywords"]}
-                
+                distributor_data: {distributor_settings},
                 given info is regarding content generation for specific distributors.
                 """
-    insert_generated_prompt_database(prompt, distributor_info, localMaster_info )
+    insert_generated_prompt_database(prompt, distributor_info_from_database, localMaster_info_from_database, distributor_settings)
     return prompt
     
 

@@ -17,16 +17,16 @@ def list_distributors():
     response = utils.get_list_from_database(query)
     return response
 
-def distributor_prompt_generator(distributor_id, local_master_id):
+def distributor_prompt_generator(distributor_id:int, local_master_id:int, distributor_settings:str):
     distributor_query = "SELECT * FROM distributor WHERE id = ?"
     distributor_params = (distributor_id,)
-    distributor_info = utils.get_specific_info_from_database(distributor_query, distributor_params)
+    distributor_info_from_database = utils.get_specific_info_from_database(distributor_query, distributor_params)
     
     localMaster_query = "SELECT * FROM localMaster WHERE id = ?"
     localMaster_params = (local_master_id,)
-    localMaster_info = utils.get_specific_info_from_database(localMaster_query, localMaster_params)
+    localMaster_info_from_database = utils.get_specific_info_from_database(localMaster_query, localMaster_params)
     
-    response = utils.distributor_prompt_generator(distributor_info, localMaster_info)
+    response = utils.distributor_prompt_generator(distributor_info_from_database, localMaster_info_from_database, distributor_settings)
     return response
 
 
