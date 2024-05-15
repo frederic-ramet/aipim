@@ -1,0 +1,105 @@
+/* Global Styles */
+/* primary color #C94B32 */
+body {
+  font-family: montserrat;
+}
+
+.stApp {
+  background-color: #F5F6FA;
+}
+
+/* Streamlit Component Styles */
+[data-testid="stAppViewBlockContainer"] {
+  padding: 0;
+}
+
+[data-testid="stText"] {
+  color: black;
+}
+
+[data-testid="stPageLink-NavLink"] span div p {
+  color: #FF1711 !important;
+}
+
+/* Custom Classes */
+.intro-text {
+  text-align: center;
+  font-weight: bold;
+  color: #0E4283;
+  font-size: 28px !important;
+}
+
+.block-container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.gray-text {
+  color: gray;
+}
+
+.black-text {
+  color: black;
+}
+
+/* Sidebar Styles */
+[data-testid="stSidebar"] {
+  width: 200px !important;
+  border: 1px solid #9A9A9A;
+  padding: 1px;
+  background-color: #FFF5F5;
+}
+
+
+[data-testid="stSidebar"] [data-testid="stText"] {
+  color: white;
+}
+
+[data-testid="stSidebarUserContent"] {
+  padding: 1.5rem 1rem !important;
+}
+
+/* Button Styles within Sidebar */
+[data-testid="stSidebar"] .stButton > button {
+  color: white;
+  background-color: transparent;
+  border: 0;
+  width: 100%;
+  font-size: 24px !important;
+  font-family: Montserrat;
+}
+
+[data-testid="stSidebar"] .stButton > button:active,
+[data-testid="stSidebar"] .stButton > button:hover {
+  color: white !important;
+}
+
+/* Target the entire DataFrame container */
+[data-testid="stDataFrame"] {
+  color: red; /* Replace with your desired color (e.g., #333 for dark gray) */
+}
+
+/* Optionally target specific elements within the DataFrame */
+
+/* Target table body rows */
+[data-testid="stDataFrame"] tbody tr td {
+  color: inherit; /* Inherit color from the parent container */
+}
+
+/* Target table headers */
+[data-testid="stDataFrame"] thead th {
+  color: inherit; /* Inherit color from the parent container */
+}
+
+table.dataframe{
+	width: 100%;
+}
+
+table.dataframe thead{
+    background: #c94b32;
+    color: white;
+}
+
+table.dataframe thead th{
+    text-align: center;
+}
