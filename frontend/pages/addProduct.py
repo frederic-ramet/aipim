@@ -1,6 +1,6 @@
 import streamlit as st
 from components import sidebar
-from middleware.product_service import fetch_product, save_product
+from middleware.product_service import fetch_product
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr
 from utils.utils import is_valid_url
 
@@ -41,8 +41,7 @@ with home_container:
         col14, col24, col34, col44, col54 = st.columns([2, 2, 2, 2, 2])
         with col24:
             if st.button("Import Product", type="primary", disabled=(text_area_value == '')):
-                # Functionality for importing product
-                save_product(product_url, json_data)
+                st.switch_page("streamlit_app.py")
         with col34:
             if st.button("Generate Content", type="primary", disabled=text_area_value == ''):
                 # Functionality for generating content

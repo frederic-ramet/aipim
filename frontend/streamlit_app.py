@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-from components.dfTable import build_table_html  # Modified import
 from components.products import display_products
 from fake import masterProducts
+from middleware.product_service import fetch_all_products
 
 
 # Function to generate a styled clickable link
@@ -34,6 +34,5 @@ with home_container:
 
     with main_card:
         st.text('Here is a list of already optimized products (MASTER PRODUCT):')
-
-        # Call build_table_html with the modified DataFrame
-        display_products(fake_data_df, True)
+        products = fetch_all_products()
+        display_products(products, True)
