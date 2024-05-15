@@ -35,4 +35,7 @@ with home_container:
     with main_card:
         st.text('Here is a list of already optimized products (MASTER PRODUCT):')
         products = fetch_all_products()
-        display_products(products, True)
+        if len(products)>0:
+            display_products(products, True)
+        else:
+            st.warning("No products")

@@ -24,4 +24,4 @@ def fetch_all_products():
         return response.json()
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching all user apps data: {e}")
-        return {}
+        return []
