@@ -5,19 +5,16 @@ from openai import OpenAI
 from core.config import settings
 client = OpenAI(api_key = settings.OPENAI_API_KEY)
 
-def generate_prompt_local(master_product_id:int, selected_market:str):
+def generate_prompt_local(master_product_id:int, selected_market_id:int, market_settings:str):
     get_scrapped_data = utils.get_scrapped_data_from_database(master_product_id)
-
-    market_data = utils.get_market_info(selected_market)
-    generated_content_using_LLM = utils.generate_prompt_based_on_market_data(get_scrapped_data, market_data, master_product_id)
+    
+    generated_content_using_LLM = utils.generate_prompt_based_on_market_data(get_scrapped_data["content"], market_settings, master_product_id, selected_market_id)
     return generated_content_using_LLM
 
 def generate_content_local(local_master_id):
     
     prompt_obj = utils.get_prompt_from_database(local_master_id)
-    
     prompt= prompt_obj["prompt"]
-    
     
     # prompt = response["prompt"]
     try:
@@ -37,5 +34,8 @@ def generate_content_local(local_master_id):
         print("Error:", e)
         return None    
 
-def get_list_of_local_products(master_product_id):
+def get_list_of_local_products(master_product_id:int):
     return utils.local_products_list(master_product_id)
+
+def get_one_local_master(id:int):
+    return utils.get_one_local_master_from_database(id)

@@ -3,14 +3,14 @@ import requests
 from bs4 import BeautifulSoup
 import json
 
-def get_market_info(selected_market:str):
+def get_market_info(selected_market_id:int):
     
     conn = sqlite3.connect('ai-pim.db')
     conn.row_factory = sqlite3.Row
     db = conn.cursor()
 
     # SQL command to fetch the first row where the title is 'XYZ'
-    db.execute("SELECT * FROM market WHERE title = ?", (selected_market,))
+    db.execute("SELECT * FROM market WHERE id = ?", (selected_market_id,))
 
     # Fetch the first matching row
     row = db.fetchone()
@@ -19,7 +19,7 @@ def get_market_info(selected_market:str):
     if row:
         print(row)
     else:
-        print("No data found with title:", selected_market)
+        print("No data found with id:", selected_market_id)
 
     # Close the connection
     conn.close()
@@ -50,16 +50,18 @@ def local_products_list(masterProductId:int):
         
     return row
     
-def store_prompt_to_database(prompt, market_data, master_product_id):
+def store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database):
+    print("-- -- " * 20)
+    print(market_info_from_database['title'])
+    print("-- -- " * 20)
 
-    
-    local_master_title = f"{market_data['title']}_{market_data['languages'][0]}"
-    local_market_name = market_data["title"]
-    local_market_id = market_data["id"]
-    local_market_settings = ""
-    local_market_prompt = prompt
-    local_market_content = ""
-    local_market_master_product_id = master_product_id
+    local_master_title = f"{market_info_from_database['title']}_{market_info_from_database['languages'][0]}"
+    local_master_name = f"{market_info_from_database['title']}"
+    local_master_id = selected_market_id
+    local_master_settings = market_data
+    local_master_prompt = prompt
+    local_master_content = ""
+    local_master_master_product_id = master_product_id
     
     conn = sqlite3.connect('ai-pim.db')
     cursor = conn.cursor()
@@ -73,12 +75,12 @@ def store_prompt_to_database(prompt, market_data, master_product_id):
     # Execute the SQL command
     cursor.execute(sql, (
         local_master_title,
-        local_market_name,
-        local_market_id,
-        local_market_settings,
-        local_market_prompt,
-        local_market_content,
-        local_market_master_product_id,
+        local_master_name,
+        local_master_id,
+        local_master_settings,
+        local_master_prompt,
+        local_master_content,
+        local_master_master_product_id,
     ))
     
     # Commit the changes
@@ -111,23 +113,15 @@ def get_scrapped_data_from_database(master_product_id):
       
     return row
     
-def generate_prompt_based_on_market_data(scraped_data_dict:str, market_data:dict,  master_product_id:int):
+def generate_prompt_based_on_market_data(scraped_data_dict:str, market_data:str,  master_product_id:int, selected_market_id:int):
     
     
     prompt = f""" project details: {scraped_data_dict}
-
-                Market_id: {market_data["id"]},"
-                Market_title: {market_data["title"]},
-                Market_languages: {market_data["languages"]},
-                Market_defaultAxis: {market_data["defaultAxis"]},
-                Market_defaultSettings: {market_data["defaultSettings"]},
-                Market_marketFeatures: {market_data["marketFeatures"]},
-                Market_culturalTrends: {market_data["culturalTrends"]},
-                Market_seoKeywords: {market_data["seoKeywords"]},"
-                
+                Market_data: {market_data},
                 CREATE PROMPTS.
                 """
-    store_prompt_to_database(prompt, market_data, master_product_id)
+    market_info_from_database = get_market_info(selected_market_id)
+    store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database)
     return prompt
 
 def insert_generated_content_database(generated_content, local_master_id):
@@ -181,3 +175,25 @@ def get_prompt_from_database(local_master_id):
     conn.close()
       
     return row
+
+def get_one_local_master_from_database(id:int):
+    conn = sqlite3.connect('ai-pim.db')
+    conn.row_factory = sqlite3.Row
+    db = conn.cursor()
+
+    # SQL command to fetch the first row where the title is 'XYZ'
+    db.execute("SELECT * FROM localMaster WHERE id = ?", (id,))
+
+    # Fetch the first matching row
+    row = db.fetchall()
+
+    # Check if any rows were fetched
+    if row:
+        print(row)
+    else:
+        print("No data found with id:", id)
+
+    # Close the connection
+    conn.close()
+        
+    return row[0]
