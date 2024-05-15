@@ -37,7 +37,7 @@ def upgrade():
     # Create 'distributorVersion' table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS distributorVersion (
-            id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             title VARCHAR(100),
             distributor VARCHAR(100),
             distributorId INTEGER NOT NULL,
