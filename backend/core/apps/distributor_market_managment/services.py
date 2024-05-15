@@ -1,8 +1,6 @@
 from core.apps.distributor_market_managment import utils
 from openai import OpenAI
-
 from core.config import settings
-from openai import OpenAI
 
 client = OpenAI(api_key = settings.OPENAI_API_KEY)
 

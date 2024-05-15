@@ -1,8 +1,5 @@
 import sqlite3
-import json
-from core.apps.content_creation import utils as cc_utils
-
-    
+from core.apps.content_creation import utils as cc_utils    
 
 def get_list_from_database(query):
     conn = sqlite3.connect('ai-pim.db')

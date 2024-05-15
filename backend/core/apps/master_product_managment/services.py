@@ -1,5 +1,4 @@
 from core.apps.master_product_managment import utils
-import json
 from openai import OpenAI
 
 from core.config import settings

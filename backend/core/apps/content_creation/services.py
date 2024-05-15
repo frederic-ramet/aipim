@@ -1,5 +1,4 @@
 from core.apps.content_creation import utils
-import json
 from openai import OpenAI
 
 from core.config import settings

@@ -1,7 +1,4 @@
-import sqlite3
-import requests
-from bs4 import BeautifulSoup
-import json
+import sqlite3 
 
 def get_market_info(selected_market_id:int):
     
