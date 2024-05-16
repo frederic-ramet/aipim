@@ -6,8 +6,8 @@ from components.dfTable import build_table_html
 from utils.icons import eye
 
 
-def show_product(value):
-    return f"<a href='/user?id={value}' target='_self'>️{eye()}</a>"
+def show_product(value: object) -> object:
+    return f"<a href='/masterProductPage?id={value}' target='_self'>️{eye()}</a>"
 def build_products_df(dataframe):
     # reorder
     new_column_order = ['title', 'url', 'description', 'created_at', 'id']
@@ -31,6 +31,7 @@ def display_products(all_products, with_filter):
 
 def display_product(product_data):
     df = pd.DataFrame([product_data])
+    #build_table_html(df, True)
     st.dataframe(df)
 
 
