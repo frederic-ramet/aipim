@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 from components import sidebar
 from fake import local_master
-from components.products import display_products, display_product
+from components.products import display_products
 from middleware.product_service import fetch_master_product_by_id, fetch_master_product_by_id_fake,show_json
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr
 from utils.utils import is_valid_url
@@ -21,7 +21,7 @@ with home_container:
     main_card = generate_main_card('MASTER PRODUCT Page: ')
     with main_card:
         st.text("Here are all product’s informations.")
-        master_product = fetch_master_product_by_id_fake(product_id)
+        master_product = fetch_master_product_by_id(product_id)
 
         if master_product:
             left, right = st.columns([1, 4])
@@ -38,5 +38,5 @@ with home_container:
                     unsafe_allow_html=True)
         centered_text('Generated Contents (LOCAL MASTER):', 'black', 'left', 18, 'bold')
         selected_columns = ["title", "url", "content_params"]
-        display_product(local_master)
+        display_products(local_master, True)
 
