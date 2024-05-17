@@ -14,7 +14,7 @@ def fetch_product(product_url_input):
       response.raise_for_status()
       return response.json()
     except requests.exceptions.RequestException as e:
-      st.error(f"Error fetching all user apps data: {e}")
+      st.error(f"Error fetching all product data: {e}")
       return {}
 
 
@@ -25,7 +25,7 @@ def fetch_all_products():
       response.raise_for_status()
       return response.json()
     except requests.exceptions.RequestException as e:
-       st.error(f"Error fetching all user apps data: {e}")
+       st.error(f"Error fetching all products data: {e}")
        return []
 
 def fetch_master_product_by_id(product_id):
@@ -56,5 +56,12 @@ def fetch_master_product_by_id_fake(product_id):
         st.error(f"Error fetching product information by id: {e}")
 
 
-def show_json():
-    return "Hello"
+def fetch_local_products(product_id):
+    scrap_local_product_url = f"{base_url}/api/v1/list_local_products?id={product_id}"
+    try:
+      response = requests.get(scrap_local_product_url)
+      response.raise_for_status()
+      return response.json()
+    except requests.exceptions.RequestException as e:
+       st.error(f"Error fetching all local products data: {e}")
+       return []

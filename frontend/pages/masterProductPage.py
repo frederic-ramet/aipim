@@ -1,11 +1,8 @@
-import pandas as pd
 import streamlit as st
 from components import sidebar
-from fake import local_master
-from components.products import display_products
-from middleware.product_service import fetch_master_product_by_id, fetch_master_product_by_id_fake,show_json
+from components.products import display_local_master_list
+from middleware.product_service import fetch_master_product_by_id, fetch_product
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr
-from utils.utils import is_valid_url
 
 params = st.query_params.to_dict()
 product_id = params['id']
@@ -15,14 +12,12 @@ sidebar.show_sidebar()
 generate_top_container("Welcome to AI PIM")
 home_container = generate_main_container()
 
-json_data = ""
-
 with home_container:
-    main_card = generate_main_card('MASTER PRODUCT Page: ')
+    master_product = fetch_master_product_by_id(product_id)
+    main_card = generate_main_card('MASTER PRODUCT Page: '+master_product['title'])
     with main_card:
         st.text("Here are all product’s informations.")
-        master_product = fetch_master_product_by_id(product_id)
-
+        json_data = '' #fetch_product(master_product['url'])
         if master_product:
             left, right = st.columns([1, 4])
             with left:
@@ -32,11 +27,20 @@ with home_container:
             with right:
                 centered_text(str(master_product['title']), 'black', 'left', 18, '')
                 st.markdown(f"[{master_product['url']}]({master_product['url']})")
-                st.markdown(
-                    f'<div style="text-align: left; font-size: 18px; font-weight: bold; color: black;"><a href="javascript:void(0);'
-                    f'" onclick="show_json();">Show</a>:<a href="hello">Download</a></div>',
-                    unsafe_allow_html=True)
+                downloaded_file = st.download_button(
+                    label="Download JSON",
+                    data=json_data,
+                    file_name="data.json",
+                    mime="application/json",
+                    type="primary",
+                )
+        st.write('')
         centered_text('Generated Contents (LOCAL MASTER):', 'black', 'left', 18, 'bold')
-        selected_columns = ["title", "url", "content_params"]
-        display_products(local_master, True)
+        st.write('')
+        local_products = fetch_master_product_by_id(product_id)
+        display_local_master_list(local_products)
+        col1, col2, col3 = st.columns([4, 2, 4])
+        with col2:
+            if st.button("Generate new content", type="primary"):
+                st.switch_page("streamlit_app.py")
 

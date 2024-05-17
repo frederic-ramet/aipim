@@ -30,7 +30,7 @@ with home_container:
 
     # Selecting specific columns from masterProducts
     selected_columns = ["title", "url", "description", "created_at", "id"]
-    fake_data_df = pd.DataFrame(masterProducts)[selected_columns]
+    # fake_data_df = pd.DataFrame(masterProducts)[selected_columns]
 
     with main_card:
         st.text('Here is a list of already optimized products (MASTER PRODUCT):')
