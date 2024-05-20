@@ -123,3 +123,60 @@ def generate_main_card(title='', right_actions=None):
         hr()
 
     return main_card_container
+
+
+def generate_card(title='', right_actions=None):
+    if right_actions is None:
+        right_actions = []
+
+    main_card_container = stylable_container(key="main_card",
+                                             css_styles="""
+                                        {
+                                            background: red;
+                                            padding: 20px;                                                                              
+                                            overflow: hidden;
+                                            margin-top: 5px;
+                                            border-radius: 15px;
+                                        }
+                                    """)
+
+    with main_card_container:
+        title_col, actions_col = st.columns([3, 2])
+        with title_col:
+            centered_text(title, '#8D8D8D', 'left', 18, 'bold')
+        with actions_col:
+            if len(right_actions) > 0:
+                colns = st.columns(len(right_actions))
+                for i, col in enumerate(colns):
+                    with col:
+                        action = right_actions[i]
+                        if button(action['text'], key=action['key'], type=action['type']):
+                            if action['key'] in st.session_state:
+                                st.session_state[action['key']] = None
+                            switch_page(action['page'])
+        hr()
+
+    return main_card_container
+
+
+def container_with_border(custom_css=""):
+    container = stylable_container(
+        key="container_with_border",
+        css_styles=f"""
+        {{
+            border: 1px solid rgba(49, 51, 63, 0.2);
+            border-radius: 0.5rem;
+            padding: calc(1em - 1px);
+            {custom_css}
+        }}
+        """,
+    )
+    return container
+
+
+def createBtn(url, text):
+    st.markdown(f'''
+                    <a href="{url}" role="button" target="_self" class="primary-btn">
+                        {text}
+                    </a>
+                ''', unsafe_allow_html=True)

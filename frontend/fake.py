@@ -73,6 +73,34 @@ masterProducts = [
     },
 ]
 
+local_master = [
+    {
+        "title": "Local Amazing Product",
+        "url": "https://example.com/product/1",
+        "content_params": {
+            "key1": "value1",
+            "key2": "value2"
+        }
+    },
+    {
+        "title": "Supercharged Gadget",
+        "url": "https://example.com/gadget/2",
+        "content_params": {
+            "performance": "excellent",
+            "battery": "long-lasting"
+        }
+    },
+    {
+        "title": "Cozy Comfort Blanket",
+        "url": "https://example.com/blanket/3",
+        "content_params": {
+            "material": "plush",
+            "temperature": "warm"
+        }
+    },
+    # Add more products as needed
+]
+
 product = [
     {
         "title": "Nexans H07V-U",

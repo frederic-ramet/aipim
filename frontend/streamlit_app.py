@@ -30,12 +30,13 @@ with home_container:
 
     # Selecting specific columns from masterProducts
     selected_columns = ["title", "url", "description", "created_at", "id"]
-    fake_data_df = pd.DataFrame(masterProducts)[selected_columns]
+    # fake_data_df = pd.DataFrame(masterProducts)[selected_columns]
 
     with main_card:
         st.text('Here is a list of already optimized products (MASTER PRODUCT):')
+        #display_products(masterProducts, True)
         products = fetch_all_products()
         if len(products)>0:
-            display_products(products, True)
+           display_products(products, True)
         else:
-            st.warning("No products")
+           st.warning("No products")
