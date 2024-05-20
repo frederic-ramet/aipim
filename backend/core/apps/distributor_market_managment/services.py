@@ -2,6 +2,7 @@ from core.apps.distributor_market_managment import utils
 from core.config import settings
 from core import utils as core_utils
 
+ai_service_obj = core_utils.aiService()
 
 def list_markets():
     query = "SELECT * FROM market"
@@ -33,7 +34,7 @@ def distributor_version_content_generator(distributorVersion_id):
     # prompt = response["prompt"]
     try:
         if settings.AI_SERVICE == "OPEN_AI":
-            response = core_utils.openai_response(prompt)
+            response = ai_service_obj.openai_response(prompt)
         elif settings.AI_SERVICE == "AZURE_LLM":
             pass
         utils.insert_generated_content_database(response, distributorVersion_id)
