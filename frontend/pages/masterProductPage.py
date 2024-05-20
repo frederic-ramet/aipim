@@ -42,5 +42,5 @@ with home_container:
         col1, col2, col3 = st.columns([4, 2, 4])
         with col2:
             if st.button("Generate new content", type="primary"):
-                st.switch_page("streamlit_app.py")
+                st.switch_page("pages/localMaster.py")
 
