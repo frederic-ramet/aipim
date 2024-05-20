@@ -134,19 +134,24 @@ def app_product_to_database(scrap_content):
     '''
     
     # Execute the SQL command
-    cursor.execute(sql, (
-        scrap_content_title,
-        scrap_content_url,
-        scrap_content_description,
-        scrap_content_features,
-        scrap_content_content
-    ))
+    try:
+        cursor.execute(sql, (
+            scrap_content_title,
+            scrap_content_url,
+            scrap_content_description,
+            scrap_content_features,
+            scrap_content_content
+        ))
     
+    except sqlite3.IntegrityError as e:
+        return f"PRODUCT ALREADY PRESENT IN DATABASE."
+
     # Commit the changes
     conn.commit()
     
     # Close the connection
     conn.close()
+    return "MASTER PRODUCT ADDED TO DATABASE."
     
 
 def get_all_master_product_info():
@@ -162,7 +167,7 @@ def get_all_master_product_info():
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found in :", "masterProduct")
 
@@ -184,7 +189,7 @@ def get_specific_master_product_info(id):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with id:", id)
 
