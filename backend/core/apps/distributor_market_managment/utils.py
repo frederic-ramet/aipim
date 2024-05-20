@@ -14,7 +14,7 @@ def get_list_from_database(query):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found in :", "market")
 
@@ -37,7 +37,7 @@ def get_specific_info_from_database(query, parameter):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with id:", id)
 
@@ -107,7 +107,7 @@ def get_prompt_from_database(distributorVersion_id):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with distributorVersion_id:", distributorVersion_id)
 

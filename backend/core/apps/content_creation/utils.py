@@ -14,7 +14,7 @@ def get_market_info(selected_market_id:int):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with id:", selected_market_id)
 
@@ -38,7 +38,7 @@ def local_products_list(masterProductId:int):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with masterProductId:", masterProductId)
 
@@ -101,7 +101,7 @@ def get_scrapped_data_from_database(master_product_id):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with masterProductId:", master_product_id)
 
@@ -164,7 +164,7 @@ def get_prompt_from_database(local_master_id):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with local_master_id:", local_master_id)
 
@@ -186,7 +186,7 @@ def get_one_local_master_from_database(id:int):
 
     # Check if any rows were fetched
     if row:
-        print(row)
+        print("Data fetch successfully.")
     else:
         print("No data found with id:", id)
 

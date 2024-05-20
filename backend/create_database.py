@@ -11,7 +11,7 @@ def upgrade():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title VARCHAR(100),
             url VARCHAR(100),
-            description VARCHAR(100),
+            description VARCHAR(100) UNIQUE,
             features VARCHAR(100),
             content VARCHAR(100),
             created_at DATETIME
