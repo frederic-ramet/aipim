@@ -1,7 +1,7 @@
-import sqlite3 
+import sqlite3
 
-def get_market_info(selected_market_id:int):
-    
+
+def get_market_info(selected_market_id: int):
     conn = sqlite3.connect('ai-pim.db')
     conn.row_factory = sqlite3.Row
     db = conn.cursor()
@@ -20,12 +20,11 @@ def get_market_info(selected_market_id:int):
 
     # Close the connection
     conn.close()
-        
-    return row
-    
 
-def local_products_list(masterProductId:int):
-    
+    return row
+
+
+def local_products_list(masterProductId: int):
     conn = sqlite3.connect('ai-pim.db')
     conn.row_factory = sqlite3.Row
     db = conn.cursor()
@@ -44,31 +43,28 @@ def local_products_list(masterProductId:int):
 
     # Close the connection
     conn.close()
-        
-    return row
-    
-def store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database):
-    print("-- -- " * 20)
-    print(market_info_from_database['title'])
-    print("-- -- " * 20)
 
+    return row
+
+
+def store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database, content):
     local_master_title = f"{market_info_from_database['title']}_{market_info_from_database['languages'][0]}"
     local_master_name = f"{market_info_from_database['title']}"
     local_master_id = selected_market_id
     local_master_settings = market_data
     local_master_prompt = prompt
-    local_master_content = ""
+    local_master_content = content
     local_master_master_product_id = master_product_id
-    
+
     conn = sqlite3.connect('ai-pim.db')
     cursor = conn.cursor()
-    
+
     # SQL command for inserting a new record
     sql = '''
         INSERT INTO localMaster ( title ,marketName ,marketId ,settings ,prompt ,content ,masterProductId, created_at)
         VALUES ( ?, ?, ?, ?, ?, ?, ?, datetime('now'))
     '''
-    
+
     # Execute the SQL command
     cursor.execute(sql, (
         local_master_title,
@@ -79,16 +75,15 @@ def store_info_in_to_database(prompt, market_data, master_product_id, selected_m
         local_master_content,
         local_master_master_product_id,
     ))
-    
+
     # Commit the changes
     conn.commit()
-    
+
     # Close the connection
     conn.close()
-    
+
 
 def get_scrapped_data_from_database(master_product_id):
-    
     conn = sqlite3.connect('ai-pim.db')
     conn.row_factory = sqlite3.Row
     db = conn.cursor()
@@ -107,19 +102,22 @@ def get_scrapped_data_from_database(master_product_id):
 
     # Close the connection
     conn.close()
-      
+
     return row
-    
-def generate_prompt_based_on_market_data(scraped_data_dict:str, market_data:str,  master_product_id:int, selected_market_id:int):
-    
-    
-    prompt = f""" project details: {scraped_data_dict}
-                Market_data: {market_data},
-                CREATE PROMPTS.
-                """
+
+
+def generate_prompt_based_on_market_data(scraped_data_dict: str, selected_market_id: int, market_data: str):
     market_info_from_database = get_market_info(selected_market_id)
-    store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database)
+    prompt = f""" 
+                Generate a Local master product content for the market {market_info_from_database['title']}.
+                Here are this product information:
+                Main details: {scraped_data_dict}
+                Market_data: {market_data},
+                Content must be optimized to SEO.
+                """
+
     return prompt
+
 
 def insert_generated_content_database(generated_content, local_master_id):
     conn = sqlite3.connect('ai-pim.db')
@@ -127,7 +125,7 @@ def insert_generated_content_database(generated_content, local_master_id):
     db = conn.cursor()
 
     # Define the ID of the row you want to update
-    row_id = local_master_id 
+    row_id = local_master_id
 
     # Define the new value you want to set
     new_content = generated_content
@@ -151,6 +149,7 @@ def insert_generated_content_database(generated_content, local_master_id):
     # Close the connection
     conn.close()
 
+
 def get_prompt_from_database(local_master_id):
     conn = sqlite3.connect('ai-pim.db')
     conn.row_factory = sqlite3.Row
@@ -170,10 +169,11 @@ def get_prompt_from_database(local_master_id):
 
     # Close the connection
     conn.close()
-      
+
     return row
 
-def get_one_local_master_from_database(id:int):
+
+def get_one_local_master_from_database(id: int):
     conn = sqlite3.connect('ai-pim.db')
     conn.row_factory = sqlite3.Row
     db = conn.cursor()
@@ -192,5 +192,5 @@ def get_one_local_master_from_database(id:int):
 
     # Close the connection
     conn.close()
-        
+
     return row[0]

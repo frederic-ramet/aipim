@@ -9,18 +9,20 @@ lm_router = APIRouter(
 
 
 @lm_router.get('/list_local_products')
-def get_list_of_local_products(master_product_id:str):
+def get_list_of_local_products(master_product_id: str):
     return services.get_list_of_local_products(master_product_id)
+
 
 @lm_router.get('/get_one_local_master')
 def get_one_local_master(id):
     return services.get_one_local_master(id)
 
+
 @lm_router.post('/generate_prompt')
-def generate_prompt_local(master_product_id:int, selected_market_id:int, market_settings:str):
+def generate_prompt_local(master_product_id: int, selected_market_id: int, market_settings: str):
     return services.generate_prompt_local(master_product_id, selected_market_id, market_settings)
 
-@lm_router.get('/generate_content')
-def generate_content_local(local_master_id:int):
-    return services.generate_content_local(local_master_id)
 
+@lm_router.post('/generate_content')
+def generate_content_local(master_product_id: int, selected_market_id: int, market_settings: str, prompt: str):
+    return services.generate_content_local(master_product_id, selected_market_id, market_settings, prompt)

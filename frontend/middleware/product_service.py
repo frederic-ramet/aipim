@@ -65,3 +65,24 @@ def fetch_local_products(product_id):
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching all local products data: {e}")
         return []
+
+
+def generate_local_product(master_product_id, selected_market_id, market_settings, prompt):
+    generated_content_url = f"{base_url}/api/v1/generate_content"
+    generated_content_url = f"{generated_content_url}?master_product_id={master_product_id}"
+    generated_content_url = f"{generated_content_url}&selected_market_id={selected_market_id}"
+    generated_content_url = f"{generated_content_url}&market_settings={market_settings}"
+    generated_content_url = f"{generated_content_url}&prompt={prompt}"
+
+    try:
+        response = requests.post(generated_content_url, json={})
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.HTTPError as http_err:
+        st.error(f"HTTP error occurred: {http_err}")
+        if http_err.response.status_code == 422:
+            st.error(f"Response content: {http_err.response.text}")
+        return {}
+    except requests.exceptions.RequestException as req_err:
+        st.error(f"Request error occurred: {req_err}")
+        return {}
