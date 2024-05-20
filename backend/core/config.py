@@ -22,7 +22,7 @@ class Settings(BaseSettings):
 
     REDIS_HOST: str
     OPENAI_API_KEY: str
-
+    AI_SERVICE: str
 
     class Config:
         env_file = '.env'

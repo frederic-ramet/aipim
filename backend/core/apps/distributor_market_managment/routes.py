@@ -17,7 +17,7 @@ def list_distributors():
     return services.list_distributors()
 
 
-@dis_mar_router.get('/distributor_prompt_generator')
+@dis_mar_router.post('/distributor_prompt_generator')
 def distributor_prompt_generator(distributor_id:int, local_master_id:int, distributor_settings:str):
     return services.distributor_prompt_generator(distributor_id, local_master_id, distributor_settings)
 
