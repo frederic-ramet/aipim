@@ -1,8 +1,6 @@
 from core.apps.distributor_market_managment import utils
-from openai import OpenAI
 from core.config import settings
-
-client = OpenAI(api_key = settings.OPENAI_API_KEY)
+from core import utils as core_utils
 
 
 def list_markets():
@@ -30,19 +28,14 @@ def distributor_prompt_generator(distributor_id:int, local_master_id:int, distri
 
 def distributor_version_content_generator(distributorVersion_id):
     prompt_obj = utils.get_prompt_from_database(distributorVersion_id)
-    prompt= prompt_obj["prompt"]
+    prompt = prompt_obj["prompt"]
     
     # prompt = response["prompt"]
     try:
-        response_obj = client.chat.completions.create(
-            model="gpt-3.5-turbo",  # You can choose other engines as well
-            # messages=[{"role": "system", "content":prompt}],
-            messages=[
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": "Generate content based on the product details and distributor details ."}
-            ]
-        )
-        response = response_obj.choices[0].message.content
+        if settings.AI_SERVICE == "OPEN_AI":
+            response = core_utils.openai_response(prompt)
+        elif settings.AI_SERVICE == "AZURE_LLM":
+            pass
         utils.insert_generated_content_database(response, distributorVersion_id)
 
         return response

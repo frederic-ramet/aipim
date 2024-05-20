@@ -144,14 +144,13 @@ def app_product_to_database(scrap_content):
         ))
     
     except sqlite3.IntegrityError as e:
-        return f"PRODUCT ALREADY PRESENT IN DATABASE."
+        print(f"PRODUCT ALREADY PRESENT IN DATABASE.")
 
     # Commit the changes
     conn.commit()
     
     # Close the connection
     conn.close()
-    return "MASTER PRODUCT ADDED TO DATABASE."
     
 
 def get_all_master_product_info():
