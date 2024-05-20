@@ -1,8 +1,11 @@
+import re
+
 import streamlit as st
 from components import sidebar
 from components.products import display_local_master_list
 from middleware.product_service import fetch_master_product_by_id, fetch_product
-from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr
+from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr, \
+    createBtn
 
 params = st.query_params.to_dict()
 product_id = params['id']
@@ -17,7 +20,7 @@ with home_container:
     main_card = generate_main_card('MASTER PRODUCT Page: '+master_product['title'])
     with main_card:
         st.text("Here are all product’s informations.")
-        json_data = '' #fetch_product(master_product['url'])
+        json_data = master_product['content']
         if master_product:
             left, right = st.columns([1, 4])
             with left:
@@ -30,7 +33,7 @@ with home_container:
                 downloaded_file = st.download_button(
                     label="Download JSON",
                     data=json_data,
-                    file_name="data.json",
+                    file_name=f"{master_product['title'].replace(' ','_')}.json",
                     mime="application/json",
                     type="primary",
                 )
@@ -41,6 +44,5 @@ with home_container:
         display_local_master_list(local_products)
         col1, col2, col3 = st.columns([4, 2, 4])
         with col2:
-            if st.button("Generate new content", type="primary"):
-                st.switch_page("pages/localMaster.py")
+            createBtn(f"localMaster?id={product_id}", "Generate new Local Master")
 

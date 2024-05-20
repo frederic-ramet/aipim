@@ -16,27 +16,14 @@ def fetch_all_markets():
         return []
 
 
-def generate_prompt(data):
+def generate_prompt(master_product_id, selected_market_id, market_settings):
     generated_prompt_url = f"{base_url}/api/v1/generate_prompt"
-    try:
-        response = requests.post(generated_prompt_url, json=data)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        st.error(f"Error generating prompt: {e}")
-        return {}
+    generated_prompt_url = f"{generated_prompt_url}?master_product_id={master_product_id}"
+    generated_prompt_url = f"{generated_prompt_url}&selected_market_id={selected_market_id}"
+    generated_prompt_url = f"{generated_prompt_url}&market_settings={market_settings}"
 
-
-def generate_prompt_test(master_product_id, selected_market_id, market_settings):
-    base_url = "http://0.0.0.0:8021"
-    generated_prompt_url = f"{base_url}/api/v1/generate_prompt"
-    data = {
-        "master_product_id": master_product_id,
-        "selected_market_id": selected_market_id,
-        "market_settings": market_settings
-    }
     try:
-        response = requests.post(generated_prompt_url, json=data)
+        response = requests.post(generated_prompt_url, json={})
         response.raise_for_status()
         return response.json()
     except requests.exceptions.HTTPError as http_err:

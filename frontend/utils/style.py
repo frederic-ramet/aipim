@@ -172,3 +172,11 @@ def container_with_border(custom_css=""):
         """,
     )
     return container
+
+
+def createBtn(url, text):
+    st.markdown(f'''
+                    <a href="{url}" role="button" target="_self" class="primary-btn">
+                        {text}
+                    </a>
+                ''', unsafe_allow_html=True)
