@@ -50,7 +50,6 @@ def get_specific_info_from_database(query, parameter):
 
 def insert_info_to_database(distributorVersion_title, distributorVersion_distributor, distributorVersion_distributorId, distributorVersion_settings, distributorVersion_prompt, distributorVersion_content, distributorVersion_localMasterId):
 
-
     conn = sqlite3.connect('ai-pim.db')
     cursor = conn.cursor()
     
@@ -111,33 +110,22 @@ def get_prompt_from_database(distributorVersion_id):
       
     return row
 
+def create_seo_optimized_prompt(distributor_seo_keywords, prompt):
+    prompt = f"""
+                distributor_seo_keywords: {distributor_seo_keywords},
+                prompt: {prompt}
+                Perform SEO optimization steps on the given prompt.
+                """
+    return prompt
+    
+def get_distributor_info(distributor_id):
+    distributor_query = "SELECT * FROM distributor WHERE id = ?"
+    distributor_params = (distributor_id,)
+    distributor_info_from_database = get_specific_info_from_database(distributor_query, distributor_params)
+    return distributor_info_from_database
 
-# def insert_generated_content_database(generated_content, distributorVersion_id):
-#     conn = sqlite3.connect('ai-pim.db')
-#     conn.row_factory = sqlite3.Row
-#     db = conn.cursor()
-
-#     # Define the ID of the row you want to update
-#     row_id = distributorVersion_id 
-
-#     # Define the new value you want to set
-#     new_content = generated_content
-
-#     # Execute the UPDATE query
-#     db.execute('''
-#         UPDATE distributorVersion
-#         SET content = ?
-#         WHERE id = ?
-#     ''', (new_content, row_id))
-
-#     # Commit the changes
-#     conn.commit()
-
-#     # Check if any row was updated
-#     if db.rowcount > 0:
-#         print("Cell updated successfully.")
-#     else:
-#         print("No row found with ID:", row_id)
-
-#     # Close the connection
-#     conn.close()
+def get_localmaster_info(local_master_id):
+    localMaster_query = "SELECT * FROM localMaster WHERE id = ?"
+    localMaster_params = (local_master_id,)
+    localMaster_info_from_database = get_specific_info_from_database(localMaster_query, localMaster_params)
+    return localMaster_info_from_database
