@@ -25,7 +25,16 @@ def generate_content_local(master_product_id: int, selected_market_id: int, mark
 
         elif settings.AI_SERVICE == "AZURE_LLM":
             pass
-        return generated_content
+        
+        get_scrapped_data = utils.get_scrapped_data_from_database(master_product_id)
+        scrapped_data_dict = eval(get_scrapped_data["content"])
+        response_dict = {
+            "title" : scrapped_data_dict["title"],
+            "description" : scrapped_data_dict["description"],
+            "content" : generated_content
+            }
+        
+        return response_dict
     except Exception as e:
         print("Error:", e)
         return None
