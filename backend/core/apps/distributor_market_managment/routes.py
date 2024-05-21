@@ -18,10 +18,10 @@ def list_distributors():
 
 
 @dis_mar_router.post('/distributor_prompt_generator')
-def distributor_prompt_generator(distributor_id:int, local_master_id:int, distributor_settings:str):
+def distributor_prompt_generator(distributor_id: int, local_master_id: int, distributor_settings: str):
     return services.distributor_prompt_generator(distributor_id, local_master_id, distributor_settings)
 
 
-@dis_mar_router.get('/distributor_version_content_generator')
-def distributor_version_content_generator(distributor_id:int):
-    return services.distributor_version_content_generator(distributor_id)
+@dis_mar_router.post('/distributor_version_content_generator')
+def distributor_version_content_generator(distributor_id: int, local_master_id: int, distributor_settings: str,  prompt: str):
+    return services.distributor_version_content_generator(distributor_id, local_master_id, distributor_settings,  prompt)

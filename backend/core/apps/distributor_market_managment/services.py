@@ -15,6 +15,7 @@ def list_distributors():
     return response
 
 def distributor_prompt_generator(distributor_id:int, local_master_id:int, distributor_settings:str):
+    
     distributor_query = "SELECT * FROM distributor WHERE id = ?"
     distributor_params = (distributor_id,)
     distributor_info_from_database = utils.get_specific_info_from_database(distributor_query, distributor_params)
@@ -27,21 +28,39 @@ def distributor_prompt_generator(distributor_id:int, local_master_id:int, distri
     return response
 
 
-def distributor_version_content_generator(distributorVersion_id):
-    prompt_obj = utils.get_prompt_from_database(distributorVersion_id)
-    prompt = prompt_obj["prompt"]
-    
+def distributor_version_content_generator(distributor_id, local_master_id, distributor_settings,  prompt):
+    # prompt_obj = utils.get_prompt_from_database(prompt)
+    # prompt = prompt_obj["prompt"]
     # prompt = response["prompt"]
+    
     try:
         if settings.AI_SERVICE == "OPEN_AI":
             response = ai_service_obj.openai_response(prompt)
         elif settings.AI_SERVICE == "AZURE_LLM":
             pass
-        utils.insert_generated_content_database(response, distributorVersion_id)
+        
+
+        distributor_query = "SELECT * FROM distributor WHERE id = ?"
+        distributor_params = (distributor_id,)
+        distributor_info_from_database = utils.get_specific_info_from_database(distributor_query, distributor_params)
+        
+        localMaster_query = "SELECT * FROM localMaster WHERE id = ?"
+        localMaster_params = (local_master_id,)
+        localMaster_info_from_database = utils.get_specific_info_from_database(localMaster_query, localMaster_params)
+        
+        distributorVersion_title = f"{distributor_info_from_database['label']}_{distributor_info_from_database['format']}"
+        distributorVersion_distributor = f"{distributor_info_from_database['label']}"
+        distributorVersion_distributorId = f"{distributor_info_from_database['id']}"
+        distributorVersion_settings = distributor_settings
+        distributorVersion_prompt = prompt
+        distributorVersion_content = f"{localMaster_info_from_database["content"]}"
+        distributorVersion_localMasterId = f"{localMaster_info_from_database['id']}"
+
+        utils.insert_info_to_database(distributorVersion_title, distributorVersion_distributor, distributorVersion_distributorId, distributorVersion_settings, distributorVersion_prompt, distributorVersion_content, distributorVersion_localMasterId)
 
         return response
     except Exception as e:
         print("Error:", e)
-        return None    
+        return None
 
 

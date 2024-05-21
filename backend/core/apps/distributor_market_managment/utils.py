@@ -46,15 +46,10 @@ def get_specific_info_from_database(query, parameter):
         
     return row[0]
 
-def insert_generated_prompt_database(prompt:str, distributor_info_from_database:dict, localMaster_info_from_database:dict, distributor_settings:str):
 
-    distributorVersion_title =  f"{distributor_info_from_database['label']}_{distributor_info_from_database['format']}"
-    distributorVersion_distributor = f"{distributor_info_from_database['label']}"
-    distributorVersion_distributorId = f"{distributor_info_from_database['id']}"
-    distributorVersion_settings = distributor_settings
-    distributorVersion_prompt = prompt
-    distributorVersion_content = ""
-    distributorVersion_localMasterId = f"{localMaster_info_from_database['id']}"
+
+def insert_info_to_database(distributorVersion_title, distributorVersion_distributor, distributorVersion_distributorId, distributorVersion_settings, distributorVersion_prompt, distributorVersion_content, distributorVersion_localMasterId):
+
 
     conn = sqlite3.connect('ai-pim.db')
     cursor = conn.cursor()
@@ -90,7 +85,7 @@ def distributor_prompt_generator(distributor_info_from_database:dict, localMaste
                 distributor_data: {distributor_settings},
                 given info is regarding content generation for specific distributors.
                 """
-    insert_generated_prompt_database(prompt, distributor_info_from_database, localMaster_info_from_database, distributor_settings)
+    #insert_generated_prompt_database(prompt, distributor_info_from_database, localMaster_info_from_database, distributor_settings)
     return prompt
     
 
@@ -117,32 +112,32 @@ def get_prompt_from_database(distributorVersion_id):
     return row
 
 
-def insert_generated_content_database(generated_content, distributorVersion_id):
-    conn = sqlite3.connect('ai-pim.db')
-    conn.row_factory = sqlite3.Row
-    db = conn.cursor()
+# def insert_generated_content_database(generated_content, distributorVersion_id):
+#     conn = sqlite3.connect('ai-pim.db')
+#     conn.row_factory = sqlite3.Row
+#     db = conn.cursor()
 
-    # Define the ID of the row you want to update
-    row_id = distributorVersion_id 
+#     # Define the ID of the row you want to update
+#     row_id = distributorVersion_id 
 
-    # Define the new value you want to set
-    new_content = generated_content
+#     # Define the new value you want to set
+#     new_content = generated_content
 
-    # Execute the UPDATE query
-    db.execute('''
-        UPDATE distributorVersion
-        SET content = ?
-        WHERE id = ?
-    ''', (new_content, row_id))
+#     # Execute the UPDATE query
+#     db.execute('''
+#         UPDATE distributorVersion
+#         SET content = ?
+#         WHERE id = ?
+#     ''', (new_content, row_id))
 
-    # Commit the changes
-    conn.commit()
+#     # Commit the changes
+#     conn.commit()
 
-    # Check if any row was updated
-    if db.rowcount > 0:
-        print("Cell updated successfully.")
-    else:
-        print("No row found with ID:", row_id)
+#     # Check if any row was updated
+#     if db.rowcount > 0:
+#         print("Cell updated successfully.")
+#     else:
+#         print("No row found with ID:", row_id)
 
-    # Close the connection
-    conn.close()
+#     # Close the connection
+#     conn.close()
