@@ -2,7 +2,8 @@ import re
 
 import streamlit as st
 from components import sidebar
-from components.products import display_local_master_list
+from components.localMaster import display_local_master_list
+from middleware.local_master_service import fetch_local_products
 from middleware.product_service import fetch_master_product_by_id, fetch_product
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr, \
     createBtn
@@ -40,8 +41,9 @@ with home_container:
         st.write('')
         centered_text('Generated Contents (LOCAL MASTER):', 'black', 'left', 18, 'bold')
         st.write('')
-        local_products = fetch_master_product_by_id(product_id)
-        display_local_master_list(local_products)
+        local_products = fetch_local_products(product_id)
+        if local_products:
+            display_local_master_list(local_products, True)
         col1, col2, col3 = st.columns([4, 4, 4])
         with col2:
             createBtn(f"newLocalMaster1?id={product_id}", "Generate new Local Master")

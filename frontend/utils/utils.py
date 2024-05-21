@@ -1,3 +1,4 @@
+import json
 import re
 
 
@@ -36,3 +37,15 @@ def find_by_attribute(data_array, attribute_name, value):
   """
 
     return next((obj for obj in data_array if getattr(obj, attribute_name) == value), None)
+
+
+def parse_settings(settings: str):
+    print(settings)
+    settings = settings.replace("\n", "")
+    settings = settings.replace('\"', '"')
+    settings = settings.replace("'", '"')
+    settings = "{" + settings + "}"
+    print(settings)
+    settings_obj = json.loads(settings)
+    print(settings_obj)
+    return settings_obj

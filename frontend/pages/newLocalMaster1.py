@@ -1,7 +1,8 @@
 import streamlit as st
 from components import sidebar
+from middleware.local_master_service import generate_local_product
 from middleware.market_service import fetch_all_markets, generate_prompt
-from middleware.product_service import fetch_master_product_by_id, generate_local_product
+from middleware.product_service import fetch_master_product_by_id
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border
 

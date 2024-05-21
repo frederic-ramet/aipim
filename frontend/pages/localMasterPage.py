@@ -1,119 +1,51 @@
 import streamlit as st
+import json
 from components import sidebar
-from middleware.market_service import fetch_all_markets, generate_prompt
-from middleware.product_service import fetch_master_product_by_id, generate_local_product
+from middleware.local_master_service import generate_local_product, fetch_local_master_by_id
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border
+from utils.utils import parse_settings
 
-params = st.query_params.to_dict()
-product_id = params['id']
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
+
+params = st.experimental_get_query_params()
+local_master_id = params.get('id', [None])[0]
 sidebar.show_sidebar()
-generate_top_container("Welcome to AI PIM")
+generate_top_container("Welcome to AI PIM ")
 home_container = generate_main_container()
 
 with home_container:
-    master_product = fetch_master_product_by_id(product_id)
-    main_card = generate_main_card('NEW LOCAL MASTER for: ' + master_product['title'])
-    markets = fetch_all_markets()
-    # Extract titles from the list of market dictionaries
-    market_titles = [market['title'] for market in markets]
-    with main_card:
-        if master_product:
-            left, right = st.columns([1, 4])
-            with left:
-                centered_text('Step 1 (Generation):', 'black', 'left', 18, 'bold')
-                st.write('')
-                centered_text('Select the market', 'black', 'left', 18, 'bold')
+    local_master = fetch_local_master_by_id(local_master_id)
+    if local_master:
+        main_card = generate_main_card('LOCAL MASTER for: ' + local_master['title'])
+        with main_card:
+            centered_text('Applied settings:', 'black', 'left', 18)
+            custom_css = "background-color: #FFF5F5;"
+            second_card = container_with_border(custom_css)
+            with second_card:
+                settings = local_master.get('settings')
+                if settings:
+                    # Fix for trailing commas: Remove any trailing commas from the settings string
+                    settings = settings.rstrip(',')  # Remove trailing commas (optional)
 
-            with right:
-                centered_text('Please provide the next informations', 'black', 'left', 18)
-                selected_market_title = st.selectbox('', market_titles)
-            # Find the selected market dictionary based on the selected title
-            selected_market = next((market for market in markets if market['title'] == selected_market_title), None)
-            selected_market_id = selected_market["id"]
-        centered_text('To be applied Prompt (you can edit them):', 'black', 'left', 18)
-        custom_css = "background-color: #FFF5F5;"
-        second_card = container_with_border(custom_css)
-        with second_card:
-            marketing_features = selected_market['marketFeatures']
-            default_axis = selected_market['defaultAxis']
-            languages = selected_market['languages']
-            culturalTrends = selected_market['culturalTrends']
-            seoKeywords = selected_market['seoKeywords']
-
-            # Display the title and input field side by side
-            col1, col2 = st.columns([1, 4])
-            with col1:
-                st.write("Marketing features:")
-            with col2:
-                marketing_features_input = st.text_input("", marketing_features,
-                                                         key="default_axis_features")  # st.selectbox('Marketing features', marketing_features)
-
-            # Display the title and input field side by side
-            col3, col4 = st.columns([1, 4])
-            with col3:
-                st.write("Marketing axis:")
-            with col4:
-                default_axis_input = st.text_input("", default_axis, key="default_axis_input")
-
-            # Display the title and input field side by side
-            col5, col6 = st.columns([1, 4])
-            with col5:
-                st.write("Languages:")
-            with col6:
-                languages_input = st.text_input("", languages, key="languages_input")
-
-            # Display the title and input field side by side
-            col7, col8 = st.columns([1, 4])
-            with col7:
-                st.write("Cultural Trends:")
-            with col8:
-                culturalTrends_input = st.text_input("Cultural Trends", culturalTrends, key="cultural_trends_input")
-
-            # Display the title and input field side by side
-            col9, col10 = st.columns([1, 4])
-            with col9:
-                st.write("Seo Keywords:")
-            with col10:
-                seoKeywords_input = st.text_input("Seo Keywords", seoKeywords, key="seo_keywords_input")
-
-        centered_text('To be applied Prompt (you can edit them):', 'black', 'left', 18)
-        prompt_card = container_with_border(custom_css)
-        with prompt_card:
-            st.write('Here’s go the content of the generated prompt ...')
-            new_market_settings = f"""
-                    "marketFeatures":{marketing_features_input},
-                    "defaultAxis":{default_axis_input},
-                    "culturalTrends": {culturalTrends_input if culturalTrends_input else '""'},
-                    "seoKeywords": {seoKeywords_input if seoKeywords_input else '""'},
-                    "languages":{languages_input}
-                """
-            final_prompt = st.text_area("Prompt",
-                                        generate_prompt(product_id, selected_market_id, new_market_settings),
-                                        height=400)
-
-        col1, col2, col3 = st.columns([4, 2, 4])
-
-        with col2:
-            # Initialize session state for the button if not already done
-            if 'button_disabled' not in st.session_state:
-                st.session_state.button_disabled = False
-
-            def generate_content():
-                with st.spinner('Generating content...'):
-                    final_content = generate_local_product(product_id, selected_market_id, new_market_settings,
-                                                           final_prompt)
-                    st.session_state['local_generated_product_id'] = product_id
-                    st.session_state['local_generated_content'] = final_content
-                    st.session_state.button_disabled = False  # Re-enable the button
-                    st.switch_page('pages/newLocalMasterStep2.py')
-
-            # Disable the button immediately on click
-            def on_button_click():
-                st.session_state.button_disabled = True
-                #st.experimental_rerun() ?? important or not ??
-            # Button to generate content
-            if st.button("Generate new content", type="primary", disabled=st.session_state.button_disabled,
-                         on_click=on_button_click):
-                generate_content()
+                    # Debug print to inspect the settings string
+                    st.write("Settings string:")
+                    st.write(settings)
+                    print("Settings string:", settings)
+                    settings = settings.replace("\n", "")
+                    settings = settings.replace('\"', '"')
+                    settings = settings.replace("'", '"')
+                    settings = "{" + settings + "}"
+                    # Try parsing the JSON string
+                    try:
+                        settings_obj = json.loads(settings)
+                        st.write("Parsed settings object:")
+                        st.write(settings_obj)
+                        st.write(settings_obj['marketFeatures'])
+                    except json.JSONDecodeError as e:
+                        st.error(f"Error parsing settings JSON: {e}")
+                        print(f"Error parsing settings JSON: {e}")
+                else:
+                    st.warning("No settings available for this local master.")
+    else:
+        st.error("Local master not found.")
