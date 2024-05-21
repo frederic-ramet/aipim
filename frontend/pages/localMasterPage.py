@@ -92,12 +92,28 @@ with home_container:
             final_prompt = st.text_area("Prompt",
                                         generate_prompt(product_id, selected_market_id, new_market_settings),
                                         height=400)
+
         col1, col2, col3 = st.columns([4, 2, 4])
+
         with col2:
-            if st.button("Generate new content", type="primary"):
+            # Initialize session state for the button if not already done
+            if 'button_disabled' not in st.session_state:
+                st.session_state.button_disabled = False
+
+            def generate_content():
                 with st.spinner('Generating content...'):
                     final_content = generate_local_product(product_id, selected_market_id, new_market_settings,
                                                            final_prompt)
-                st.session_state['local_generated_product_id'] = product_id
-                st.session_state['local_generated_content'] = final_content
-                st.switch_page('pages/localMasterStep2.py')
+                    st.session_state['local_generated_product_id'] = product_id
+                    st.session_state['local_generated_content'] = final_content
+                    st.session_state.button_disabled = False  # Re-enable the button
+                    st.switch_page('pages/newLocalMasterStep2.py')
+
+            # Disable the button immediately on click
+            def on_button_click():
+                st.session_state.button_disabled = True
+                #st.experimental_rerun() ?? important or not ??
+            # Button to generate content
+            if st.button("Generate new content", type="primary", disabled=st.session_state.button_disabled,
+                         on_click=on_button_click):
+                generate_content()

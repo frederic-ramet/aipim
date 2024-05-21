@@ -42,7 +42,7 @@ with home_container:
         st.write('')
         local_products = fetch_master_product_by_id(product_id)
         display_local_master_list(local_products)
-        col1, col2, col3 = st.columns([4, 2, 4])
+        col1, col2, col3 = st.columns([4, 4, 4])
         with col2:
-            createBtn(f"localMaster?id={product_id}", "Generate new Local Master")
+            createBtn(f"newLocalMaster1?id={product_id}", "Generate new Local Master")
 

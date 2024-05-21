@@ -97,8 +97,8 @@ table.dataframe{
 }
 
 table.dataframe thead{
-    background: #c94b32;
-    color: white;
+    background: #F4F2FF;
+    color: #FF1711;
 }
 
 table.dataframe thead th{
