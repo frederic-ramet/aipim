@@ -1,7 +1,8 @@
 import streamlit as st
 from components import sidebar
 from middleware.product_service import fetch_master_product_by_id
-from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, container_with_border, createBtn
+from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
+    container_with_border, createBtn
 
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
 sidebar.show_sidebar()
@@ -23,13 +24,11 @@ with home_container:
                 with second_card:
                     st.write('Here’s go the content of the generated LOCAL Master ...')
                     st.text_area('', final_content, height=500)
-                col1, col2, col3, col4, col5, col6, col7 = st.columns([1, 1, 1, 1, 1, 1, 1])
+                col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 1])
                 with col2:
-                    createBtn(f"localMaster?id={product_id}", "Back")
-                with col3:
-                    createBtn(f"/", "Save")
+                    createBtn(f"localMaster?id={product_id}", "Back")  # todo reload modified market settings
 
-                with col4:
+                with col3:
                     downloaded_file = st.download_button(
                         label="Download as TXT",
                         data=final_content,
@@ -37,9 +36,9 @@ with home_container:
                         mime="application/txt",
                         type="primary",
                     )
-                with col5:
+                with col4:
                     if st.button("Download as Doc", type="primary"):
                         st.warning('soon', icon="⚠️")
-                with col6:
+                with col5:
                     if st.button("Download as PDF", type="primary"):
                         st.warning('soon', icon="⚠️")
