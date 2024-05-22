@@ -1,5 +1,8 @@
 import json
 import re
+import ast
+
+import pandas as pd
 
 
 def print_error(e):
@@ -49,3 +52,54 @@ def parse_settings(settings: str):
     settings_obj = json.loads(settings)
     print(settings_obj)
     return settings_obj
+
+
+def parse_string_list(list_as_string: str):
+    try:
+        return ast.literal_eval(list_as_string)
+    except:
+        return []
+
+
+def list_to_string_items(list):
+    return ','.join(list)
+
+
+def string_items_to_list(items_string):
+    return items_string.split(",")
+
+
+def build_list_as_string(list):
+    if len(list) > 0:
+        items = "','".join(list)
+        return f"['{items}']"
+    else:
+        return "[]"
+
+
+def string_items_to_string_list(items_string):
+    if items_string.strip() == '':
+        return "[]"
+    else:
+        return build_list_as_string(string_items_to_list(items_string))
+
+
+def select_market_by_title(markets, title):
+    # Find the selected market dictionary based on the selected title
+    return next((market for market in markets if market['title'] == title), None)
+
+
+def date_col(value):
+    return pd.to_datetime(value, format='%Y-%m-%d %H:%M:%S')
+
+
+def parse_market_settings(market_setting_as_string):
+    settings = market_setting_as_string.rstrip(',')  # Remove trailing commas (optional)
+    settings = settings.replace("\n", "")
+    settings = settings.replace('\"', '"')
+    settings = settings.replace("'", '"')
+    try:
+        return json.loads(settings)
+    except json.JSONDecodeError as e:
+        print(f"Error parsing settings JSON: {e}")
+        return {}

@@ -1,17 +1,15 @@
-import re
-
 import streamlit as st
 from components import sidebar
 from components.localMaster import display_local_master_list
 from middleware.local_master_service import fetch_local_products
 from middleware.product_service import fetch_master_product_by_id, fetch_product
-from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr, \
-    createBtn
+from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text,createBtn
+
+st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
 
 params = st.query_params.to_dict()
 product_id = params['id']
 
-st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
 sidebar.show_sidebar()
 generate_top_container("Welcome to AI PIM")
 home_container = generate_main_container()
@@ -43,7 +41,7 @@ with home_container:
         st.write('')
         local_products = fetch_local_products(product_id)
         if local_products:
-            display_local_master_list(local_products, True)
+            display_local_master_list(product_id, local_products, True)
         col1, col2, col3 = st.columns([4, 4, 4])
         with col2:
             createBtn(f"newLocalMaster1?id={product_id}", "Generate new Local Master")

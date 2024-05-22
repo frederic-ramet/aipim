@@ -26,7 +26,7 @@ with home_container:
                     st.text_area('', final_content, height=500)
                 col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 1])
                 with col2:
-                    createBtn(f"localMaster?id={product_id}", "Back")  # todo reload modified market settings
+                    createBtn(f"newLocalMaster1?id={product_id}", "Back")  # todo reload modified market settings
 
                 with col3:
                     downloaded_file = st.download_button(

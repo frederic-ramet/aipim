@@ -5,6 +5,7 @@ from middleware.market_service import fetch_all_markets, generate_prompt
 from middleware.product_service import fetch_master_product_by_id
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border
+from utils.utils import select_market_by_title, parse_string_list, list_to_string_items, string_items_to_string_list
 
 params = st.query_params.to_dict()
 product_id = params['id']
@@ -30,66 +31,66 @@ with home_container:
             with right:
                 centered_text('Please provide the next informations', 'black', 'left', 18)
                 selected_market_title = st.selectbox('', market_titles)
-            # Find the selected market dictionary based on the selected title
-            selected_market = next((market for market in markets if market['title'] == selected_market_title), None)
+            selected_market = select_market_by_title(markets, selected_market_title)
             selected_market_id = selected_market["id"]
         centered_text('To be applied Prompt (you can edit them):', 'black', 'left', 18)
         custom_css = "background-color: #FFF5F5;"
         second_card = container_with_border(custom_css)
         with second_card:
-            marketing_features = selected_market['marketFeatures']
-            default_axis = selected_market['defaultAxis']
-            languages = selected_market['languages']
-            culturalTrends = selected_market['culturalTrends']
-            seoKeywords = selected_market['seoKeywords']
+            marketing_features = parse_string_list(selected_market['marketFeatures'])
+            default_axis = parse_string_list(selected_market['defaultAxis'])
+            languages = parse_string_list(selected_market['languages'])
+            culturalTrends = parse_string_list(selected_market['culturalTrends'])
+            seoKeywords = parse_string_list(selected_market['seoKeywords'])
 
             # Display the title and input field side by side
             col1, col2 = st.columns([1, 4])
             with col1:
                 st.write("Marketing features:")
             with col2:
-                marketing_features_input = st.text_input("", marketing_features,
-                                                         key="default_axis_features")  # st.selectbox('Marketing features', marketing_features)
+                marketing_features_input = st.text_input("a list of marketing features separated by ',' ", list_to_string_items(marketing_features),
+                                                         key="default_marketing_features")
 
             # Display the title and input field side by side
             col3, col4 = st.columns([1, 4])
             with col3:
                 st.write("Marketing axis:")
             with col4:
-                default_axis_input = st.text_input("", default_axis, key="default_axis_input")
+                default_axis_input = st.text_input("a list of marketing axis separated by ',' ",  list_to_string_items(default_axis), key="default_axis_input")
 
             # Display the title and input field side by side
             col5, col6 = st.columns([1, 4])
             with col5:
                 st.write("Languages:")
             with col6:
-                languages_input = st.text_input("", languages, key="languages_input")
+                language_input = st.selectbox('select output language', languages)
 
             # Display the title and input field side by side
             col7, col8 = st.columns([1, 4])
             with col7:
                 st.write("Cultural Trends:")
             with col8:
-                culturalTrends_input = st.text_input("Cultural Trends", culturalTrends, key="cultural_trends_input")
+                culturalTrends_input = st.text_input("a list of Cultural Trends separated by',' ", list_to_string_items(culturalTrends), key="cultural_trends_input")
 
             # Display the title and input field side by side
             col9, col10 = st.columns([1, 4])
             with col9:
                 st.write("Seo Keywords:")
             with col10:
-                seoKeywords_input = st.text_input("Seo Keywords", seoKeywords, key="seo_keywords_input")
+                seoKeywords_input = st.text_input("a list of Seo Keywords separated by',' ", list_to_string_items(seoKeywords), key="seo_keywords_input")
 
         centered_text('To be applied Prompt (you can edit them):', 'black', 'left', 18)
         prompt_card = container_with_border(custom_css)
         with prompt_card:
             st.write('Here’s go the content of the generated prompt ...')
             new_market_settings = f"""
-                    "marketFeatures":{marketing_features_input},
-                    "defaultAxis":{default_axis_input},
-                    "culturalTrends": {culturalTrends_input if culturalTrends_input else '""'},
-                    "seoKeywords": {seoKeywords_input if seoKeywords_input else '""'},
-                    "languages":{languages_input}
+                    "marketFeatures":{string_items_to_string_list(marketing_features_input)},
+                    "defaultAxis":{string_items_to_string_list(default_axis_input)},
+                    "culturalTrends": {string_items_to_string_list(culturalTrends_input)},
+                    "seoKeywords": {string_items_to_string_list(seoKeywords_input)},
+                    "languages": '{language_input}'
                 """
+            new_market_settings = "{"+new_market_settings+"}"
             final_prompt = st.text_area("Prompt",
                                         generate_prompt(product_id, selected_market_id, new_market_settings),
                                         height=400)
