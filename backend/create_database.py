@@ -111,7 +111,7 @@ def add_market_record():
             str(record['Marketing_axis']),
             str(record['Languages']),
             record['Cultural_recommendations'],
-            record['SEO_keywords'],
+            str(record['SEO_keywords']),
             record['Id'],
             str(record['Market_features'])
         ))
@@ -149,7 +149,7 @@ def add_distributor_record():
             "",
             record['Tone'],
             record['Main target'],
-            "",
+            str(record['Seo keywords']),
             record['Id'],
         ))
 

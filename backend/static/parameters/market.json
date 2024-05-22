@@ -4,17 +4,17 @@
         "Title": "Belgium",
         "Marketing_axis": ["Fire safety", "NextCable"],
         "Cultural_recommendations": "",
-        "Languages":["Franch", "Dutch"],
-        "SEO_keywords":"",
-        "Market_features":["Mobiway", "Twistal"]
+        "Languages": ["Franch", "Dutch"],
+        "SEO_keywords": ["communication", "support"],
+        "Market_features": ["Mobiway", "Twistal"]
     },
     "Spain":{
         "Id":2,
         "Title": "Spain",
         "Marketing_axis": ["Fire safety"],
         "Cultural_recommendations": "",
-        "Languages":["Spanish"],
-        "SEO_keywords":"",
-        "Market_features":["ALSECURE", "PASSEO"]
+        "Languages": ["Spanish"],
+        "SEO_keywords": ["communication", "support"],
+        "Market_features": ["ALSECURE", "PASSEO"]
     }
 }
