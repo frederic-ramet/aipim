@@ -79,11 +79,21 @@ def insert_info_to_database(distributorVersion_title, distributorVersion_distrib
 
 def distributor_prompt_generator(distributor_info_from_database:dict, localMaster_info_from_database:dict, distributor_settings:str):
 
+    distributor_data_dict = eval(distributor_settings)
+    distributor_distribution = distributor_data_dict["description"]
+    distributor_tone = distributor_data_dict["tone"]
+    distributor_language = distributor_data_dict["language"]
+    distributor_target = distributor_data_dict["target"]
+    distributor_seo_keywords = distributor_data_dict["seoKeywords"]
     generated_content = localMaster_info_from_database["content"]
-    seo_keywords = distributor_info_from_database["seoKeywords"]
-    prompt = f""" product_details: {generated_content}
+
+    prompt = f""" product_details: {generated_content},
+                distributor_distribution: {distributor_distribution},
+                distributor_tone: {distributor_tone},
+                distributor_language: {distributor_language},
+                distributor_target: {distributor_target},
+                distributor_seo_keywords: {distributor_seo_keywords},
                 distributor_data: {distributor_settings},
-                seo_keywords: {seo_keywords}
                 given info is regarding content generation for specific distributors.
                 """
     #insert_generated_prompt_database(prompt, distributor_info_from_database, localMaster_info_from_database, distributor_settings)
