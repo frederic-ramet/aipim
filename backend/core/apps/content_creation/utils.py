@@ -49,9 +49,9 @@ def local_products_list(masterProductId: int):
 
 
 def store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database,
-                              content):
-    local_master_title = f"{market_info_from_database['title']}_{market_info_from_database['languages'][0]}"
-    local_master_name = f"{market_info_from_database['title']}"
+                              content, scrapped_data_dict):
+    local_master_title = f"{scrapped_data_dict['title']}"
+    local_master_name =  f"{market_info_from_database['title']}"
     local_master_id = selected_market_id
     local_master_settings = market_data
     local_master_prompt = prompt
