@@ -103,3 +103,8 @@ def parse_market_settings(market_setting_as_string):
     except json.JSONDecodeError as e:
         print(f"Error parsing settings JSON: {e}")
         return {}
+
+
+def select_distributor_by_label(distributors, label):
+    # Find the selected market dictionary based on the selected title
+    return next((distributor for distributor in distributors if distributor['label'] == label), None)
