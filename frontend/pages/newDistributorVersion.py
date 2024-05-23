@@ -17,7 +17,7 @@ home_container = generate_main_container()
 
 with home_container:
     local_master = fetch_local_master_by_id(local_master_id)
-    main_card = generate_main_card('New DISTRIBUTOR VERSION  for :: ' + local_master['title'])
+    main_card = generate_main_card('New DISTRIBUTOR VERSION  for : ' + local_master['title'])
     distributors = fetch_all_distributors()
     # Extract labels from the list of distributors dictionaries
     distributors_labels = [distributor['label'] for distributor in distributors]
@@ -91,6 +91,7 @@ with home_container:
                 with st.spinner('Generating distributor version...'):
                     final_content = generate_distributor_version(selected_distributor_id, local_master_id, distributor_settings, final_prompt)
                     st.session_state['local_master_id'] = local_master_id
+                    st.session_state['product_id'] = product_id
                     st.session_state['distributor_version_content'] = final_content
                     st.session_state.button_disabled = False  # Re-enable the button
                     st.switch_page('pages/newDistributorVersion2.py')
