@@ -4,11 +4,15 @@ from middleware.local_master_service import fetch_local_master_by_id
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border, createBtn
 
+def redirect_to_streamlit_app():
+    st.write("Session data is missing. Please navigate back to the home page.")
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
 sidebar.show_sidebar()
 generate_top_container("Welcome to AI PIM")
 home_container = generate_main_container()
-
+# Check if session is empty, redirect to home page
+if not st.session_state:
+    redirect_to_streamlit_app()
 with home_container:
     if 'local_master_id' in st.session_state:
         local_master_id = st.session_state['local_master_id']
@@ -19,14 +23,12 @@ with home_container:
 
         with main_card:
             if local_master:
-                centered_text('Step2 (Validation): Please provide the next information:', 'black', 'left', 18, 'bold')
-                st.write('')
                 centered_text('DISTRIBUTOR VERSION’s content', 'black', 'left', 18, 'bold')
                 custom_css = "background-color: #FFF5F5;"
                 second_card = container_with_border(custom_css)
                 with second_card:
                     st.write('Here’s go the content of the generated DISTRIBUTOR VERSION ...')
-                    st.text_area('', final_content, height=500)
+                    st.markdown(f"<pre>{final_content}</pre>", unsafe_allow_html=True)
                 col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 1])
                 with col2:
                     createBtn(f"newDistributorVersion?local_master_id={local_master_id}&product_id={product_id}", "Back")  # todo reload modified market settings
