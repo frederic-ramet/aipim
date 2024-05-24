@@ -174,6 +174,11 @@ def container_with_border(custom_css=""):
     return container
 
 
+def container_with_colored_bg():
+    custom_css = "background-color: #FFF5F5;"
+    return container_with_border(custom_css)
+
+
 def createBtn(url, text):
     st.markdown(f'''
                     <a href="{url}" role="button" target="_self" class="primary-btn">
