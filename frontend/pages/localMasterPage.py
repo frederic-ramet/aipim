@@ -49,6 +49,7 @@ with home_container:
             prompt_card = container_with_border(custom_css)
             with prompt_card:
                 st.write(local_master.get('content'))
+            centered_text('Distributor versions', 'black', 'left', 18, 'bold')
             distributors_versions = fetch_all_distributors_versions(local_master_id)
             if distributors_versions:
                 display_distributors_versions_list(product_id, distributors_versions, True)
@@ -59,6 +60,6 @@ with home_container:
         with col2:
             createBtn(f'/masterProductPage?id={product_id}', 'Back')
         with col3:
-            createBtn(f'/newDistributorVersion?local_master_id={local_master_id}&product_id={product_id}', 'Generate DISTRIBUTOR VERSION')
+            createBtn(f'/newDistributorVersion?local_master_id={local_master_id}&product_id={product_id}', 'Generate New DISTRIBUTOR VERSION')
 
 
