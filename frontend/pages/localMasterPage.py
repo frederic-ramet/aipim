@@ -1,8 +1,8 @@
 import streamlit as st
 from components import sidebar
-from components.distributors import display_distributors_list
+from components.distributors import display_distributors_list, display_distributors_versions_list
 from middleware.local_master_service import fetch_local_master_by_id
-from middleware.distributor_service import fetch_all_distributors
+from middleware.distributor_service import fetch_all_distributors_versions
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border, createBtn
 from utils.utils import parse_market_settings
@@ -49,9 +49,9 @@ with home_container:
             prompt_card = container_with_border(custom_css)
             with prompt_card:
                 st.write(local_master.get('content'))
-            distributors = fetch_all_distributors()
-            if distributors:
-                display_distributors_list(product_id, distributors, True)
+            distributors_versions = fetch_all_distributors_versions(local_master_id)
+            if distributors_versions:
+                display_distributors_versions_list(product_id, distributors_versions, True)
                 st.write('')
         else:
             st.error("Local master not found.")
