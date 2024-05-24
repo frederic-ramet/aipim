@@ -3,6 +3,10 @@ import streamlit as st
 
 base_url = st.secrets['BACKEND_BASE_URL']
 
+def show_distributor_version(value: object) -> object:
+    product_id = st.session_state['product_id']
+    return f"<a href='/localMasterPage?id={value}&product_id={product_id}' target='_self'>️{eye()}</a>"
+
 
 # Function to fetch markets
 def fetch_all_distributors():
@@ -15,7 +19,15 @@ def fetch_all_distributors():
         st.error(f"Error fetching all distributors data: {e}")
         return []
 
-
+def fetch_all_distributors_versions(local_master_id):
+    scrap_distributor_versions_url = f"{base_url}/api/v1/list_distributor_versions?local_master_id={local_master_id}"
+    try:
+        response = requests.get(scrap_distributor_versions_url)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching all distributor versions data: {e}")
+        return []
 def generate_prompt_distributor(distributor_id, local_master_id, settings):
     generated_prompt_url = f"{base_url}/api/v1/distributor_prompt_generator"
     generated_prompt_url = f"{generated_prompt_url}?distributor_id={distributor_id}"
