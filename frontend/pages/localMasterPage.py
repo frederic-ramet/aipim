@@ -49,4 +49,10 @@ with home_container:
                 st.write(local_master.get('content'))
         else:
             st.error("Local master not found.")
-        createBtn(f'/masterProductPage?id={product_id}', 'Back')
+        col1, col2, col3, col4 = st.columns([2, 4, 4, 2])
+        with col2:
+            createBtn(f'/masterProductPage?id={product_id}', 'Back')
+        with col3:
+            createBtn(f'/newDistributorVersion?local_master_id={local_master_id}&product_id={product_id}', 'Generate DISTRIBUTOR VERSION')
+
+
