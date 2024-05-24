@@ -19,11 +19,13 @@ with home_container:
 
         with main_card:
             if local_master:
+                centered_text('Step2 (Validation): Please provide the next information:', 'black', 'left', 18, 'bold')
+                st.write('')
                 centered_text('DISTRIBUTOR VERSION’s content', 'black', 'left', 18, 'bold')
                 custom_css = "background-color: #FFF5F5;"
                 second_card = container_with_border(custom_css)
                 with second_card:
-                    st.write('Here’s go the content of the generated LOCAL Master ...')
+                    st.write('Here’s go the content of the generated DISTRIBUTOR VERSION ...')
                     st.text_area('', final_content, height=500)
                 col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 1])
                 with col2:
