@@ -42,8 +42,9 @@ with home_container:
             title = selected_distributor['title']
             description = selected_distributor['description']
             tone = selected_distributor['tone']
-            format = selected_distributor['format']
+            target = selected_distributor['format']
             distributor_settings = selected_distributor['defaultSettings']
+            seoKeywords= selected_distributor['seoKeywords']
 
             # Display the title and input field side by side
             col1, col2 = st.columns([1, 4])
@@ -77,7 +78,16 @@ with home_container:
         prompt_card = container_with_border(custom_css)
         with prompt_card:
             st.write('Here’s go the content of the generated prompt ...')
-            final_prompt = st.text_area("Prompt", generate_prompt_distributor(selected_distributor_id, local_master_id, distributor_settings),height=400)
+            new_distributor_settings = f"""
+                                "title":"{title}",
+                                "description":"{description}",
+                                "tone": "{tone}",
+                                "target": {string_items_to_string_list(target)},
+                                "language": "english",
+                                "seoKeywords": {string_items_to_string_list(seoKeywords)},
+                            """
+            new_distributor_settings = "{" + new_distributor_settings + "}"
+            final_prompt = st.text_area("Prompt", generate_prompt_distributor(selected_distributor_id, local_master_id, new_distributor_settings),height=400)
         #
         col1_1, col2_1, col3_1 ,col4_1 = st.columns([2, 4, 4, 2])
         with col2_1:
