@@ -4,7 +4,7 @@ from components.distributors import display_distributors_list, display_distribut
 from middleware.local_master_service import fetch_local_master_by_id
 from middleware.distributor_service import fetch_all_distributors_versions
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
-    container_with_border, createBtn
+    container_with_border, createBtn, container_with_colored_bg
 from utils.utils import parse_market_settings
 
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
@@ -28,8 +28,7 @@ with home_container:
                 centered_text('Applied settings:', 'black', 'left', 18)
             with right:
                 st.write(local_master.get('marketName'))
-                custom_css = "background-color: #FFF5F5;"
-                second_card = container_with_border(custom_css)
+                second_card = container_with_colored_bg()
                 with second_card:
                     settings = local_master.get('settings')
                     if settings:
@@ -39,16 +38,15 @@ with home_container:
                         st.warning("No settings available for this local master.")
 
             centered_text('Used Prompt', 'black', 'left', 18, 'bold')
-            custom_css = "background-color: #FFF5F5;"
-            prompt_card = container_with_border(custom_css)
+            prompt_card = container_with_colored_bg()
             with prompt_card:
                 st.write(local_master.get('prompt'))
 
             centered_text('Generated content', 'black', 'left', 18, 'bold')
-            custom_css = "background-color: #FFF5F5;"
-            prompt_card = container_with_border(custom_css)
-            with prompt_card:
-                st.write(local_master.get('content'))
+            content_card = container_with_colored_bg()
+            with content_card:
+                st.markdown(f"<pre>{local_master.get('content')}</pre>", unsafe_allow_html=True)
+
             centered_text('Distributor versions', 'black', 'left', 18, 'bold')
             distributors_versions = fetch_all_distributors_versions(local_master_id)
             if distributors_versions:
