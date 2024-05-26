@@ -46,7 +46,6 @@ with home_container:
             content_card = container_with_colored_bg()
             with content_card:
                 st.markdown(f"<pre>{local_master.get('content')}</pre>", unsafe_allow_html=True)
-
             centered_text('Distributor versions', 'black', 'left', 18, 'bold')
             distributors_versions = fetch_all_distributors_versions(local_master_id)
             if distributors_versions:

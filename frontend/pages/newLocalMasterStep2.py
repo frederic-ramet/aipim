@@ -10,6 +10,10 @@ from utils.style import generate_main_container, generate_top_container, generat
 def redirect_to_streamlit_app():
     st.write("Session data is missing. Please navigate back to the home page.")
 
+# Function to redirect to streamlit_app page
+def redirect_to_streamlit_app():
+    st.write("Session data is missing. Please navigate back to the home page.")
+
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
 sidebar.show_sidebar()
 generate_top_container("Welcome to AI PIM")

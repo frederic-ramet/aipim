@@ -134,3 +134,25 @@ def get_localmaster_info(local_master_id):
     localMaster_params = (local_master_id,)
     localMaster_info_from_database = get_specific_info_from_database(localMaster_query, localMaster_params)
     return localMaster_info_from_database
+
+def distributer_versions_list(localMasterId: int):
+    conn = sqlite3.connect('ai-pim.db')
+    conn.row_factory = sqlite3.Row
+    db = conn.cursor()
+
+    # SQL command to fetch the first row where the title is 'XYZ'
+    db.execute("SELECT * FROM distributorVersion WHERE localMasterId = ?", (localMasterId,))
+
+    # Fetch the first matching row
+    row = db.fetchall()
+
+    # Check if any rows were fetched
+    if row:
+        print("Data fetch successfully.")
+    else:
+        print("No data found with localMasterId:", localMasterId)
+
+    # Close the connection
+    conn.close()
+
+    return row

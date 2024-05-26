@@ -63,4 +63,5 @@ def distributor_version_content_generator(distributor_id, local_master_id, distr
         print("Error:", e)
         return None
 
-
+def get_list_of_distributer_versions(local_master_id: int):
+    return utils.distributer_versions_list(local_master_id)
