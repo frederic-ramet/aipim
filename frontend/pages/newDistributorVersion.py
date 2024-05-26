@@ -109,6 +109,6 @@ with home_container:
             def on_button_click():
                 st.session_state.button_disabled = True
             # Button to generate content
-            if st.button("distributor version", type="primary", disabled=st.session_state.button_disabled,
+            if st.button("Generate a new distributor version", type="primary", disabled=st.session_state.button_disabled,
                          on_click=on_button_click):
                 generate_distributor_version_content()

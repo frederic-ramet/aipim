@@ -1,10 +1,9 @@
 import streamlit as st
 from components import sidebar
-from components.distributors import display_distributors_list, display_distributors_versions_list
+from components.distributors import display_distributors_versions_list
 from middleware.local_master_service import fetch_local_master_by_id
 from middleware.distributor_service import fetch_all_distributors_versions
-from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
-    container_with_border, createBtn, container_with_colored_bg
+from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, createBtn, container_with_colored_bg
 from utils.utils import parse_market_settings
 
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
@@ -22,29 +21,22 @@ with home_container:
     main_card = generate_main_card('LOCAL MASTER for: ' + local_master['title'])
     with main_card:
         if local_master:
-            left, right = st.columns([1, 10])
-            with left:
-                centered_text('Selected market', 'black', 'left', 18, 'bold')
-                centered_text('Applied settings:', 'black', 'left', 18)
-            with right:
-                st.write(local_master.get('marketName'))
-                second_card = container_with_colored_bg()
-                with second_card:
-                    settings = local_master.get('settings')
-                    if settings:
-                        settings_obj = parse_market_settings(settings)
-                        st.write(settings_obj)
-                    else:
-                        st.warning("No settings available for this local master.")
+            centered_text(f"Selected market <i>{local_master.get('marketName')}</i>", 'black', 'left', 18, 'bold')
+            centered_text('Applied settings', 'black', 'left', 18, 'bold')
+            with st.expander("Show"):
+                settings = local_master.get('settings')
+                if settings:
+                    settings_obj = parse_market_settings(settings)
+                    st.write(settings_obj)
+                else:
+                    st.warning("No settings available for this local master.")
 
             centered_text('Used Prompt', 'black', 'left', 18, 'bold')
-            prompt_card = container_with_colored_bg()
-            with prompt_card:
+            with st.expander("Show"):
                 st.write(local_master.get('prompt'))
 
             centered_text('Generated content', 'black', 'left', 18, 'bold')
-            content_card = container_with_colored_bg()
-            with content_card:
+            with st.expander("Show"):
                 st.markdown(f"<pre>{local_master.get('content')}</pre>", unsafe_allow_html=True)
             centered_text('Distributor versions', 'black', 'left', 18, 'bold')
             distributors_versions = fetch_all_distributors_versions(local_master_id)

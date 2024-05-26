@@ -141,7 +141,7 @@ Task:
 Generate a Local master product content for the market of "{market_info_from_database['title']}".
 
 Context: 
-You will provided by a list of information about a Nexans, you need to use them in the content generation.
+You will provided by a list of information about a Nexans's product, you need to use them in the content generation.
 The context is provided inside <context></context> tags.
 
 Process: 
