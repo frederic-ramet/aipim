@@ -17,11 +17,11 @@ def generate_prompt_local(master_product_id: int, selected_market_id: int, marke
 def generate_content_local(master_product_id: int, selected_market_id: int, market_settings: str, prompt: str):
     market_info_from_database = get_market_info(selected_market_id)
     try:
-        
+
         generated_content = ""
         get_scrapped_data = utils.get_scrapped_data_from_database(master_product_id)
         scrapped_data_dict = eval(get_scrapped_data["content"])
-        
+
         if settings.AI_SERVICE == "OPEN_AI":
             generated_content = ai_service_obj.openai_response(prompt)
             store_info_in_to_database(prompt, market_settings, master_product_id, selected_market_id,
@@ -29,15 +29,13 @@ def generate_content_local(master_product_id: int, selected_market_id: int, mark
 
         elif settings.AI_SERVICE == "AZURE_LLM":
             pass
-        
-        
-        
+
         response_dict = {
-            "title" : scrapped_data_dict["title"],
-            "description" : scrapped_data_dict["description"],
-            "content" : generated_content
-            }
-        
+            "title": scrapped_data_dict["title"],
+            "description": scrapped_data_dict["description"],
+            "content": generated_content
+        }
+
         return response_dict
     except Exception as e:
         print("Error:", e)

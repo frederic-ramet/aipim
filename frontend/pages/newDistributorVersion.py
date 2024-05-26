@@ -2,10 +2,9 @@ import streamlit as st
 from components import sidebar
 from middleware.local_master_service import fetch_local_master_by_id
 from middleware.distributor_service import fetch_all_distributors, generate_prompt_distributor,generate_distributor_version
-from middleware.product_service import fetch_master_product_by_id
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border, createBtn
-from utils.utils import select_distributor_by_label, parse_string_list, list_to_string_items, string_items_to_string_list
+from utils.utils import select_distributor_by_label, string_items_to_string_list
 
 params = st.query_params.to_dict()
 local_master_id = params['local_master_id']
@@ -109,7 +108,6 @@ with home_container:
             # Disable the button immediately on click
             def on_button_click():
                 st.session_state.button_disabled = True
-                #st.experimental_rerun() ?? important or not ??
             # Button to generate content
             if st.button("distributor version", type="primary", disabled=st.session_state.button_disabled,
                          on_click=on_button_click):

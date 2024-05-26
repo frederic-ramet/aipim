@@ -3,7 +3,12 @@ import json
 from components import sidebar
 from middleware.product_service import fetch_master_product_by_id
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
-    container_with_border, createBtn
+    container_with_border, createBtn, container_with_colored_bg
+
+
+# Function to redirect to streamlit_app page
+def redirect_to_streamlit_app():
+    st.write("Session data is missing. Please navigate back to the home page.")
 
 # Function to redirect to streamlit_app page
 def redirect_to_streamlit_app():
@@ -26,11 +31,21 @@ with home_container:
         with main_card:
             if master_product:
                 centered_text('Generated content for the Local Master', 'black', 'left', 18, 'bold')
-                custom_css = "background-color: #FFF5F5;"
-                second_card = container_with_border(custom_css)
-                with second_card:
-                    st.write('Here’s go the content of the generated LOCAL Master ...')
-                    st.markdown(f"<pre>{final_content}</pre>", unsafe_allow_html=True)
+                st.write('Title')
+                title_card = container_with_colored_bg()
+                with title_card:
+                    st.markdown(f"{final_content['title']}", unsafe_allow_html=True)
+
+                st.write('Description')
+                desc_card = container_with_colored_bg()
+                with desc_card:
+                    st.markdown(f"{final_content['description']}", unsafe_allow_html=True)
+
+                st.write('Content')
+                content_card = container_with_colored_bg()
+                with content_card:
+                    st.markdown(f"<pre>{final_content['content']}</pre>", unsafe_allow_html=True)
+
                 col1, col2, col3, col4, col5, col6 = st.columns([1, 2, 2, 2, 2, 1])
                 with col2:
                     createBtn(f"newLocalMaster1?id={product_id}", "Back")  # todo reload modified market settings

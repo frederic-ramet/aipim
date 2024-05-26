@@ -1,8 +1,10 @@
 import streamlit as st
-import pandas as pd
 from components.products import display_products
-from fake import masterProducts
 from middleware.product_service import fetch_all_products
+
+import warnings
+
+warnings.filterwarnings("ignore", message="Could not infer format")
 
 
 # Function to generate a styled clickable link

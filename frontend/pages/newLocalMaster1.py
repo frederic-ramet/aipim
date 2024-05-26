@@ -114,7 +114,6 @@ with home_container:
             # Disable the button immediately on click
             def on_button_click():
                 st.session_state.button_disabled = True
-                #st.experimental_rerun() ?? important or not ??
             # Button to generate content
             if st.button("Generate new content", type="primary", disabled=st.session_state.button_disabled,
                          on_click=on_button_click):

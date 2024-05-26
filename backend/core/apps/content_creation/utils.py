@@ -51,7 +51,7 @@ def local_products_list(masterProductId: int):
 def store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database,
                               content, scrapped_data_dict):
     local_master_title = f"{scrapped_data_dict['title']}"
-    local_master_name =  f"{market_info_from_database['title']}"
+    local_master_name = f"{market_info_from_database['title']}"
     local_master_id = selected_market_id
     local_master_settings = market_data
     local_master_prompt = prompt
@@ -108,8 +108,9 @@ def get_scrapped_data_from_database(master_product_id):
     return row
 
 
-def generate_prompt_based_on_market_data(scraped_data_dict: str, selected_market_id: int, market_data: str):
+def generate_prompt_based_on_market_data(scraped_data_dict_text: str, selected_market_id: int, market_data: str):
     market_data_dict = eval(market_data)
+    scraped_data_dict = eval(scraped_data_dict_text)
     market_info_from_database = get_market_info(selected_market_id)
 
     market_axis_list = market_data_dict["defaultAxis"]
@@ -131,17 +132,53 @@ def generate_prompt_based_on_market_data(scraped_data_dict: str, selected_market
     for feature in market_features_list:
         market_features_dict[feature] = features_data[feature]
 
-    prompt = f""" 
-                Generate a Local master product content for the market {market_info_from_database['title']}.
-                Here are this product information:
-                Main details: {scraped_data_dict}
-                Market_data: {market_data},
-                Market_axis: {market_axis_dict},
-                Market_features: {market_features_dict},
-                Seo keywords: {seo_keywords},
-                trends: {trends},
-                Content must be optimized to SEO.
-                """
+    prompt_prefix = f"""
+Role:
+You are a content writer working at Nexans. 
+Your mission is to write product marketing content providing an overview of the various types of cables offered by Nexans, along with their primary applications. 
+
+Task:
+Generate a Local master product content for the market of "{market_info_from_database['title']}".
+
+Context: 
+You will provided by a list of information about a Nexans, you need to use them in the content generation.
+The context is provided inside <context></context> tags.
+
+Process: 
+- use the provided context to generate a product marketing content for the product "{scraped_data_dict['title']}".
+- the content must be adapted for the market of "{market_info_from_database['title']}".
+- adapte the content according to the <market_axis>.
+- put focus on the features mentioned in <market_features>.
+- focus on the latest trends mentioned in <trends>.
+- don't forget to use the market data from <market_data>.
+- optimise the content for the SEO and use the keywords mentioned in <seo_keywords>.
+- the content must be written in {market_data_dict['languages']}
+
+Output:
+- the generated content must provide at least:
+    - a well written title
+    - short description
+    - product marketing content
+- the output must be written in {market_data_dict['languages']}
+- the output must be formatted en HTML.
+- remove all the "\n" and any json formatting
+
+"""
+    prompt_context = f"""
+<context>
+<product_details>
+    <description>{scraped_data_dict['description']}</description>
+    <description_details>{scraped_data_dict['description_details']}</description_details>
+    <characteristics>{scraped_data_dict['characteristics']}</characteristics>
+</product_details>
+<market_axis>{market_axis_dict}</market_axis>
+<market_features>{market_features_dict}</<market_features>
+<trends>{trends}</<trends>
+<seo_keywords>{seo_keywords}</seo_keywords>
+</context>
+"""
+    #  <variants>{scraped_data_dict['variants']}</variants>
+    prompt = f"""{prompt_prefix} {prompt_context}"""
 
     return prompt
 
