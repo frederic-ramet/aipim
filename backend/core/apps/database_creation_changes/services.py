@@ -40,3 +40,7 @@ def update_product_json_file(json_str_data):
         return utils.update_json_file_in_static(json_path, json_data)
     else:
         return {"error": "json structure is not correct"}
+    
+
+def update_database_data():
+    return utils.update_database_data()

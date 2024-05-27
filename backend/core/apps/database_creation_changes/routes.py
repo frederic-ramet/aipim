@@ -26,3 +26,7 @@ def update_marketing_axis_json_file(json_data):
 @db_router.post('/update_product_json_file')
 def update_product_json_file(json_data):
     return services.update_product_json_file(json_data)
+
+@db_router.post('/update_database_data')
+def update_database_data():
+    return services.update_database_data()
