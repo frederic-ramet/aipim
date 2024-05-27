@@ -4,6 +4,7 @@ from components.distributors import display_distributors_versions_list
 from middleware.local_master_service import fetch_local_master_by_id
 from middleware.distributor_service import fetch_all_distributors_versions
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, createBtn, container_with_colored_bg
+from middleware.product_service import fetch_master_product_by_id, fetch_product
 from utils.utils import parse_market_settings
 
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
@@ -18,7 +19,8 @@ home_container = generate_main_container()
 
 with home_container:
     local_master = fetch_local_master_by_id(local_master_id)
-    main_card = generate_main_card('LOCAL MASTER for: ' + local_master['title'])
+    master_product = fetch_master_product_by_id(product_id)
+    main_card = generate_main_card('LOCAL MASTER for: ' + local_master['title'] + ' - Product:' + master_product['title'])
     with main_card:
         if local_master:
             centered_text(f"Selected market <i>{local_master.get('marketName')}</i>", 'black', 'left', 18, 'bold')

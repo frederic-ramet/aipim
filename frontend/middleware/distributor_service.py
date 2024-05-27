@@ -67,3 +67,14 @@ def generate_distributor_version(distributor_id, local_master_id, distributor_se
     except requests.exceptions.RequestException as req_err:
         st.error(f"Request error occurred: {req_err}")
         return {}
+
+def fetch_distributor_version_by_id(distributor_version_id):
+    get_distributor_version_api_url = f"{base_url}/api/v1/get_one_distributor_version?distributor_version_id={distributor_version_id}"
+
+    try:
+        response = requests.get(get_distributor_version_api_url)
+        response.raise_for_status()
+        distributor_version_result = response.json()
+        return distributor_version_result
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching distributor version information by id: {e}")
