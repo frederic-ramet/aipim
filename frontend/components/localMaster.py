@@ -27,4 +27,4 @@ def display_local_master_list(product_id, local_master_data, with_filter):
     st.session_state['product_id'] = product_id
     df = pd.DataFrame(local_master_data)
     df = build_local_master_df(df)
-    build_table_html(df, with_filter)
+    build_table_html(df, with_filter, ['Title', 'Market Name', 'Creation Date'])

@@ -47,4 +47,4 @@ def display_distributors_versions_list(product_id, distributors, with_filter):
     # st.session_state['product_id'] = product_id
     df = pd.DataFrame(distributors)
     df = build_distributors_versions_df(df)
-    build_table_html(df, with_filter)
+    build_table_html(df, with_filter, ['Title', 'Distributor', 'Creation Date'])
