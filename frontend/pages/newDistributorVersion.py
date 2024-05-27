@@ -29,7 +29,7 @@ with home_container:
                 centered_text('Select the distributor', 'black', 'left', 18, 'bold')
 
             with right:
-                centered_text('Please provide the next informations', 'black', 'left', 18)
+                centered_text('Please provide the next information', 'black', 'left', 18)
                 selected_distributor_label = st.selectbox('', distributors_labels)
 
             selected_distributor = select_distributor_by_label(distributors, selected_distributor_label)
@@ -41,7 +41,7 @@ with home_container:
             title = selected_distributor['title']
             description = selected_distributor['description']
             tone = selected_distributor['tone']
-            target = selected_distributor['format']
+            target = str(selected_distributor['format'])
             distributor_settings = selected_distributor['defaultSettings']
             seoKeywords= selected_distributor['seoKeywords']
 
@@ -63,7 +63,7 @@ with home_container:
             with col5:
                 st.write("Main target:")
             with col6:
-                distributor_ton_input = st.text_input("Format", format)
+                distributor_ton_input = st.text_input("Format", target)
 
             # Display the title and input field side by side
             col7, col8 = st.columns([1, 4])

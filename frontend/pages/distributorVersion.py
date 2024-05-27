@@ -7,8 +7,10 @@ from utils.style import generate_main_container, generate_top_container, generat
 
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
 
-#params = st.query_params.to_dict()
-#product_id = params['id']
+params = st.query_params.to_dict()
+distributor_version_id = params['id']
+local_master_id = params['local_master_id']
+product_id = params['product_id']
 
 sidebar.show_sidebar()
 generate_top_container("Welcome to AI PIM")
