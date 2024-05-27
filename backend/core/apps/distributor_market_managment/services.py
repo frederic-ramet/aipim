@@ -16,6 +16,8 @@ def list_distributors():
     response = utils.get_list_from_database(query)
     return response
 
+def get_one_distributor_version(id):
+    return utils.get_one_distributor_version_from_database(id)
 
 def distributor_prompt_generator(distributor_id: int, local_master_id: int, distributor_settings: str):
     distributor_info_from_database = utils.get_distributor_info(distributor_id)

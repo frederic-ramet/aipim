@@ -17,6 +17,9 @@ def list_markets():
 def list_distributors():
     return services.list_distributors()
 
+@dis_mar_router.get('/get_one_distributor_version')
+def get_one_distributor_version(distributor_version_id):
+    return services.get_one_distributor_version(distributor_version_id)
 
 @dis_mar_router.post('/distributor_prompt_generator')
 def distributor_prompt_generator(distributor_id: int, local_master_id: int, distributor_settings: str):

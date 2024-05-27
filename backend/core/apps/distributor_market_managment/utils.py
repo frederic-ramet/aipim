@@ -191,3 +191,25 @@ def distributer_versions_list(localMasterId: int):
     conn.close()
 
     return row
+
+def get_one_distributor_version_from_database(id):
+    conn = sqlite3.connect('ai-pim.db')
+    conn.row_factory = sqlite3.Row
+    db = conn.cursor()
+
+    # SQL command to fetch the first row where the title is 'XYZ'
+    db.execute("SELECT * FROM distributorVersion WHERE id = ?", (id,))
+
+    # Fetch the first matching row
+    row = db.fetchall()
+
+    # Check if any rows were fetched
+    if row:
+        print("Data fetch successfully.")
+    else:
+        print("No data found with id:", id)
+
+    # Close the connection
+    conn.close()
+
+    return row[0]
