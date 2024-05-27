@@ -83,7 +83,7 @@ with home_container:
                                 "tone": "{tone}",
                                 "target": {string_items_to_string_list(target)},
                                 "language": "english",
-                                "seoKeywords": {string_items_to_string_list(seoKeywords)},
+                                "seoKeywords": {seoKeywords},
                             """
             new_distributor_settings = "{" + new_distributor_settings + "}"
             final_prompt = st.text_area("Prompt", generate_prompt_distributor(selected_distributor_id, local_master_id, new_distributor_settings),height=400)
