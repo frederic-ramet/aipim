@@ -23,6 +23,12 @@ class Settings(BaseSettings):
     REDIS_HOST: str
     OPENAI_API_KEY: str
     AI_SERVICE: str
+    FEATURES_JSON_PATH: str = "static/parameters/feature.json"
+    MARKET_AXIS_JSON_PATH: str = "static/parameters/marketing_axis.json"
+    DISTRIBUTORS_JSON_PATH: str = "static/parameters/distributors.json"
+    MARKET_JSON_PATH: str = "static/parameters/market.json"
+    PRODUCTS_JSON_PATH: str = "static/parameters/product.json"
+    DB_PATH: str = "ai-pim.db"
 
     class Config:
         env_file = '.env'
