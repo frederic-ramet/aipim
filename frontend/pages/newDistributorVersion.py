@@ -1,7 +1,8 @@
 import streamlit as st
 from components import sidebar
 from middleware.local_master_service import fetch_local_master_by_id
-from middleware.distributor_service import fetch_all_distributors, generate_prompt_distributor,generate_distributor_version
+from middleware.distributor_service import fetch_all_distributors, generate_prompt_distributor, \
+    generate_distributor_version
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border, createBtn
 from utils.utils import select_distributor_by_label, string_items_to_string_list
@@ -43,7 +44,7 @@ with home_container:
             tone = selected_distributor['tone']
             target = str(selected_distributor['format'])
             distributor_settings = selected_distributor['defaultSettings']
-            seoKeywords= selected_distributor['seoKeywords']
+            seoKeywords = str(selected_distributor['seoKeywords'])
 
             # Display the title and input field side by side
             col1, col2 = st.columns([1, 4])
@@ -70,7 +71,7 @@ with home_container:
             with col7:
                 st.write("Tone:")
             with col8:
-                distributor_format_input = st.text_area("Tone", tone,  height=100)
+                distributor_format_input = st.text_area("Tone", tone, height=100)
             # Display the title and input field side by side
 
         centered_text('To be applied Prompt (you can edit them):', 'black', 'left', 18)
@@ -83,12 +84,13 @@ with home_container:
                                 "tone": "{tone}",
                                 "target": {string_items_to_string_list(target)},
                                 "language": "english",
-                                "seoKeywords": {seoKeywords},
+                                "seoKeywords": {string_items_to_string_list(seoKeywords)},
                             """
             new_distributor_settings = "{" + new_distributor_settings + "}"
-            final_prompt = st.text_area("Prompt", generate_prompt_distributor(selected_distributor_id, local_master_id, new_distributor_settings),height=400)
+            final_prompt = st.text_area("Prompt", generate_prompt_distributor(selected_distributor_id, local_master_id,
+                                                                              new_distributor_settings), height=400)
         #
-        col1_1, col2_1, col3_1 ,col4_1 = st.columns([2, 4, 4, 2])
+        col1_1, col2_1, col3_1, col4_1 = st.columns([2, 4, 4, 2])
         with col2_1:
             createBtn(f'/localMasterPage?id={local_master_id}&product_id={product_id}', 'Back')
         with col3_1:
@@ -96,19 +98,25 @@ with home_container:
             if 'button_disabled' not in st.session_state:
                 st.session_state.button_disabled = False
 
+
             def generate_distributor_version_content():
                 with st.spinner('Generating distributor version...'):
-                    final_content = generate_distributor_version(selected_distributor_id, local_master_id, distributor_settings, final_prompt)
+                    final_content = generate_distributor_version(selected_distributor_id, local_master_id,
+                                                                 distributor_settings, final_prompt)
                     st.session_state['local_master_id'] = local_master_id
                     st.session_state['product_id'] = product_id
                     st.session_state['distributor_version_content'] = final_content
                     st.session_state.button_disabled = False  # Re-enable the button
                     st.switch_page('pages/newDistributorVersion2.py')
 
+
             # Disable the button immediately on click
             def on_button_click():
                 st.session_state.button_disabled = True
+
+
             # Button to generate content
-            if st.button("Generate a new distributor version", type="primary", disabled=st.session_state.button_disabled,
+            if st.button("Generate a new distributor version", type="primary",
+                         disabled=st.session_state.button_disabled,
                          on_click=on_button_click):
                 generate_distributor_version_content()
