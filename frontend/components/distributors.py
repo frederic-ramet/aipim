@@ -7,8 +7,9 @@ from utils.utils import date_col
 
 
 def show_distributor_version(value: object) -> object:
-    # product_id = st.session_state['product_id']
-    return f"<a href='/distributorVersion' target='_self'>️{eye()}</a>"
+    product_id = st.session_state['product_id']
+    local_master_id = st.session_state['local_master_id']
+    return f"<a href='/distributorVersion?id={value}&local_master_id={local_master_id}&product_id={product_id}'target='_self'>️{eye()}</a>"
 
 
 def build_distributors_df(dataframe):
@@ -43,8 +44,9 @@ def display_distributors_list(product_id, distributors, with_filter):
     build_table_html(df, with_filter)
 
 
-def display_distributors_versions_list(product_id, distributors, with_filter):
-    # st.session_state['product_id'] = product_id
+def display_distributors_versions_list(product_id,local_master_id, distributors, with_filter):
+    st.session_state['product_id'] = product_id
+    st.session_state['local_master_id'] = local_master_id
     df = pd.DataFrame(distributors)
     df = build_distributors_versions_df(df)
     build_table_html(df, with_filter, ['Title', 'Distributor', 'Creation Date'])

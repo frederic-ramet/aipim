@@ -39,5 +39,6 @@ with home_container:
         products = fetch_all_products()
         if len(products) > 0:
             display_products(products, True)
+            st.write('')
         else:
             st.warning("No products")
