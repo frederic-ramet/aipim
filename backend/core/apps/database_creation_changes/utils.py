@@ -75,7 +75,7 @@ def check_product_json_structure(json_str_data):
 
 
 def upgrade():
-    os.remove(settings.DB_PATH)
+    # os.remove(settings.DB_PATH)
 
     conn = sqlite3.connect(settings.DB_PATH)
     cursor = conn.cursor()

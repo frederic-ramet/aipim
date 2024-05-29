@@ -1,5 +1,4 @@
 import sqlite3
-from core.apps.content_creation import utils as cc_utils
 
 
 def get_list_from_database(query):
@@ -81,12 +80,16 @@ def insert_info_to_database(distributorVersion_title, distributorVersion_distrib
 def distributor_prompt_generator(distributor_info_from_database: dict, localMaster_info_from_database: dict,
                                  distributor_settings: str):
     distributor_data_dict = eval(distributor_settings)
+    distributor_label = distributor_data_dict['label']
+    distributor_title_recom = distributor_data_dict['titleRecommendations']
+    distributor_desc_recom = distributor_data_dict['descRecommendations']
     distributor_distribution = distributor_data_dict["description"]
     distributor_tone = distributor_data_dict["tone"]
     distributor_language = distributor_data_dict["language"]
     distributor_target = distributor_data_dict["target"]
     distributor_seo_keywords = distributor_data_dict["seoKeywords"]
     generated_content = localMaster_info_from_database["content"]
+
 
     # insert_generated_prompt_database(prompt, distributor_info_from_database, localMaster_info_from_database, distributor_settings)
     prompt_prefix = f"""
@@ -95,7 +98,7 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     Your mission is to write product marketing content providing an overview of the various types of cables offered by Nexans, along with their primary applications. 
 
     Task:
-    Generate a product content for the specific distributor of "{distributor_data_dict['title']}".
+    Generate a product content for the specific distributor of "{distributor_label}".
 
     Context: 
     You will provided by a list of information about a Nexans's product, you need to use them in the content generation.
@@ -103,7 +106,9 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
 
     Process: 
     - use the provided context to adapt the generated content (mentioned in <localMaster_info>), generated for as local product content for the product "{localMaster_info_from_database['title']}".
-    - generate a product marketing content for the distributor of "{distributor_data_dict['title']}".
+    - generate a product marketing content for the distributor of "{distributor_label}".
+    - the generated title must respect these recommendations: {distributor_title_recom}
+    - the generated description must respect these recommendations: {distributor_desc_recom}
     - the content must be adapted for these type of market "{distributor_target}".
     - adapte the content according to the <distributor_tone>.
     - don't forget to use the distributor data from <distributor_distribution>.
