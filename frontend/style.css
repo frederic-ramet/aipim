@@ -1,5 +1,5 @@
 /* Global Styles */
-/* primary color #ff3933 */
+/* primary color #EE2426 */
 body {
   font-family: montserrat;
 }
@@ -128,4 +128,13 @@ table.dataframe thead th{
 
 .primary-btn:hover{
  text-decoration: none;
+}
+
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab {
+  font-family: "Font Awesome 5 Free" !important;
 }

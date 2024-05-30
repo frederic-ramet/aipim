@@ -9,7 +9,14 @@ from utils.utils import date_col
 def show_distributor_version(value: object) -> object:
     product_id = st.session_state['product_id']
     local_master_id = st.session_state['local_master_id']
-    return f"<a href='/distributorVersion?id={value}&local_master_id={local_master_id}&product_id={product_id}'target='_self'>️{eye()}</a>"
+    return f"<a href='/distributorVersion?id={value}&local_master_id={local_master_id}&product_id={product_id}'target" \
+           f"='_self'>️<i class='fa fa-regular fa-eye' style='color:#31333f;'></i></a>"
+
+
+def delete_distributor_version(value: object) -> object:
+    product_id = st.session_state['product_id']
+    local_master_id = st.session_state['local_master_id']
+    return f"<a href='/delete_distributorVersion?id={value}&local_master_id={local_master_id}&product_id={product_id}' target='_self'>️<i class='fa fa-solid fa-trash' style='color: #EE2426;'></i></a>"
 
 
 def build_distributors_df(dataframe):
@@ -25,15 +32,17 @@ def build_distributors_df(dataframe):
 
 
 def build_distributors_versions_df(dataframe):
-
+    dataframe['delete'] = dataframe['id']
     # reorder
-    new_column_order = ['title', 'distributor', 'created_at', 'id']
+    new_column_order = ['title', 'distributor', 'created_at', 'id', 'delete']
     dataframe = dataframe[new_column_order]
     # change names
-    new_column_order = {'title': 'Title', 'distributor': 'Distributor', 'created_at': 'Creation Date', 'id': 'Actions'}
+    new_column_order = {'title': 'Title', 'distributor': 'Distributor', 'created_at': 'Creation Date', 'id': 'Show',
+                        'delete': 'Delete'}
     dataframe = dataframe.rename(columns=new_column_order)
-    dataframe['Actions'] = dataframe['Actions'].apply(show_distributor_version)
     dataframe['Creation Date'] = dataframe['Creation Date'].apply(date_col)
+    dataframe['Show'] = dataframe['Show'].apply(show_distributor_version)
+    dataframe['Delete'] = dataframe['Delete'].apply(delete_distributor_version)
     return dataframe
 
 
@@ -44,7 +53,7 @@ def display_distributors_list(product_id, distributors, with_filter):
     build_table_html(df, with_filter)
 
 
-def display_distributors_versions_list(product_id,local_master_id, distributors, with_filter):
+def display_distributors_versions_list(product_id, local_master_id, distributors, with_filter):
     st.session_state['product_id'] = product_id
     st.session_state['local_master_id'] = local_master_id
     df = pd.DataFrame(distributors)

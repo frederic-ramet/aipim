@@ -16,7 +16,7 @@ home_container = generate_main_container()
 
 with home_container:
     master_product = fetch_master_product_by_id(product_id)
-    main_card = generate_main_card('MASTER PRODUCT Page: '+master_product['title'])
+    main_card = generate_main_card('Product reference: '+ master_product['title'])
     with main_card:
         st.text("Here are all product’s informations.")
         json_data = master_product['content']

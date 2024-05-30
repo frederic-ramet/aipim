@@ -21,10 +21,13 @@ with home_container:
     master_product = fetch_master_product_by_id(product_id)
     local_master = fetch_local_master_by_id(local_master_id)
     distributor_version = fetch_distributor_version_by_id(distributor_version_id)
-    main_card = generate_main_card('Distributor Version for: ' + local_master['title'])
+    selected_distributor_label = distributor_version['distributor']
+    final_content = distributor_version['content']
+    main_card = generate_main_card(
+        f"Distributor Version for product reference: {local_master['title']} | {local_master['marketName']} | {selected_distributor_label}")
     with main_card:
         if distributor_version:
-            centered_text(f"Distributor <i>{distributor_version.get('distributor')}</i>", 'black', 'left', 18, 'bold')
+            centered_text(f"Distributor: <i>{distributor_version.get('distributor')}</i>", 'black', 'left', 18, 'bold')
             centered_text(f"Local Master: {local_master.get('title')}", 'black', 'left', 18, 'bold')
             centered_text(f"Product: {master_product.get('title')}", 'black', 'left', 18, 'bold')
 
@@ -41,6 +44,9 @@ with home_container:
             centered_text('Used Prompt', 'black', 'left', 18, 'bold')
             with st.expander("Show"):
                 st.write(distributor_version.get('prompt'))
+            centered_text('Generated content', 'black', 'left', 18, 'bold')
+            with st.expander("Show"):
+                st.markdown(f"<pre>{distributor_version.get('content')}</pre>", unsafe_allow_html=True)
 
 
         else:

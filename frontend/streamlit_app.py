@@ -23,12 +23,12 @@ home_container = generate_main_container()
 
 with home_container:
     right_actions = [{
-        "text": "Add master product",
+        "text": "Add a product reference",
         "key": "add-product",
         "page": "addProduct",
         "type": "primary",  # "secondary" or "primary"
     }]
-    main_card = generate_main_card("Products", right_actions)
+    main_card = generate_main_card("Product references", right_actions)
 
     # Selecting specific columns from masterProducts
     selected_columns = ["title", "url", "description", "created_at", "id"]
