@@ -51,7 +51,7 @@ def local_products_list(masterProductId: int):
 def store_info_in_to_database(prompt, market_data, master_product_id, selected_market_id, market_info_from_database,
                               content, scrapped_data_dict):
     local_master_title = f"{scrapped_data_dict['title']}"
-    local_master_name = f"{market_info_from_database['title']}"
+    local_master_name = f"{market_info_from_database['label']}"
     local_master_id = selected_market_id
     local_master_settings = market_data
     local_master_prompt = prompt
@@ -138,7 +138,7 @@ You are a content writer working at Nexans.
 Your mission is to write product marketing content providing an overview of the various types of cables offered by Nexans, along with their primary applications. 
 
 Task:
-Generate a Local master product content for the market of "{market_info_from_database['title']}".
+Generate a Local master product content for the market of "{market_info_from_database['label']}".
 
 Context: 
 You will provided by a list of information about a Nexans's product, you need to use them in the content generation.
@@ -146,7 +146,7 @@ The context is provided inside <context></context> tags.
 
 Process: 
 - use the provided context to generate a product marketing content for the product "{scraped_data_dict['title']}".
-- the content must be adapted for the market of "{market_info_from_database['title']}".
+- the content must be adapted for the market of "{market_info_from_database['label']}".
 - adapte the content according to the <market_axis>.
 - put focus on the features mentioned in <market_features>.
 - focus on the latest trends mentioned in <trends>.
