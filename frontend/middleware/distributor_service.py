@@ -83,3 +83,15 @@ def fetch_distributor_version_by_id(distributor_version_id):
         return distributor_version_result
     except requests.exceptions.RequestException as e:
         st.error(f"Error fetching distributor version information by id: {e}")
+
+
+def delete(distributor_version_id):
+    get_distributor_version_api_url = f"{base_url}/api/v1/delete_distributor_version_data?id={distributor_version_id}"
+
+    try:
+        response = requests.delete(get_distributor_version_api_url)
+        response.raise_for_status()
+        return True
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching distributor version information by id: {e}")
+        return False

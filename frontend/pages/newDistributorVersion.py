@@ -19,7 +19,8 @@ home_container = generate_main_container()
 with home_container:
     local_master = fetch_local_master_by_id(local_master_id)
     language = eval(local_master['settings'])['languages']
-    main_card = generate_main_card(f"New DISTRIBUTOR VERSION for Product reference: {local_master['title']} | {local_master['marketName']}")
+    main_card = generate_main_card(
+        f"New DISTRIBUTOR VERSION for Product reference: {local_master['title']} | {local_master['marketName']}")
     distributors = fetch_all_distributors()
     # Extract labels from the list of distributors dictionaries
     distributors_labels = [distributor['label'] for distributor in distributors]
@@ -36,16 +37,17 @@ with home_container:
                 selected_distributor_label = st.selectbox('', distributors_labels)
 
             selected_distributor = select_distributor_by_label(distributors, selected_distributor_label)
+            print(selected_distributor)
             selected_distributor_id = selected_distributor['id']
         centered_text('To be applied settings (you can edit them):', 'black', 'left', 18)
         custom_css = "background-color: #FFF5F5;"
         second_card = container_with_border(custom_css)
         with second_card:
-            title = selected_distributor['title']
-            description = selected_distributor['description']
+            titleRecommendations = selected_distributor['titleRecommendations']
+            descRecommendations = selected_distributor['descRecommendations']
             tone = selected_distributor['tone']
-            target = str(selected_distributor['format'])
-            distributor_settings = selected_distributor['defaultSettings']
+            target = str(selected_distributor['target'])
+            distributor_settings = ""  # selected_distributor['defaultSettings']
             seoKeywords = str(selected_distributor['seoKeywords'])
 
             # Display the title and input field side by side
@@ -53,14 +55,14 @@ with home_container:
             with col1:
                 st.write("Title:")
             with col2:
-                distributor_title_input = st.text_input("Title recommendations", title)
+                distributor_title_input = st.text_input("Title recommendations", titleRecommendations)
 
             # Display the title and input field side by side
             col3, col4 = st.columns([1, 4])
             with col3:
                 st.write("Description:")
             with col4:
-                distributor_description_input = st.text_input("Description recommendations", description)
+                distributor_description_input = st.text_input("Description recommendations", descRecommendations)
             # Display the title and input field side by side
             col5, col6 = st.columns([1, 4])
             with col5:
@@ -90,7 +92,7 @@ with home_container:
                                 "label":"{selected_distributor_label}",
                                 "description": "",
                                 "titleRecommendations":"{distributor_title_input}",
-                                "descRecommendations":"{description}",
+                                "descRecommendations":"{descRecommendations}",
                                 "tone": "{distributor_ton_input}",
                                 "target": {build_list_as_string(distributor_format_input)},
                                 "language": "{language}",

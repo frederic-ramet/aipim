@@ -1,7 +1,7 @@
 import streamlit as st
 from components import sidebar
 from components.localMaster import display_local_master_list
-from middleware.local_master_service import fetch_local_products
+from middleware.local_master_service import fetch_local_products, delete
 from middleware.product_service import fetch_master_product_by_id, fetch_product
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text,createBtn
 
@@ -40,6 +40,12 @@ with home_container:
         centered_text('Generated Contents (LOCAL MASTER):', 'black', 'left', 18, 'bold')
         st.write('')
         local_products = fetch_local_products(product_id)
+        if 'delete_local_product' in params:
+            delete_local_product = params['delete_local_product']
+            done = delete(delete_local_product)
+            if done:
+                st.toast('Deleted!', icon='🎉')
+                local_products = fetch_local_products(product_id)
         if local_products:
             display_local_master_list(product_id, local_products, True)
             st.write('')

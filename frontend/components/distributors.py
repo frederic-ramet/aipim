@@ -16,7 +16,7 @@ def show_distributor_version(value: object) -> object:
 def delete_distributor_version(value: object) -> object:
     product_id = st.session_state['product_id']
     local_master_id = st.session_state['local_master_id']
-    return f"<a href='/delete_distributorVersion?id={value}&local_master_id={local_master_id}&product_id={product_id}' target='_self'>️<i class='fa fa-solid fa-trash' style='color: #EE2426;'></i></a>"
+    return f"<a href='/localMasterPage?id={local_master_id}&product_id={product_id}&delete_dis_version={value}' target='_self'>️<i class='fa fa-solid fa-trash' style='color: #EE2426;'></i></a>"
 
 
 def build_distributors_df(dataframe):

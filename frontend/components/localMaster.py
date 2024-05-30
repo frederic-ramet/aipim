@@ -14,7 +14,7 @@ def show_local_master(value: object) -> object:
 
 def delete_local_master(value: object) -> object:
     product_id = st.session_state['product_id']
-    return f" <a href='/delete_localMasterPage?id={value}&product_id={product_id}' target='_self'><i class='fa " \
+    return f" <a href='/masterProductPage?id={product_id}&delete_local_product={value}' target='_self'><i class='fa " \
            f"fa-solid fa-trash' style='color: #EE2426;'></i></a>"
 
 

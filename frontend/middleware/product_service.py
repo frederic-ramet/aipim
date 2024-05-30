@@ -55,3 +55,14 @@ def fetch_master_product_by_id_fake(product_id):
     except Exception as e:
         st.error(f"Error fetching product information by id: {e}")
 
+
+def delete(delete_master_product):
+    delete_master_product_url = f"{base_url}/api/v1/delete_master_product_data?id={delete_master_product}"
+
+    try:
+        response = requests.delete(delete_master_product_url)
+        response.raise_for_status()
+        return True
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error deleting the master product information by id: {e}")
+        return False
