@@ -67,3 +67,34 @@ def check_product_json_structure(json_str_data):
                 return False
     except json.JSONDecodeError:
         return False
+
+def get_features_json():
+    with open(settings.FEATURES_JSON_PATH, 'r') as fp:
+        return json.load(fp)
+    
+def get_distributors_json():
+    with open(settings.DISTRIBUTORS_JSON_PATH, 'r') as fp:
+        return json.load(fp)
+
+def get_market_json():
+    with open(settings.MARKET_JSON_PATH, 'r') as fp:
+        return json.load(fp)
+    
+def get_marketing_axis_json():
+    with open(settings.MARKET_AXIS_JSON_PATH, 'r') as fp:
+        return json.load(fp)
+
+def get_product_json():
+    with open(settings.PRODUCTS_JSON_PATH, 'r') as fp:
+        return json.load(fp)
+
+
+def get_all_json_data():
+    final_dict = {
+        "product": get_product_json(),
+        "marketAxis": get_marketing_axis_json(),
+        "market": get_market_json(),
+        "distribution": get_distributors_json(),
+        "features": get_features_json()
+    }
+    return final_dict
