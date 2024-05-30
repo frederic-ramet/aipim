@@ -98,3 +98,63 @@ def get_all_json_data():
         "features": get_features_json()
     }
     return final_dict
+
+def delete_local_master_data(id):
+    try:
+        conn = sqlite3.connect('ai-pim.db')
+        cursor = conn.cursor()
+        
+        if id != 0:
+            # Execute a SQL command to delete a row
+            cursor.execute(f"DELETE FROM localMaster WHERE id = {id}")
+
+        if id == 0:
+            cursor.execute("DELETE FROM localMaster")
+
+        conn.commit()
+        conn.close()
+        return {"status": 200,
+                "message": "Successfully deleted"}
+    except Exception as e:
+        return {"status": 500,
+                "message": e}
+    
+def delete_master_product_data(id):
+    try:
+        conn = sqlite3.connect('ai-pim.db')
+        cursor = conn.cursor()
+        
+        if id != 0:
+            # Execute a SQL command to delete a row
+            cursor.execute(f"DELETE FROM masterProduct WHERE id = {id}")
+
+        if id == 0:
+            cursor.execute("DELETE FROM masterProduct")
+
+        conn.commit()
+        conn.close()
+        return {"status": 200,
+                "message": "Successfully deleted"}
+    except Exception as e:
+        return {"status": 500,
+                "message": e}
+    
+def delete_distributor_version_data(id):
+    try:
+        conn = sqlite3.connect('ai-pim.db')
+        cursor = conn.cursor()
+        
+        if id != 0:
+            # Execute a SQL command to delete a row
+            cursor.execute(f"DELETE FROM distributorVersion WHERE id = {id}")
+
+        if id == 0:
+            cursor.execute("DELETE FROM distributorVersion")
+
+        conn.commit()
+        conn.close()
+        return {"status": 200,
+                "message": "Successfully deleted"}
+    except Exception as e:
+        return {"status": 500,
+                "message": e}
