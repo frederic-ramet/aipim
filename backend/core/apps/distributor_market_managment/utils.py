@@ -111,8 +111,8 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     - the generated description must respect these recommendations: {distributor_desc_recom}
     - the content must be adapted for these type of market "{distributor_target}".
     - adapte the content according to the <distributor_tone>.
-    - don't forget to use the distributor data from <distributor_distribution>.
-    - optimise the content for the SEO and use the keywords mentioned in <seo_keywords>.
+    - don't forget to use the distributor data from {distributor_distribution}.
+    - optimise the content for the SEO and use the keywords mentioned in {distributor_seo_keywords}.
     - the content must be written in {distributor_language}
 
     Output:

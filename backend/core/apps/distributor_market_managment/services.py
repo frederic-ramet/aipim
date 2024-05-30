@@ -45,7 +45,7 @@ def distributor_version_content_generator(distributor_id, local_master_id, distr
         # elif settings.AI_SERVICE == "AZURE_LLM":
         #     pass
 
-        distributorVersion_title = f"{distributor_info_from_database['label']}_{distributor_info_from_database['format']}"
+        distributorVersion_title = f"{distributor_info_from_database['label']}_{distributor_info_from_database['target']}"
         distributorVersion_distributor = f"{distributor_info_from_database['label']}"
         distributorVersion_distributorId = f"{distributor_info_from_database['id']}"
         distributorVersion_settings = distributor_settings

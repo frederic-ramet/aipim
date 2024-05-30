@@ -17,6 +17,9 @@ with home_container:
         with main_card:
             st.write("Session data is missing. Please navigate back.")
             createBtn("/", 'back')
+    print("== == " * 20)
+    print(st.session_state)
+    print("== == " * 20)
     if 'local_generated_product_id' in st.session_state:
         product_id = st.session_state['local_generated_product_id']
         final_content = st.session_state['local_generated_content']
@@ -30,6 +33,9 @@ with home_container:
             if master_product:
                 st.write('Title original')
                 title_card = container_with_colored_bg()
+                print("== == " * 20)
+                print(final_content)
+                print("== == " * 20)
                 with title_card:
                     st.markdown(f"{final_content['title']}", unsafe_allow_html=True)
 

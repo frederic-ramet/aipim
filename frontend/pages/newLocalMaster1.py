@@ -19,7 +19,7 @@ with home_container:
     main_card = generate_main_card('NEW LOCAL MASTER for: ' + master_product['title'])
     markets = fetch_all_markets()
     # Extract titles from the list of market dictionaries
-    market_titles = [market['title'] for market in markets]
+    market_titles = [market['label'] for market in markets]
     with main_card:
         if master_product:
             left, right = st.columns([1, 4])
@@ -37,10 +37,10 @@ with home_container:
         custom_css = "background-color: #FFF5F5;"
         second_card = container_with_border(custom_css)
         with second_card:
-            marketing_features = parse_string_list(selected_market['marketFeatures'])
-            default_axis = parse_string_list(selected_market['defaultAxis'])
+            marketing_features = parse_string_list(selected_market['features'])
+            default_axis = parse_string_list(selected_market['marketingAxis'])
             languages = parse_string_list(selected_market['languages'])
-            culturalTrends = parse_string_list(selected_market['culturalTrends'])
+            culturalTrends = parse_string_list(selected_market['trends'])
             seoKeywords = parse_string_list(selected_market['seoKeywords'])
 
             # Display the title and input field side by side

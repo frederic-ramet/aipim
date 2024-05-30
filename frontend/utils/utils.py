@@ -83,7 +83,7 @@ def string_items_to_string_list(items_string):
 
 def select_market_by_title(markets, title):
     # Find the selected market dictionary based on the selected title
-    return next((market for market in markets if market['title'] == title), None)
+    return next((market for market in markets if market['label'] == title), None)
 
 
 def date_col(value):
