@@ -8,18 +8,28 @@ from utils.utils import date_col
 
 def show_local_master(value: object) -> object:
     product_id = st.session_state['product_id']
-    return f"<a href='/localMasterPage?id={value}&product_id={product_id}' target='_self'>️{eye()}</a>"
+    return f"<a href='/localMasterPage?id={value}&product_id={product_id}' target='_self'><i class='fa fa-regular " \
+           f"fa-eye' style='color:#31333f;'></i></a>"
+
+
+def delete_local_master(value: object) -> object:
+    product_id = st.session_state['product_id']
+    return f" <a href='/delete_localMasterPage?id={value}&product_id={product_id}' target='_self'><i class='fa " \
+           f"fa-solid fa-trash' style='color: #EE2426;'></i></a>"
 
 
 def build_local_master_df(dataframe):
+    dataframe['delete'] = dataframe['id']
     # reorder
-    new_column_order = ['title', 'marketName', 'created_at', 'id']
+    new_column_order = ['title', 'marketName', 'created_at', 'id', 'delete']
     dataframe = dataframe[new_column_order]
     # change names
-    new_column_order = {'title': 'Title', 'marketName': 'Market Name', 'created_at': 'Creation Date', 'id': 'Actions'}
+    new_column_order = {'title': 'Title', 'marketName': 'Market Name', 'created_at': 'Creation Date', 'id': 'Show',
+                        'delete': 'Delete'}
     dataframe = dataframe.rename(columns=new_column_order)
-    dataframe['Actions'] = dataframe['Actions'].apply(show_local_master)
     dataframe['Creation Date'] = dataframe['Creation Date'].apply(date_col)
+    dataframe['Show'] = dataframe['Show'].apply(show_local_master)
+    dataframe['Delete'] = dataframe['Delete'].apply(delete_local_master)
     return dataframe
 
 

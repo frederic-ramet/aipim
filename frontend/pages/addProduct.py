@@ -13,9 +13,9 @@ home_container = generate_main_container()
 json_data = ""
 
 with home_container:
-    main_card = generate_main_card('Add MASTER PRODUCT')
+    main_card = generate_main_card('Add a product reference')
     with main_card:
-        st.text("Add a product by importing it from Nexans website.")
+        st.markdown("Add a product by importing it from <a href='https://www.nexans.fr/fr/products.html'>Nexans website</a>.", unsafe_allow_html=True)
         centered_text("Product URL:", "black", direction='left', size=20, bold='bold')
         col1, col2 = st.columns([20, 1])
         with col1:

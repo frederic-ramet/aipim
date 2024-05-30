@@ -30,6 +30,7 @@ def set_background(png_file):
 
 
 def set_style():
+    st.markdown(f'<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">', unsafe_allow_html=True)
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
@@ -107,7 +108,8 @@ def generate_main_card(title='', right_actions=None):
                                     """)
 
     with main_card_container:
-        title_col, actions_col = st.columns([3, 2])
+        num_cols = len(right_actions)
+        title_col, actions_col = st.columns([5-num_cols, (num_cols+1)])
         with title_col:
             centered_text(title, '#8D8D8D', 'left', 18, 'bold')
         with actions_col:

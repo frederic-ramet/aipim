@@ -24,12 +24,12 @@ with home_container:
         if master_product:
             left, right = st.columns([1, 4])
             with left:
-                centered_text('Step 1 (Generation):', 'black', 'left', 18, 'bold')
+                centered_text('Please provide the next informations', 'gray', 'left', 18, '')
                 st.write('')
                 centered_text('Select the market', 'black', 'left', 18, 'bold')
 
             with right:
-                centered_text('Please provide the next informations', 'black', 'left', 18)
+                st.write('')
                 selected_market_title = st.selectbox('', market_titles)
             selected_market = select_market_by_title(markets, selected_market_title)
             selected_market_id = selected_market["id"]
@@ -48,15 +48,21 @@ with home_container:
             with col1:
                 st.write("Marketing features:")
             with col2:
-                marketing_features_input = st.text_input("a list of marketing features separated by ',' ", list_to_string_items(marketing_features),
-                                                         key="default_marketing_features")
-
+                marketing_features_input = st.multiselect(
+                    "Please select the marketing features",
+                    marketing_features, # backend get all features
+                    marketing_features)
+                marketing_features_input = list_to_string_items(marketing_features_input)
             # Display the title and input field side by side
             col3, col4 = st.columns([1, 4])
             with col3:
                 st.write("Marketing axis:")
             with col4:
-                default_axis_input = st.text_input("a list of marketing axis separated by ',' ",  list_to_string_items(default_axis), key="default_axis_input")
+                default_axis_input = st.multiselect(
+                    "Please select the marketing axis",
+                    default_axis,
+                    default_axis)
+                default_axis_input = list_to_string_items(default_axis_input)
 
             # Display the title and input field side by side
             col5, col6 = st.columns([1, 4])
@@ -108,6 +114,8 @@ with home_container:
                                                            final_prompt)
                     st.session_state['local_generated_product_id'] = product_id
                     st.session_state['local_generated_content'] = final_content
+                    st.session_state['local_generated_content_market'] = selected_market_title
+                    st.session_state['local_generated_content_lang'] = language_input
                     st.session_state.button_disabled = False  # Re-enable the button
                     st.switch_page('pages/newLocalMasterStep2.py')
 
@@ -118,3 +126,5 @@ with home_container:
             if st.button("Generate new content", type="primary", disabled=st.session_state.button_disabled,
                          on_click=on_button_click):
                 generate_content()
+            st.write('')
+            st.write('')
