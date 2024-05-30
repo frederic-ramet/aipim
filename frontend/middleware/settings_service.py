@@ -24,3 +24,14 @@ def update_markets(markets_settings):
     except requests.exceptions.RequestException as req_err:
         st.error(f"Request error occurred: {req_err}")
         return None
+
+
+def get_full_settings():
+    back_url = f"{base_url}/api/v1/get_all_data"
+    try:
+        response = requests.get(back_url)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error fetching all settings data: {e}")
+        return []

@@ -11,7 +11,7 @@ def show_product(value: object) -> object:
 
 
 def delete_product(value: object) -> object:
-    return f" <a href='/deleteMasterProductPage?id={value}' target='_self'><i class='fa fa-solid fa-trash' " \
+    return f" <a href='/?delete_master_product={value}' target='_self'><i class='fa fa-solid fa-trash' " \
            f"style='color: #EE2426;'></i></a>"
 
 

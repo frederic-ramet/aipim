@@ -47,3 +47,15 @@ def generate_local_product(master_product_id, selected_market_id, market_setting
     except requests.exceptions.RequestException as req_err:
         st.error(f"Request error occurred: {req_err}")
         return {}
+
+
+def delete(delete_local_product):
+    local_product_url = f"{base_url}/api/v1/delete_local_master_data?id={delete_local_product}"
+
+    try:
+        response = requests.delete(local_product_url)
+        response.raise_for_status()
+        return True
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error deleting the local product information by id: {e}")
+        return False

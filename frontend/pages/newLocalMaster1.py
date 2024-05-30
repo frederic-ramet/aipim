@@ -3,6 +3,7 @@ from components import sidebar
 from middleware.local_master_service import generate_local_product
 from middleware.market_service import fetch_all_markets, generate_prompt
 from middleware.product_service import fetch_master_product_by_id
+from middleware.settings_service import get_full_settings
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border
 from utils.utils import select_market_by_title, parse_string_list, list_to_string_items, string_items_to_string_list
@@ -16,6 +17,9 @@ home_container = generate_main_container()
 
 with home_container:
     master_product = fetch_master_product_by_id(product_id)
+    full_settings = get_full_settings()
+    all_features = full_settings.get('features').keys()
+    all_marketAxis = full_settings.get('marketAxis').keys()
     main_card = generate_main_card('NEW LOCAL MASTER for: ' + master_product['title'])
     markets = fetch_all_markets()
     # Extract titles from the list of market dictionaries
@@ -50,7 +54,7 @@ with home_container:
             with col2:
                 marketing_features_input = st.multiselect(
                     "Please select the marketing features",
-                    marketing_features, # backend get all features
+                    all_features,
                     marketing_features)
                 marketing_features_input = list_to_string_items(marketing_features_input)
             # Display the title and input field side by side
@@ -60,7 +64,7 @@ with home_container:
             with col4:
                 default_axis_input = st.multiselect(
                     "Please select the marketing axis",
-                    default_axis,
+                    all_marketAxis,
                     default_axis)
                 default_axis_input = list_to_string_items(default_axis_input)
 
