@@ -2,10 +2,46 @@ import sqlite3
 import os
 import json
 from core.config import settings
+from create_database import add_market_record, add_distributor_record
 
-def update_json_file_in_static(json_path, json_data):
-    with open(json_path, 'w') as fp:
-        json.dump(json_data, fp)
+def truncate_table(table_name):
+    try:
+        conn = sqlite3.connect('ai-pim.db')
+        cursor = conn.cursor()
+
+        # SQL query to delete all records from the table
+        delete_query = f"DELETE FROM {table_name};"
+        cursor.execute(delete_query)
+
+        conn.commit()
+        conn.close()
+        return True
+    except sqlite3.Error as e:
+            print(e)
+            return False
+
+
+
+def update_database_table(table_name):
+    truncate_status = truncate_table(table_name)
+    if truncate_status:
+        if table_name == "market":
+            add_market_record()
+        elif table_name == "distributor":
+            add_distributor_record()
+        else:
+            pass
+        
+
+def update_json_file_in_static(json_path, json_data, table_name):
+    try:
+        with open(json_path, 'w') as fp:
+            json.dump(json_data, fp)
+        update_database_table(table_name)
+        return {"status": 200, "message":"Json updated successfully."}
+    except Exception as e:
+        print(e)
+        return {"status": 500, "message": "Json not updated."}
 
 def check_json_structure(json_str_data):
     print(json_str_data)
@@ -23,7 +59,7 @@ def check_json_structure(json_str_data):
 
 
 def check_distributor_json_structure(json_str_data):
-    distributor_original_key_list = sorted(["Id", "Label", "Title", "Description", "Main target", "Seo keywords", "Tone"])
+    distributor_original_key_list = sorted(["id", "label", "titleRecommendations", "descRecommendations", "target", "seoKeywords", "tone"])
     
     try:
         parsed_json = eval(json_str_data)
@@ -39,7 +75,7 @@ def check_distributor_json_structure(json_str_data):
     
     
 def check_market_json_structure(json_str_data):
-    market_original_key_list = sorted(["Id", "Title","Marketing_axis","Cultural_recommendations","Languages","SEO_keywords","Market_features"])
+    market_original_key_list = sorted(["id", "label", "marketingAxis", "trends", "languages", "seoKeywords", "features"])
     
     try:
         parsed_json = eval(json_str_data)

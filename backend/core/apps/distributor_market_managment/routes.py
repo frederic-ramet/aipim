@@ -36,4 +36,4 @@ def distributor_version_content_generator(distributor_id: int, local_master_id: 
 
 @dis_mar_router.get('/list_distributor_versions')
 def get_list_of_distributer_versions(local_master_id: str):
-    return services.get_list_of_distributer_versions(local_master_id)
+    return services.genereatedget_list_of_distributer_versions(local_master_id)

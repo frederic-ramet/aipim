@@ -1,6 +1,6 @@
 {
     "Belgium":{
-        "id":1,
+        "id": 1,
         "label": "Belgium",
         "marketingAxis": ["Fire safety", "NextCable"],
         "trends": "",
@@ -9,7 +9,7 @@
         "features": ["Mobiway", "Twistal"]
     },
     "Spain":{
-        "id":2,
+        "id": 2,
         "label": "Spain",
         "marketingAxis": ["Fire safety"],
         "trends": "",
