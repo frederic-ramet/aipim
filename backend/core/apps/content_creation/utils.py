@@ -173,8 +173,8 @@ Output:
 </product_details>
 <market_axis>{market_axis_dict}</market_axis>
 <market_features>{market_features_dict}</<market_features>
-<trends>{trends}</<trends>
-<seo_keywords>{seo_keywords}</seo_keywords>
+<trends>{', '.join(trends)}</<trends>
+<seo_keywords>{', '.join(seo_keywords)}</seo_keywords>
 </context>
 """
     #  <variants>{scraped_data_dict['variants']}</variants>

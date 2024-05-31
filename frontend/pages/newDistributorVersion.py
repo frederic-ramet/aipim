@@ -47,7 +47,7 @@ with home_container:
             descRecommendations = selected_distributor['descRecommendations']
             tone = selected_distributor['tone']
             target = str(selected_distributor['target'])
-            distributor_settings = ""  # selected_distributor['defaultSettings']
+            distributor_settings = "" # selected_distributor['defaultSettings']
             seoKeywords = str(selected_distributor['seoKeywords'])
 
             # Display the title and input field side by side
@@ -114,7 +114,7 @@ with home_container:
             def generate_distributor_version_content():
                 with st.spinner('Generating distributor version...'):
                     final_content = generate_distributor_version(selected_distributor_id, local_master_id,
-                                                                 distributor_settings, final_prompt)
+                                                                 new_distributor_settings, final_prompt)
                     st.session_state['local_master_id'] = local_master_id
                     st.session_state['product_id'] = product_id
                     st.session_state['selected_distributor'] = selected_distributor_label

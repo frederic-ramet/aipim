@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_extras.dataframe_explorer import dataframe_explorer
 
-from components.filter_system import DynamicFilters, DynamicFiltersHierarchical
+from components.filter_system import DynamicFiltersHierarchical
 
 
 def build_table(dataframe, column_config, with_filter):

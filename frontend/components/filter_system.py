@@ -1,6 +1,5 @@
 import streamlit as st
 from streamlit.errors import StreamlitAPIException
-import pandas as pd
 
 
 class DynamicFilters:
@@ -310,7 +309,8 @@ class DynamicFiltersHierarchical(DynamicFilters):
         for filter_name in st.session_state[self.filters_name].keys():
             filtered_df = self.filter_df(except_filter_tab=hierarchical_filter_name)
             hierarchical_filter_name.remove(filter_name)
-            options = filtered_df[filter_name].unique().tolist()
+            if filter_name in filtered_df:
+                options = filtered_df[filter_name].unique().tolist()
 
             # Remove selected values that are not in options anymore
             valid_selections = [v for v in st.session_state[self.filters_name][filter_name] if v in options]

@@ -1,7 +1,5 @@
-import streamlit as st
 import pandas as pd
 from components.dfTable import build_table_html
-from utils.icons import eye
 from utils.utils import date_col
 
 

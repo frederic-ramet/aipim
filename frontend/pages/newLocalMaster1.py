@@ -73,21 +73,21 @@ with home_container:
             with col5:
                 st.write("Languages:")
             with col6:
-                language_input = st.selectbox('select output language', languages)
+                language_input = st.selectbox('Select output language', languages)
 
             # Display the title and input field side by side
             col7, col8 = st.columns([1, 4])
             with col7:
                 st.write("Cultural Trends:")
             with col8:
-                culturalTrends_input = st.text_input("a list of Cultural Trends separated by',' ", list_to_string_items(culturalTrends), key="cultural_trends_input")
+                culturalTrends_input = st.text_input("A list of Cultural Trends separated by comma", list_to_string_items(culturalTrends), key="cultural_trends_input")
 
             # Display the title and input field side by side
             col9, col10 = st.columns([1, 4])
             with col9:
                 st.write("Seo Keywords:")
             with col10:
-                seoKeywords_input = st.text_input("a list of Seo Keywords separated by',' ", list_to_string_items(seoKeywords), key="seo_keywords_input")
+                seoKeywords_input = st.text_input(f"A list of Seo Keywords separated by comma. Keywords must be in {language_input}", list_to_string_items(seoKeywords), key="seo_keywords_input")
 
         centered_text('To be applied Prompt (you can edit them):', 'black', 'left', 18)
         prompt_card = container_with_border(custom_css)

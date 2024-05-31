@@ -31,9 +31,10 @@ def distributor_prompt_generator(distributor_id: int, local_master_id: int, dist
 @dis_mar_router.post('/distributor_version_content_generator')
 def distributor_version_content_generator(distributor_id: int, local_master_id: int, distributor_settings: str,
                                           prompt: str):
+    print(distributor_settings)
     return services.distributor_version_content_generator(distributor_id, local_master_id, distributor_settings, prompt)
 
 
 @dis_mar_router.get('/list_distributor_versions')
-def get_list_of_distributer_versions(local_master_id: str):
-    return services.genereatedget_list_of_distributer_versions(local_master_id)
+def get_list_of_distributor_versions(local_master_id: int):
+    return services.get_list_of_distributer_versions(local_master_id)
