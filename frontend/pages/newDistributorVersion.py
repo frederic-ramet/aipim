@@ -5,7 +5,7 @@ from middleware.distributor_service import fetch_all_distributors, generate_prom
     generate_distributor_version
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border, createBtn
-from utils.utils import select_distributor_by_label, string_items_to_string_list, string_items_to_list, \
+from utils.utils import select_distributor_by_label, string_items_to_list, \
     build_list_as_string
 
 params = st.query_params.to_dict()
