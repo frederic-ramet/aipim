@@ -73,20 +73,20 @@ def get_features_json():
         return json.load(fp)
     
 def get_distributors_json():
-    with open(settings.DISTRIBUTORS_JSON_PATH, 'r') as fp:
-        return json.load(fp)
+    with open(settings.DISTRIBUTORS_JSON_PATH, 'r') as fp2:
+        return json.load(fp2)
 
 def get_market_json():
-    with open(settings.MARKET_JSON_PATH, 'r') as fp:
-        return json.load(fp)
+    with open(settings.MARKET_JSON_PATH, 'r') as fp3:
+        return json.load(fp3)
     
 def get_marketing_axis_json():
-    with open(settings.MARKET_AXIS_JSON_PATH, 'r') as fp:
-        return json.load(fp)
+    with open(settings.MARKET_AXIS_JSON_PATH, 'r') as fp4:
+        return json.load(fp4)
 
 def get_product_json():
-    with open(settings.PRODUCTS_JSON_PATH, 'r') as fp:
-        return json.load(fp)
+    with open(settings.PRODUCTS_JSON_PATH, 'r') as fp5:
+        return json.load(fp5)
 
 
 def get_all_json_data():

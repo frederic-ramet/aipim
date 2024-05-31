@@ -40,6 +40,12 @@ def get_features_json():
 def get_distributors_json():
     return utils.get_distributors_json()
 
+
+@db_router.get('/get_marketing_axis')
+def get_marketing_axis_json():
+    return utils.get_marketing_axis_json()
+
+
 @db_router.get('/get_all_data')
 def get_all_json_data():
     return utils.get_all_json_data()
