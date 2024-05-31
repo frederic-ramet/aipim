@@ -1,6 +1,7 @@
 from core.apps.distributor_market_managment import utils
 from core.config import settings
 from core import utils as core_utils
+from bs4 import BeautifulSoup
 
 ai_service_obj = core_utils.aiService()
 
@@ -46,8 +47,10 @@ def distributor_version_content_generator(distributor_id, local_master_id, distr
         #     seo_optimized_content = ai_service_obj.openai_response(create_seo_optimized_prompt)
         # elif settings.AI_SERVICE == "AZURE_LLM":
         #     pass
-
-        distributorVersion_title = f"{distributor_info_from_database['label']}_{distributor_info_from_database['target']}"
+        soup = BeautifulSoup(distribution_content, 'html.parser')
+        generated_title = soup.find('h1').get_text()
+        
+        distributorVersion_title = generated_title
         distributorVersion_distributor = f"{distributor_info_from_database['label']}"
         distributorVersion_distributorId = f"{distributor_info_from_database['id']}"
         distributorVersion_settings = distributor_settings

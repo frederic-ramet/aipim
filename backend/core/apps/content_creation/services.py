@@ -2,6 +2,8 @@ from core.apps.content_creation import utils
 from core import utils as core_utils
 from core.apps.content_creation.utils import store_info_in_to_database, get_market_info
 from core.config import settings
+from bs4 import BeautifulSoup
+
 
 ai_service_obj = core_utils.aiService()
 
@@ -21,11 +23,21 @@ def generate_content_local(master_product_id: int, selected_market_id: int, mark
         generated_content = ""
         get_scrapped_data = utils.get_scrapped_data_from_database(master_product_id)
         scrapped_data_dict = eval(get_scrapped_data["content"])
+        
+
 
         if settings.AI_SERVICE == "OPEN_AI":
             generated_content = ai_service_obj.openai_response(prompt)
+            soup = BeautifulSoup(generated_content, 'html.parser')
+            generated_title = soup.find('h1').get_text()
+            print("^^ ^^ " * 20)
+            print("^^ ^^ " * 20)
+            print(generated_title)
+            print("^^ ^^ " * 20)
+            print("^^ ^^ " * 20)
+            
             store_info_in_to_database(prompt, market_settings, master_product_id, selected_market_id,
-                                      market_info_from_database, generated_content, scrapped_data_dict)
+                                      market_info_from_database, generated_content, scrapped_data_dict, generated_title)
 
         elif settings.AI_SERVICE == "AZURE_LLM":
             pass
