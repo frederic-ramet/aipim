@@ -1,5 +1,7 @@
+import pandas as pd
 import streamlit as st
 from components import sidebar
+from components.search import display_search_results, search_over_nexans
 from middleware.product_service import fetch_product
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, hr, \
     createBtn
@@ -10,16 +12,24 @@ sidebar.show_sidebar()
 generate_top_container("Welcome to AI PIM")
 home_container = generate_main_container()
 
+params = st.query_params.to_dict()
+input_url = ""
 json_data = ""
+if 'url' in params:
+    input_url = params['url']
+    json_data = fetch_product(input_url)
+
 
 with home_container:
     main_card = generate_main_card('Add a product reference')
     with main_card:
-        st.markdown("Add a product by importing it from <a href='https://www.nexans.fr/fr/products.html'>Nexans website</a>.", unsafe_allow_html=True)
+        st.markdown(
+            "Add a product by importing it from <a href='https://www.nexans.fr/fr/products.html'>Nexans website</a>.",
+            unsafe_allow_html=True)
         centered_text("Product URL:", "black", direction='left', size=20, bold='bold')
         col1, col2 = st.columns([20, 1])
         with col1:
-            product_url = st.text_input("Product URL", placeholder="URL")
+            product_url = st.text_input("Product URL", placeholder="URL", value=input_url)
             url_is_not_valid = product_url != '' and not is_valid_url(product_url)
             if url_is_not_valid:
                 st.warning('Please enter a valid URL')
@@ -52,3 +62,17 @@ with home_container:
                     type="primary",
                     disabled=text_area_value == ''
                 )
+    search_card = generate_main_card('Search a product reference over Nexans website')
+    with search_card:
+        searchL, searchR = st.columns([5, 1])
+        results = []
+        with searchL:
+            keyword = st.text_input("Search keywords", placeholder="keywords")
+        with searchR:
+            st.write('')
+            st.write('')
+            if st.button("Search", type="primary"):
+                results = search_over_nexans(keyword)  # Pass the element directly
+        left, center, right = st.columns([1, 5, 1])
+        with center:
+            display_search_results(results)

@@ -5,7 +5,7 @@ from middleware.distributor_service import fetch_all_distributors, generate_prom
     generate_distributor_version
 from utils.style import generate_main_container, generate_top_container, generate_main_card, centered_text, \
     container_with_border, createBtn
-from utils.utils import select_distributor_by_label, string_items_to_string_list, string_items_to_list, \
+from utils.utils import select_distributor_by_label, string_items_to_list, \
     build_list_as_string
 
 params = st.query_params.to_dict()
@@ -47,7 +47,7 @@ with home_container:
             descRecommendations = selected_distributor['descRecommendations']
             tone = selected_distributor['tone']
             target = str(selected_distributor['target'])
-            distributor_settings = "" # selected_distributor['defaultSettings']
+            distributor_settings = ""  # selected_distributor['defaultSettings']
             seoKeywords = str(selected_distributor['seoKeywords'])
 
             # Display the title and input field side by side
@@ -96,7 +96,7 @@ with home_container:
                                 "tone": "{distributor_ton_input}",
                                 "target": {build_list_as_string(distributor_format_input)},
                                 "language": "{language}",
-                                "seoKeywords": {seoKeywords},
+                                "seoKeywords": {seoKeywords}
                             """
             new_distributor_settings = "{" + new_distributor_settings + "}"
             final_prompt = st.text_area("Prompt", generate_prompt_distributor(selected_distributor_id, local_master_id,

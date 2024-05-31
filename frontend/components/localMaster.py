@@ -1,9 +1,23 @@
 import streamlit as st
 import pandas as pd
 from components.dfTable import build_table_html
-
-from utils.icons import eye
 from utils.utils import date_col
+
+
+def show_local_master_lang(settings: object) -> object:
+    try:
+        settings = eval(str(settings))
+        return settings['languages']
+    except:
+        return ""
+
+
+def show_local_master_features(settings: object) -> object:
+    try:
+        settings = eval(str(settings))
+        return ','.join(settings['marketFeatures'])
+    except:
+        return ""
 
 
 def show_local_master(value: object) -> object:
@@ -20,16 +34,26 @@ def delete_local_master(value: object) -> object:
 
 def build_local_master_df(dataframe):
     dataframe['delete'] = dataframe['id']
+    dataframe['language'] = dataframe['settings']
+    dataframe['features'] = dataframe['settings']
     # reorder
-    new_column_order = ['title', 'marketName', 'created_at', 'id', 'delete']
+    new_column_order = ['title', 'marketName', 'language', 'features', 'created_at', 'id', 'delete']
     dataframe = dataframe[new_column_order]
     # change names
-    new_column_order = {'title': 'Title', 'marketName': 'Market Name', 'created_at': 'Creation Date', 'id': 'Show',
-                        'delete': 'Delete'}
+    new_column_order = {
+        'title': 'Title',
+        'marketName': 'Market Name',
+        'language': 'Language',
+        'features': 'Features',
+        'created_at': 'Creation Date',
+        'id': 'Show',
+        'delete': 'Delete'}
     dataframe = dataframe.rename(columns=new_column_order)
     dataframe['Creation Date'] = dataframe['Creation Date'].apply(date_col)
     dataframe['Show'] = dataframe['Show'].apply(show_local_master)
     dataframe['Delete'] = dataframe['Delete'].apply(delete_local_master)
+    dataframe['Language'] = dataframe['Language'].apply(show_local_master_lang)
+    dataframe['Features'] = dataframe['Features'].apply(show_local_master_features)
     return dataframe
 
 
