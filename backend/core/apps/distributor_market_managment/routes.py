@@ -31,7 +31,6 @@ def distributor_prompt_generator(distributor_id: int, local_master_id: int, dist
 @dis_mar_router.post('/distributor_version_content_generator')
 def distributor_version_content_generator(distributor_id: int, local_master_id: int, distributor_settings: str,
                                           prompt: str):
-    print(distributor_settings)
     return services.distributor_version_content_generator(distributor_id, local_master_id, distributor_settings, prompt)
 
 

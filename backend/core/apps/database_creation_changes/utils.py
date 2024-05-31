@@ -12,6 +12,8 @@ def truncate_table(table_name):
         # SQL query to delete all records from the table
         delete_query = f"DELETE FROM {table_name};"
         cursor.execute(delete_query)
+        vacuum_query = "VACUUM;"
+        cursor.execute(vacuum_query)
 
         conn.commit()
         conn.close()
@@ -142,19 +144,28 @@ def delete_local_master_data(id):
         
         if id != 0:
             # Execute a SQL command to delete a row
-            cursor.execute(f"DELETE FROM localMaster WHERE id = {id}")
-
-        if id == 0:
+            cursor.execute(f"DELETE FROM localMaster WHERE id = ?", (id,))
+        else:
             cursor.execute("DELETE FROM localMaster")
+            vacuum_query = "VACUUM;"
+            cursor.execute(vacuum_query)
 
+
+        # Check if any rows were affected
+        if cursor.rowcount == 0:
+            conn.rollback()  # Rollback the transaction
+            conn.close()
+            return {"status": 404,  # Not Found
+                    "message": f"Row with id {id} not found"}
+        
         conn.commit()
         conn.close()
         return {"status": 200,
                 "message": "Successfully deleted"}
     except Exception as e:
         return {"status": 500,
-                "message": e}
-    
+                "message": str(e)}
+
 def delete_master_product_data(id):
     try:
         conn = sqlite3.connect('ai-pim.db')
@@ -162,19 +173,27 @@ def delete_master_product_data(id):
         
         if id != 0:
             # Execute a SQL command to delete a row
-            cursor.execute(f"DELETE FROM masterProduct WHERE id = {id}")
-
-        if id == 0:
+            cursor.execute(f"DELETE FROM masterProduct WHERE id = ?", (id,))
+        else:
             cursor.execute("DELETE FROM masterProduct")
+            vacuum_query = "VACUUM;"
+            cursor.execute(vacuum_query)
 
+        # Check if any rows were affected
+        if cursor.rowcount == 0:
+            conn.rollback()  # Rollback the transaction
+            conn.close()
+            return {"status": 404,  # Not Found
+                    "message": f"Row with id {id} not found"}
+        
         conn.commit()
         conn.close()
         return {"status": 200,
                 "message": "Successfully deleted"}
     except Exception as e:
         return {"status": 500,
-                "message": e}
-    
+                "message": str(e)}
+        
 def delete_distributor_version_data(id):
     try:
         conn = sqlite3.connect('ai-pim.db')
@@ -182,15 +201,24 @@ def delete_distributor_version_data(id):
         
         if id != 0:
             # Execute a SQL command to delete a row
-            cursor.execute(f"DELETE FROM distributorVersion WHERE id = {id}")
-
-        if id == 0:
+            cursor.execute(f"DELETE FROM distributorVersion WHERE id = ?", (id,))
+        else:
             cursor.execute("DELETE FROM distributorVersion")
+            vacuum_query = "VACUUM;"
+            cursor.execute(vacuum_query)
 
+        # Check if any rows were affected
+        if cursor.rowcount == 0:
+            conn.rollback()  # Rollback the transaction
+            conn.close()
+            return {"status": 404,  # Not Found
+                    "message": f"Row with id {id} not found"}
+        
         conn.commit()
         conn.close()
         return {"status": 200,
                 "message": "Successfully deleted"}
     except Exception as e:
         return {"status": 500,
-                "message": e}
+                "message": str(e)}
+        
