@@ -87,6 +87,16 @@ def create_table_schema():
             created_at DATETIME
         )
     ''')
+
+    # Create 'configurations' table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS configurations (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            config_name VARCHAR(100) UNIQUE,
+            config_data TEXT,
+            created_at DATETIME
+        )
+    ''')
     
     # Commit the changes and close the connection
     conn.commit()
@@ -164,6 +174,7 @@ def add_distributor_record():
         conn.close()
 
         print("Record added successfully.")
+
 
 def create_database():
     try:

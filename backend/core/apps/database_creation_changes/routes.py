@@ -28,10 +28,13 @@ def update_marketing_axis_json_file(json_data):
 def update_prompt_master_json_file(json_data):
     return services.update_prompt_master_json_file(json_data)
 
+@db_router.post('/store_configuration')
+def store_configuration(config_name):
+    return services.store_configuration(config_name)
 
-@db_router.post('/update_product_json_file')
-def update_product_json_file(json_data):
-    return services.update_product_json_file(json_data)
+@db_router.post('/get_configuration')
+def get_configurations(config_id):
+    return services.get_configurations(config_id)
 
 
 
@@ -70,3 +73,7 @@ def delete_master_product_data(id:int):
 @db_router.delete('/delete_distributor_version_data')
 def delete_distributor_version_data(id:int):
     return utils.delete_distributor_version_data(id)
+
+@db_router.delete('/delete_configuration')
+def delete_configuration(id:int):
+    return utils.delete_configuration(id)

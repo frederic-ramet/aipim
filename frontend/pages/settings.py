@@ -1,8 +1,10 @@
 import streamlit as st
 import json
 from components import sidebar
-from middleware.settings_service import update_markets, get_full_settings, update_distributors, update_features, update_marketing_axis, update_promptMaster
+from middleware.settings_service import update_markets, get_full_settings, update_distributors, update_features, update_marketing_axis, update_promptMaster, store_configuration, get_configuration
 from utils.style import generate_main_container, generate_top_container, generate_main_card
+from components.dfTable import build_table_html
+import pandas as pd
 
 
 st.set_page_config(page_title="Ai-Pim Backoffice", layout="wide")
@@ -23,8 +25,8 @@ with home_container:
     all_promptMaster = full_settings.get('prompt_master')
 
     with main_card:
-        markets_tab, distributors_tab, features_tab, axis_tab,  prompt_master= st.tabs(
-            ["Markets", "Distributors", "Features", "Marketing Axis", "Prompts Master & Distributor"])
+        markets_tab, distributors_tab, features_tab, axis_tab,  prompt_master, save_parameters= st.tabs(
+            ["Markets", "Distributors", "Features", "Marketing Axis", "Prompts Master & Distributor", "Save parameters"])
 
         with markets_tab:
             left_col, right_col = st.columns(2)
@@ -108,3 +110,17 @@ with home_container:
                 except json.JSONDecodeError:
                     st.error("Not a valid JSON.")
 
+        with save_parameters:
+            st.write('Save current parameters')
+            config_name = st.text_area("Name", value="", height=100)
+                
+            if st.button("Save current configuration", type="primary"):
+                updated = store_configuration(config_name)      
+                if updated is not None:
+                    st.success("Settings have been saved", icon="✅")
+            
+            configurations = get_configuration("all")
+            df = pd.DataFrame(configurations)
+            build_table_html(df, False, ['Title', 'Market Name', 'Creation Date'])
+
+            

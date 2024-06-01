@@ -34,6 +34,16 @@ def update_promptMaster(settings):
     url = f"{url}?json_data={settings}"
     return post_to_backend(url, {})
    
+def get_configuration(config_id):
+    url = f"{base_url}/api/v1/get_configuration"
+    url = f"{url}?config_id={config_id}"
+    return post_to_backend(url, {})
+
+def store_configuration(name):
+    url = f"{base_url}/api/v1/store_configuration"
+    url = f"{url}?config_name={name}"
+    return post_to_backend(url, {})
+
 
 def get_full_settings():
     back_url = f"{base_url}/api/v1/get_all_data"

@@ -1,19 +1,15 @@
 from core.apps.database_creation_changes import utils
 from core.config import settings
 
+import sqlite3
+import json
+import os
+
+
 def update_features_json_file(json_str_data):
     if utils.check_json_structure(json_str_data):
         json_data = eval(json_str_data)
         json_path = settings.FEATURES_JSON_PATH
-        return utils.update_json_file_in_static(json_path, json_data, "")
-    else:
-        return {"status": 500, "message": "json structure is not correct"}
-
-
-def update_prompt_master_json_file(json_str_data):
-    if utils.check_json_structure(json_str_data):
-        json_data = eval(json_str_data)
-        json_path = settings.PROMPT_MASTER_JSON_PATH 
         return utils.update_json_file_in_static(json_path, json_data, "")
     else:
         return {"status": 500, "message": "json structure is not correct"}
@@ -51,6 +47,66 @@ def update_product_json_file(json_str_data):
     else:
         return {"status": 500, "message": "json structure is not correct"}
     
+
+def update_prompt_master_json_file(json_str_data):
+    if utils.check_json_structure(json_str_data):
+        json_data = eval(json_str_data)
+        json_path = settings.PROMPT_MASTER_JSON_PATH 
+        return utils.update_json_file_in_static(json_path, json_data, "")
+    else:
+        return {"status": 500, "message": "json structure is not correct"}
+
+def store_configuration(config_name):
+    config_data = {}
+    directory = "static/parameters"
+    for filename in os.listdir(directory):
+        if filename.endswith(".json"):
+             with open(os.path.join(directory, filename), 'r', encoding='utf-8') as file:
+                config_data[filename] = json.load(file)    
+    conn = sqlite3.connect(settings.DB_PATH)
+    cursor = conn.cursor()
+
+    # SQL command for inserting a new configuration
+    sql = '''
+        INSERT INTO configurations (config_name, config_data, created_at)
+        VALUES (?, ?, datetime('now'))
+    '''
+
+    try:
+        # Execute the SQL command
+        cursor.execute(sql, (config_name, json.dumps(config_data, ensure_ascii=False)))
+        
+        # Commit the changes
+        conn.commit()
+        print("Configuration added successfully.")
+    except sqlite3.IntegrityError as e:
+        print(f"Error: {e}")
+    finally:
+        # Close the connection
+        conn.close()
+
+def get_configurations(config_id="all"):
+    conn = sqlite3.connect(settings.DB_PATH)
+    cursor = conn.cursor()
+
+    if config_id != "all":
+        # SQL command for retrieving a specific configuration by ID
+        sql = '''
+            SELECT * FROM configurations WHERE id = ?
+        '''
+        cursor.execute(sql, (config_id,))
+    else:
+        # SQL command for retrieving all configurations
+        sql = '''
+            SELECT * FROM configurations
+        '''
+        cursor.execute(sql)
+
+    configurations = cursor.fetchall()
+    conn.close()
+    print('configurations')    
+    return configurations
+
 
 # def update_database_data():
 #     return utils.update_database_data()
