@@ -29,6 +29,11 @@ def update_marketing_axis(settings):
     url = f"{url}?json_data={settings}"
     return post_to_backend(url, {})
 
+def update_promptMaster(settings):
+    url = f"{base_url}/api/v1/update_prompt_master_json_file"
+    url = f"{url}?json_data={settings}"
+    return post_to_backend(url, {})
+   
 
 def get_full_settings():
     back_url = f"{base_url}/api/v1/get_all_data"

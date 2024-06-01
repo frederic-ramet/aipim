@@ -1,6 +1,8 @@
 import sqlite3
 import json
 
+from core.config import settings
+
 
 def get_market_info(selected_market_id: int):
     conn = sqlite3.connect('ai-pim.db')
@@ -118,6 +120,7 @@ def generate_prompt_based_on_market_data(scraped_data_dict_text: str, selected_m
     seo_keywords = market_data_dict["seoKeywords"]
     trends = market_data_dict["culturalTrends"]
 
+    #?? why not use settings?
     with open('static/parameters/feature.json', 'r') as file_feature:
         features_data = json.load(file_feature)
 
@@ -131,6 +134,14 @@ def generate_prompt_based_on_market_data(scraped_data_dict_text: str, selected_m
     market_features_dict = {}
     for feature in market_features_list:
         market_features_dict[feature] = features_data[feature]
+
+    prompt_json_path = settings.PROMPT_MASTER_JSON_PATH
+    with open(prompt_json_path, 'r') as file:
+        data = json.load(file)
+    prompt_prefix  = data.get('master_sheet', {}).get('prompt')
+    prompt_context = data.get('master_sheet', {}).get('prompt_context')
+
+    '''
 
     prompt_prefix = f"""
 Role:
@@ -177,6 +188,7 @@ Output:
 <seo_keywords>{', '.join(seo_keywords)}</seo_keywords>
 </context>
 """
+'''
     #  <variants>{scraped_data_dict['variants']}</variants>
     prompt = f"""{prompt_prefix} {prompt_context}"""
 

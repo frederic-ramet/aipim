@@ -28,6 +28,7 @@ class Settings(BaseSettings):
     DISTRIBUTORS_JSON_PATH: str = "static/parameters/distributors.json"
     MARKET_JSON_PATH: str = "static/parameters/market.json"
     PRODUCTS_JSON_PATH: str = "static/parameters/product.json"
+    PROMPT_MASTER_JSON_PATH: str = "static/parameters/prompt_master.json"
     DB_PATH: str = "ai-pim.db"
 
     class Config:

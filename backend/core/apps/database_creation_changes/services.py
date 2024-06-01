@@ -9,6 +9,16 @@ def update_features_json_file(json_str_data):
     else:
         return {"status": 500, "message": "json structure is not correct"}
 
+
+def update_prompt_master_json_file(json_str_data):
+    if utils.check_json_structure(json_str_data):
+        json_data = eval(json_str_data)
+        json_path = settings.PROMPT_MASTER_JSON_PATH 
+        return utils.update_json_file_in_static(json_path, json_data, "")
+    else:
+        return {"status": 500, "message": "json structure is not correct"}
+
+
 def update_marketing_axis_json_file(json_str_data):
     if utils.check_json_structure(json_str_data):
         json_data = eval(json_str_data)

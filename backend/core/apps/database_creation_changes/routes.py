@@ -24,6 +24,11 @@ def update_market_json_file(json_data):
 def update_marketing_axis_json_file(json_data):
     return services.update_marketing_axis_json_file(json_data)
 
+@db_router.post('/update_prompt_master_json_file')
+def update_prompt_master_json_file(json_data):
+    return services.update_prompt_master_json_file(json_data)
+
+
 @db_router.post('/update_product_json_file')
 def update_product_json_file(json_data):
     return services.update_product_json_file(json_data)

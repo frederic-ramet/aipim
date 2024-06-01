@@ -1,8 +1,7 @@
 import streamlit as st
 import json
 from components import sidebar
-from middleware.settings_service import update_markets, get_full_settings, update_distributors, update_features, \
-    update_marketing_axis
+from middleware.settings_service import update_markets, get_full_settings, update_distributors, update_features, update_marketing_axis, update_promptMaster
 from utils.style import generate_main_container, generate_top_container, generate_main_card
 
 
@@ -20,12 +19,12 @@ with home_container:
     markets = full_settings.get('market')
     distributors = full_settings.get('distribution')
     all_features = full_settings.get('features')
-    print(all_features)
     all_marketAxis = full_settings.get('marketAxis')
+    all_promptMaster = full_settings.get('prompt_master')
 
     with main_card:
-        markets_tab, distributors_tab, features_tab, axis_tab = st.tabs(
-            ["Markets", "Distributors", "Features", "Marketing Axis"])
+        markets_tab, distributors_tab, features_tab, axis_tab,  prompt_master= st.tabs(
+            ["Markets", "Distributors", "Features", "Marketing Axis", "Prompts Master & Distributor"])
 
         with markets_tab:
             left_col, right_col = st.columns(2)
@@ -92,3 +91,20 @@ with home_container:
                     st.write(edited_axis)
                 except json.JSONDecodeError:
                     st.error("Not a valid JSON.")
+        
+        with prompt_master:
+            left_col, right_col = st.columns(2)
+            with left_col:
+                promptMaster_str = json.dumps(all_promptMaster, indent=4, ensure_ascii=False)
+                edited_promptMaster_str = st.text_area("Please edit prompt Master settings here", value=promptMaster_str, height=400)
+                if st.button("Save prompt Master", type="primary"):
+                    updated = update_promptMaster(edited_promptMaster_str)
+                    if updated is not None:
+                        st.success("market axis' settings have been saved", icon="✅")
+            with right_col:
+                try:
+                    edited_promptMaster_str = json.loads(edited_promptMaster_str)
+                    st.write(edited_promptMaster_str)
+                except json.JSONDecodeError:
+                    st.error("Not a valid JSON.")
+

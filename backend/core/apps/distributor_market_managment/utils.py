@@ -1,4 +1,7 @@
 import sqlite3
+import json
+
+from core.config import settings
 
 
 def get_list_from_database(query):
@@ -90,7 +93,13 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     distributor_seo_keywords = distributor_data_dict["seoKeywords"]
     generated_content = localMaster_info_from_database["content"]
 
+    prompt_json_path = settings.PROMPT_MASTER_JSON_PATH
+    with open(prompt_json_path, 'r') as file:
+        data = json.load(file)
+    prompt_prefix  = data.get('distributor', {}).get('prompt')
+    prompt_context = data.get('distributor', {}).get('prompt_context')
 
+    '''
     # insert_generated_prompt_database(prompt, distributor_info_from_database, localMaster_info_from_database, distributor_settings)
     prompt_prefix = f"""
     Role:
@@ -133,6 +142,7 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     <seo_keywords>{distributor_seo_keywords}</seo_keywords>
     </context>
     """
+    '''
     prompt = f"""{prompt_prefix} {prompt_context}"""
 
     return prompt

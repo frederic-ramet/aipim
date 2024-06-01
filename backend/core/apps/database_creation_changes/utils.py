@@ -120,7 +120,15 @@ def get_market_json():
     
 def get_marketing_axis_json():
     with open(settings.MARKET_AXIS_JSON_PATH, 'r') as fp4:
-        return json.load(fp4)
+        data = json.load(fp4)
+        return data
+
+
+def get_prompt_master():
+    with open(settings.PROMPT_MASTER_JSON_PATH, 'r') as fp5:
+        data = json.load(fp5)
+        return data
+       
 
 def get_product_json():
     with open(settings.PRODUCTS_JSON_PATH, 'r') as fp5:
@@ -133,7 +141,8 @@ def get_all_json_data():
         "marketAxis": get_marketing_axis_json(),
         "market": get_market_json(),
         "distribution": get_distributors_json(),
-        "features": get_features_json()
+        "features": get_features_json(),
+        "prompt_master": get_prompt_master()
     }
     return final_dict
 
