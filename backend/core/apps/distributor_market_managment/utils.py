@@ -94,8 +94,10 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     generated_content = localMaster_info_from_database["content"]
 
     prompt_json_path = settings.PROMPT_MASTER_JSON_PATH
-    prompt_template_prefix  = data.get('master_sheet', {}).get('prompt')
-    prompt_template_context = data.get('master_sheet', {}).get('prompt_context')
+    with open(prompt_json_path, 'r') as file:
+        data = json.load(file)
+    prompt_template_prefix  = data.get('distributor_sheet', {}).get('prompt')
+    prompt_template_context = data.get('distributor_sheet', {}).get('prompt_context')
 
     variables = {
         "distributor_label": distributor_info["label"],
