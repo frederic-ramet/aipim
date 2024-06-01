@@ -94,11 +94,25 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     generated_content = localMaster_info_from_database["content"]
 
     prompt_json_path = settings.PROMPT_MASTER_JSON_PATH
-    with open(prompt_json_path, 'r') as file:
-        data = json.load(file)
-    prompt_prefix  = data.get('distributor', {}).get('prompt')
-    prompt_context = data.get('distributor', {}).get('prompt_context')
+    prompt_template_prefix  = data.get('master_sheet', {}).get('prompt')
+    prompt_template_context = data.get('master_sheet', {}).get('prompt_context')
 
+    variables = {
+        "distributor_label": distributor_info["label"],
+        "localMaster_title": scraped_data_dict["title"],
+        "distributor_title_recom": distributor_info["title_recom"],
+        "distributor_desc_recom": distributor_info["desc_recom"],
+        "distributor_target": distributor_info["target"],
+        "distributor_tone": distributor_info["tone"],
+        "distributor_distribution": distributor_info["distribution"],
+        "distributor_seo_keywords": ", ".join(distributor_info["seo_keywords"]),
+        "distributor_language": distributor_info["language"],
+        "generated_content": generated_content
+    }
+
+    prompt_prefix = prompt_template_prefix.format(**variables)
+    prompt_context = prompt_template_context.format(**variables)
+    
     '''
     # insert_generated_prompt_database(prompt, distributor_info_from_database, localMaster_info_from_database, distributor_settings)
     prompt_prefix = f"""

@@ -138,8 +138,24 @@ def generate_prompt_based_on_market_data(scraped_data_dict_text: str, selected_m
     prompt_json_path = settings.PROMPT_MASTER_JSON_PATH
     with open(prompt_json_path, 'r') as file:
         data = json.load(file)
-    prompt_prefix  = data.get('master_sheet', {}).get('prompt')
-    prompt_context = data.get('master_sheet', {}).get('prompt_context')
+    prompt_template_prefix  = data.get('master_sheet', {}).get('prompt')
+    prompt_template_context = data.get('master_sheet', {}).get('prompt_context')
+
+    variables = {
+        "market_label": market_info_from_database["label"],
+        "market_languages": market_info_from_database["languages"],
+        "product_title": scraped_data_dict["title"],
+        "product_description": scraped_data_dict["description"],
+        "product_description_details": scraped_data_dict["description_details"],
+        "product_characteristics": scraped_data_dict["characteristics"],
+        "market_axis": market_axis_dict,
+        "market_features": market_features_dict,
+        "trends": ", ".join(trends),
+        "seo_keywords": ", ".join(seo_keywords)
+    }
+
+    prompt_prefix = prompt_template_prefix.format(**variables)
+    prompt_context = prompt_template_context.format(**variables)
 
     '''
 
