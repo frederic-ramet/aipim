@@ -100,16 +100,16 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     prompt_template_context = data.get('distributor_sheet', {}).get('prompt_context')
 
     variables = {
-        "distributor_label": distributor_info["label"],
-        "localMaster_title": scraped_data_dict["title"],
-        "distributor_title_recom": distributor_info["title_recom"],
-        "distributor_desc_recom": distributor_info["desc_recom"],
-        "distributor_target": distributor_info["target"],
-        "distributor_tone": distributor_info["tone"],
-        "distributor_distribution": distributor_info["distribution"],
-        "distributor_seo_keywords": ", ".join(distributor_info["seo_keywords"]),
-        "distributor_language": distributor_info["language"],
-        "generated_content": generated_content
+        "distributor_label": distributor_data_dict['label'],
+        "localMaster_title": localMaster_info_from_database['title'],
+        "distributor_title_recom": distributor_data_dict['titleRecommendations'],
+        "distributor_desc_recom": distributor_data_dict['descRecommendations'],
+        "distributor_target": distributor_data_dict["target"],
+        "distributor_tone": distributor_data_dict["tone"],
+        "distributor_distribution": distributor_data_dict["description"],
+        "distributor_seo_keywords": ", ".join(distributor_data_dict["seoKeywords"]),
+        "distributor_language": distributor_data_dict["language"],
+        "generated_content": localMaster_info_from_database["content"]
     }
 
     prompt_prefix = prompt_template_prefix.format(**variables)
@@ -123,7 +123,7 @@ def distributor_prompt_generator(distributor_info_from_database: dict, localMast
     Your mission is to write product marketing content providing an overview of the various types of cables offered by Nexans, along with their primary applications. 
 
     Task:
-    Generate a product content for the specific distributor of "{distributor_label}".
+    Generate a product content for the specific distributor of "{clear}".
 
     Context: 
     You will provided by a list of information about a Nexans's product, you need to use them in the content generation.

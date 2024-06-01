@@ -143,7 +143,7 @@ def generate_prompt_based_on_market_data(scraped_data_dict_text: str, selected_m
 
     variables = {
         "market_label": market_info_from_database["label"],
-        "market_languages": market_info_from_database["languages"],
+        "market_languages": market_data_dict['languages'],
         "product_title": scraped_data_dict["title"],
         "product_description": scraped_data_dict["description"],
         "product_description_details": scraped_data_dict["description_details"],
