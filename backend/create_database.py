@@ -28,6 +28,7 @@ def create_table_schema(conn):
             created_at DATETIME
         )
     ''')
+    
 
     # Create 'localMaster' table
     cursor.execute('''
@@ -101,7 +102,6 @@ def create_table_schema(conn):
     
     # Commit the changes and close the connection
     conn.commit()
-    conn.close()
 
 def add_market_record(conn):
    
@@ -118,8 +118,6 @@ def add_market_record(conn):
             INSERT INTO market (id, label, marketingAxis, trends, languages, seoKeywords, features, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
         '''
-        print(sql)
-        print(record['label'])
         # Execute the SQL command
         cursor.execute(sql, (
             record['id'],
