@@ -1,6 +1,8 @@
 from core.apps.database_creation_changes import utils
 from core.config import settings
 
+from create_database import update_configuration_database
+
 import sqlite3
 import json
 import os
@@ -57,33 +59,8 @@ def update_prompt_master_json_file(json_str_data):
         return {"status": 500, "message": "json structure is not correct"}
 
 def store_configuration(config_name):
-    config_data = {}
-    directory = "static/parameters"
-    for filename in os.listdir(directory):
-        if filename.endswith(".json"):
-             with open(os.path.join(directory, filename), 'r', encoding='utf-8') as file:
-                config_data[filename] = json.load(file)    
-    conn = sqlite3.connect(settings.DB_PATH)
-    cursor = conn.cursor()
-
-    # SQL command for inserting a new configuration
-    sql = '''
-        INSERT INTO configurations (config_name, config_data, created_at)
-        VALUES (?, ?, datetime('now'))
-    '''
-
-    try:
-        # Execute the SQL command
-        cursor.execute(sql, (config_name, json.dumps(config_data, ensure_ascii=False)))
+    update_configuration_database(config_name)
         
-        # Commit the changes
-        conn.commit()
-        print("Configuration added successfully.")
-    except sqlite3.IntegrityError as e:
-        print(f"Error: {e}")
-    finally:
-        # Close the connection
-        conn.close()
 
 def get_configurations(config_id="all"):
     conn = sqlite3.connect(settings.DB_PATH)

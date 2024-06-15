@@ -98,13 +98,25 @@ with home_container:
             left_col, right_col = st.columns(2)
             with left_col:
                 promptMaster_str = json.dumps(all_promptMaster, indent=4, ensure_ascii=False)
-                edited_promptMaster_str = st.text_area("Please edit prompt Master settings here", value=promptMaster_str, height=400)
-                if st.button("Save prompt Master", type="primary"):
+                #edited_promptMaster_str = st.text_area("Please edit prompt Master settings here", value=promptMaster_str, height=400)
+                edited_promptMaster = {}
+                for key, section in all_promptMaster.items():
+                    if isinstance(section, dict):
+                        edited_promptMaster[key] = {}  # Ensure this key is initialized as a dictionary
+                        for sub_key, sub_value in section.items():
+                            label = f"{key} - {sub_key}"  # Concatenated label
+                            # Create a text area and save the input
+                            edited_input = st.text_area(f"Edit {label}", value=sub_value, height=200)
+                            edited_promptMaster[key][sub_key] = edited_input
+
+                if st.button("Save prompt Master"):
+                    edited_promptMaster_str = json.dumps(edited_promptMaster, indent=4, ensure_ascii=False)
                     updated = update_promptMaster(edited_promptMaster_str)
-                    if updated is not None:
-                        st.success("market axis' settings have been saved", icon="✅")
+                    if updated:
+                        st.success("Prompt Master settings have been saved", icon="✅")
             with right_col:
                 try:
+                    edited_promptMaster_str = json.dumps(edited_promptMaster, indent=4, ensure_ascii=False)  # Use dumps for displaying
                     edited_promptMaster_str = json.loads(edited_promptMaster_str)
                     st.write(edited_promptMaster_str)
                 except json.JSONDecodeError:

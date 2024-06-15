@@ -26,7 +26,10 @@ def build_products_df(dataframe):
     new_column_names = {'title': 'Title', 'url': 'Url', 'created_at': 'Creation Date', 'id': 'Show', 'delete': 'Delete'}
     dataframe = dataframe.rename(columns=new_column_names)
     # make urls clickable
-    dataframe['Url'] = dataframe['Url'].apply(make_clickable)
+    # 
+    #dataframe['Url'] = dataframe['Url'].apply(make_clickable)
+    dataframe['Url'] = dataframe['Url'].apply(lambda url: f'<a target="_blank" href="{url}">source</a>')
+
     # styling
     dataframe['Creation Date'] = dataframe['Creation Date'].apply(date_col)
     dataframe['Show'] = dataframe['Show'].apply(show_product)

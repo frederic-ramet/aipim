@@ -1,3 +1,5 @@
+
+
 # from core.apps.database_creation_changes import utils
 # # Call the upgrade function to create the tables
 # utils.update_database_data()
@@ -7,12 +9,11 @@ import os
 import json
 from core.config import settings
 
-def create_table_schema():
+def create_table_schema(conn):
 
     if os.path.isfile(settings.DB_PATH):
         os.remove(settings.DB_PATH)
 
-    conn = sqlite3.connect(settings.DB_PATH)
     cursor = conn.cursor()
 
     # Create 'masterProduct' table
@@ -102,16 +103,14 @@ def create_table_schema():
     conn.commit()
     conn.close()
 
-def add_market_record():
+def add_market_record(conn):
    
     # Define the data to be inserted
     with open("static/parameters/market.json", 'r') as file:
         data = json.load(file)
-
+    
     for key in data:
         record = data[key]
-        # Connect to the SQLite database
-        conn = sqlite3.connect(settings.DB_PATH)
         cursor = conn.cursor()
         
         # SQL command for inserting a new record
@@ -119,7 +118,8 @@ def add_market_record():
             INSERT INTO market (id, label, marketingAxis, trends, languages, seoKeywords, features, created_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))
         '''
-        
+        print(sql)
+        print(record['label'])
         # Execute the SQL command
         cursor.execute(sql, (
             record['id'],
@@ -134,20 +134,17 @@ def add_market_record():
         # Commit the changes
         conn.commit()
         
-        # Close the connection
-        conn.close()
 
         print("Record added successfully.")
 
-def add_distributor_record():
+def add_distributor_record(conn):
     # Define the data to be inserted
     with open("static/parameters/distributors.json", 'r') as file:
         data = json.load(file)
 
     for key in data:
         record = data[key]
-         # Connect to the SQLite database
-        conn = sqlite3.connect(settings.DB_PATH)
+
         cursor = conn.cursor()
         
         # SQL command for inserting a new record
@@ -170,21 +167,73 @@ def add_distributor_record():
         # Commit the changes
         conn.commit()
         
-        # Close the connection
-        conn.close()
 
         print("Record added successfully.")
 
 
-def create_database():
+def create_database(): 
     try:
-        create_table_schema()
-        add_market_record()
-        add_distributor_record()
+        conn = sqlite3.connect(settings.DB_PATH)
+        create_table_schema(conn)
+        add_market_record(conn)
+        add_distributor_record(conn)
+        # Close the connection
+        conn.close()
+
         return True
     except Exception as e:
         print(e)
         return False
     
+def update_configuration_database(config_name):
+    conn = sqlite3.connect(settings.DB_PATH)
+
+    config_data = {}
+    directory = "static/parameters"
+    for filename in os.listdir(directory):
+        if filename.endswith(".json"):
+             with open(os.path.join(directory, filename), 'r', encoding='utf-8') as file:
+                config_data[filename] = json.load(file)    
+    conn = sqlite3.connect(settings.DB_PATH)
+    cursor = conn.cursor()
+
+    # SQL command for inserting a new configuration
+    sql = '''
+        INSERT INTO configurations (config_name, config_data, created_at)
+        VALUES (?, ?, datetime('now'))
+    '''
+
+    try:
+        # Execute the SQL command
+        cursor.execute(sql, (config_name, json.dumps(config_data, ensure_ascii=False)))
+        
+        # Commit the changes
+        conn.commit()
+        print("Configuration added successfully.")
+
+        # Empty the tables 'market' and 'distributor'
+        try:
+            cursor.execute("DELETE FROM market;")
+            cursor.execute("DELETE FROM distributor;")
+            print("Tables emptied successfully.")
+        except sqlite3.Error as e:
+            print(f"Error when trying to empty tables: {e}")
+
+        try:
+            add_market_record(conn)
+            add_distributor_record(conn)
+        except Exception as e:
+            print(f"Error when populating tables: {e}")
+
+
+    except sqlite3.IntegrityError as e:
+        print(f"Error: {e}")
+    finally:
+        # Close the connection
+        conn.close()
+    
+
+
+
 if __name__ == "__main__":
     create_database()

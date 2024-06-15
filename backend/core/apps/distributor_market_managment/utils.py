@@ -11,7 +11,6 @@ def get_list_from_database(query):
 
     # SQL command to fetch the first row where the title is 'XYZ'
     db.execute(query)
-
     # Fetch the first matching row
     row = db.fetchall()
 
