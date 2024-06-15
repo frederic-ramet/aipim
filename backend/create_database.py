@@ -11,8 +11,6 @@ from core.config import settings
 
 def create_table_schema(conn):
 
-    if os.path.isfile(settings.DB_PATH):
-        os.remove(settings.DB_PATH)
 
     cursor = conn.cursor()
 
